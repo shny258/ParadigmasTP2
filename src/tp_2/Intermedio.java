@@ -6,55 +6,44 @@ import java.util.Objects;
 
 public class Intermedio extends Objeto {
 	private String nombre;
-	private double tiempoCreacion;
-	private Map<Objeto, Integer> ingredientes;
+	private Receta receta;
 
-	public Intermedio(String nombre, double tiempoCreacion, Map<Objeto, Integer> ingredientes) {
-		super();
+	public Intermedio(String nombre, Receta receta) {
 		this.nombre = nombre;
-		this.tiempoCreacion = tiempoCreacion;
-		this.ingredientes = new HashMap<>(ingredientes);
+		this.receta = receta;
 	}
-
-//	public Intermedio(double tiempoCreacion, Map<Objeto, Integer> ingredientes) {
-//		this("", tiempoCreacion, ingredientes);
-//	}
 	
 	public String getNombre() {
 		return this.nombre;
 	}
 
-	public double getTiempoCreacion() {
-		return this.tiempoCreacion;
+	public Receta obtenerReceta() {
+		return this.receta;
 	}
 
-	public Intermedio obtenerReceta() {
-		return this;
-	}
-
-	public Intermedio obtenerRecetaCompleta() {
+	public Receta obtenerRecetaCompleta() {
 		Map<Objeto, Integer> mapRet = new HashMap<>();
-		double tiempoRet = this.tiempoCreacion;
+		double tiempoRet = this.receta.getTiempoCreacion();
 
-		for (Objeto ingrediente : this.ingredientes.keySet()) {
-			int cantIngrediente = this.ingredientes.get(ingrediente);
-			Intermedio recetaIngrediente = ingrediente.obtenerRecetaCompleta();
-			tiempoRet += cantIngrediente * recetaIngrediente.tiempoCreacion;
-			for (Objeto subingrediente : recetaIngrediente.ingredientes.keySet()) {
+		for (Objeto ingrediente : this.receta.getIngredientes()) {
+			int cantIngrediente = this.receta.getCantIngrediente(ingrediente);
+			Receta recetaIngrediente = ingrediente.obtenerRecetaCompleta();
+			tiempoRet += cantIngrediente * recetaIngrediente.getTiempoCreacion();
+			for (Objeto subingrediente : recetaIngrediente.getIngredientes()) {
 				if (mapRet.containsKey(subingrediente)) {
 					mapRet.put(subingrediente, mapRet.get(subingrediente)
-							+ cantIngrediente * recetaIngrediente.ingredientes.get(subingrediente));
+							+ cantIngrediente * recetaIngrediente.getCantIngrediente(subingrediente));
 				} else {
-					mapRet.put(subingrediente, cantIngrediente * recetaIngrediente.ingredientes.get(subingrediente));
+					mapRet.put(subingrediente, cantIngrediente * recetaIngrediente.getCantIngrediente(subingrediente));
 				}
 			}
 		}
-		return new Intermedio(this.getNombre(), tiempoRet, mapRet);
+		return new Receta(tiempoRet, 0, mapRet);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(ingredientes, tiempoCreacion);
+		return Objects.hash(nombre, receta);
 	}
 
 	@Override
@@ -66,18 +55,6 @@ public class Intermedio extends Objeto {
 		if (getClass() != obj.getClass())
 			return false;
 		Intermedio other = (Intermedio) obj;
-		return Objects.equals(ingredientes, other.ingredientes)
-				&& Double.doubleToLongBits(tiempoCreacion) == Double.doubleToLongBits(other.tiempoCreacion);
+		return Objects.equals(nombre, other.nombre) && Objects.equals(receta, other.receta);
 	}
-
-	@Override
-	public String toString() {
-		String stringRet = this.getNombre() + ":\n\tTiempo de creacion=" + tiempoCreacion + "\n\tIngredientes:\n";
-		
-		for (Objeto ingrediente: ingredientes.keySet()) {
-			stringRet = stringRet + "\t\t" + ingrediente.getNombre() + "=" + ingredientes.get(ingrediente) + "\n";
-		};
-		return stringRet;
-	}
-
 }

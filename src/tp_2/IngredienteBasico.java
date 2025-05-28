@@ -2,14 +2,15 @@ package tp_2;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class IngredienteBasico extends Objeto {
 	private String nombre;
-
+	private static final int CANT_INGREDIENTE = 1;
+	private static final int CANT_DEVUELTA = 1;
 	private static final int TIEMPO_CREACION_ING_BASICO = 0; //NO SE PUEDE CRAFTEAR, SE EXTRAE.
 
 	public IngredienteBasico(String nombre) {
-		super();
 		this.nombre = nombre;
 	}
 	
@@ -21,14 +22,31 @@ public class IngredienteBasico extends Objeto {
 		return TIEMPO_CREACION_ING_BASICO;
 	}
 	
-	public Intermedio obtenerReceta() {
+	public Receta obtenerReceta() {
 		Map<Objeto,Integer> mapRet = new HashMap<>();
-		mapRet.put(this, 1);
-		return new Intermedio(this.getNombre(),0, mapRet);
+		mapRet.put(this, CANT_INGREDIENTE);
+		return new Receta(TIEMPO_CREACION_ING_BASICO, CANT_DEVUELTA, mapRet);
 	}
 	
-	public Intermedio obtenerRecetaCompleta() {
+	public Receta obtenerRecetaCompleta() {
 		return this.obtenerReceta();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(nombre);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		IngredienteBasico other = (IngredienteBasico) obj;
+		return Objects.equals(nombre, other.nombre);
 	}
 	
 	
