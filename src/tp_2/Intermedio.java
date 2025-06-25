@@ -21,24 +21,27 @@ public class Intermedio extends Objeto {
 		return this.receta;
 	}
 
+//	public Receta obtenerRecetaCompleta() {
+//		Map<Objeto, Integer> mapRet = new HashMap<>();
+//		double tiempoRet = this.receta.getTiempoCreacion();
+//
+//		for (Objeto ingrediente : this.receta.getIngredientes()) {
+//			int cantIngrediente = this.receta.getCantIngrediente(ingrediente);
+//			Receta recetaIngrediente = ingrediente.obtenerRecetaCompleta();
+//			tiempoRet += cantIngrediente * recetaIngrediente.getTiempoCreacion();
+//			for (Objeto subingrediente : recetaIngrediente.getIngredientes()) {
+//				if (mapRet.containsKey(subingrediente)) {
+//					mapRet.put(subingrediente, mapRet.get(subingrediente)
+//							+ cantIngrediente * recetaIngrediente.getCantIngrediente(subingrediente));
+//				} else {
+//					mapRet.put(subingrediente, cantIngrediente * recetaIngrediente.getCantIngrediente(subingrediente));
+//				}
+//			}
+//		}
+//		return new Receta(tiempoRet, 0, mapRet);
+//	}
 	public Receta obtenerRecetaCompleta() {
-		Map<Objeto, Integer> mapRet = new HashMap<>();
-		double tiempoRet = this.receta.getTiempoCreacion();
-
-		for (Objeto ingrediente : this.receta.getIngredientes()) {
-			int cantIngrediente = this.receta.getCantIngrediente(ingrediente);
-			Receta recetaIngrediente = ingrediente.obtenerRecetaCompleta();
-			tiempoRet += cantIngrediente * recetaIngrediente.getTiempoCreacion();
-			for (Objeto subingrediente : recetaIngrediente.getIngredientes()) {
-				if (mapRet.containsKey(subingrediente)) {
-					mapRet.put(subingrediente, mapRet.get(subingrediente)
-							+ cantIngrediente * recetaIngrediente.getCantIngrediente(subingrediente));
-				} else {
-					mapRet.put(subingrediente, cantIngrediente * recetaIngrediente.getCantIngrediente(subingrediente));
-				}
-			}
-		}
-		return new Receta(tiempoRet, 0, mapRet);
+		return this.receta.obtenerRecetaCompleta();
 	}
 
 	@Override

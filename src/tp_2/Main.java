@@ -10,11 +10,11 @@ public class Main {
 		Objeto carbon = new IngredienteBasico("Carbon");
 
 		Map<Objeto, Integer> ingredientesPalo = new HashMap<>();
-		ingredientesPalo.put(madera, 2);
-		Objeto palo = new Intermedio("Palo", new Receta(2, 1, ingredientesPalo));
+		ingredientesPalo.put(madera, 3);
+		Objeto palo = new Intermedio("Palo", new Receta(2, 2, ingredientesPalo));
 
 		Map<Objeto, Integer> ingredientesAntorcha = new HashMap<>();
-		ingredientesAntorcha.put(palo, 2);
+		ingredientesAntorcha.put(palo, 5);
 		ingredientesAntorcha.put(carbon, 1);
 		Objeto antorcha = new Intermedio("Antorcha", new Receta(5, 1, ingredientesAntorcha));
 
