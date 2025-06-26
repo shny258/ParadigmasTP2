@@ -12,6 +12,7 @@ public class IngredienteBasico extends Objeto {
 
 	public IngredienteBasico(String nombre) {
 		this.nombre = nombre;
+		//super(nombre);
 	}
 	
 	public String getNombre() {
@@ -31,6 +32,10 @@ public class IngredienteBasico extends Objeto {
 	public Receta obtenerRecetaCompleta() {
 		return this.obtenerReceta();
 	}
+	
+	protected Receta obtenerRecetaCompleta(Map<Objeto, Integer> sobrantes) {
+		return this.obtenerReceta();
+	}
 
 	@Override
 	public int hashCode() {
@@ -48,6 +53,5 @@ public class IngredienteBasico extends Objeto {
 		IngredienteBasico other = (IngredienteBasico) obj;
 		return Objects.equals(nombre, other.nombre);
 	}
-	
-	
+
 }

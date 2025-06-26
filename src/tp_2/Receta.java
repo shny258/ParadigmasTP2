@@ -3,7 +3,6 @@ package tp_2;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 public class Receta {
 	private double tiempoCreacion;
@@ -16,43 +15,62 @@ public class Receta {
 		this.ingredientes = new HashMap<>(ingredientes);
 	}
 
-	public Set<Objeto> getIngredientes() {
-		return this.ingredientes.keySet();
+	public Receta obtenerRecetaCompleta() {
+		return this.obtenerRecetaCompleta(new HashMap<Objeto, Integer>());
 	}
 
-	public Receta obtenerRecetaCompleta() {
+	public Receta obtenerRecetaCompleta(Map<Objeto, Integer> sobrantes) {
 		Map<Objeto, Integer> mapRet = new HashMap<>();
 		double tiempoRet = this.tiempoCreacion;
 
 		for (Objeto ingrediente : this.ingredientes.keySet()) {
+			int cantSobrante = sobrantes.getOrDefault(ingrediente, 0);
 			int cantIngrediente = this.ingredientes.get(ingrediente);
-			Receta recetaIngrediente = ingrediente.obtenerRecetaCompleta();
-			int cantCrafteosNecesarios = (int) Math.ceil((double) cantIngrediente / recetaIngrediente.cantidadDevuelta);
-			tiempoRet += cantCrafteosNecesarios * recetaIngrediente.tiempoCreacion;
-			for (Objeto subingrediente : recetaIngrediente.ingredientes.keySet()) {
-				if (mapRet.containsKey(subingrediente)) {
-					mapRet.put(subingrediente, mapRet.get(subingrediente)
-							+ cantCrafteosNecesarios * recetaIngrediente.ingredientes.get(subingrediente));
-				} else {
-					mapRet.put(subingrediente,
-							cantCrafteosNecesarios * recetaIngrediente.ingredientes.get(subingrediente));
+			if (cantSobrante >= cantIngrediente) {
+				sobrantes.put(ingrediente, cantSobrante - cantIngrediente);
+			} else {
+				if (cantSobrante != 0) {
+					sobrantes.remove(ingrediente);
 				}
+				Receta recetaIngrediente = ingrediente.obtenerRecetaCompleta(sobrantes);
+				int cantCrafteosNecesarios = (int) Math
+						.ceil((double) (cantIngrediente - cantSobrante) / recetaIngrediente.cantidadDevuelta);
+				tiempoRet += cantCrafteosNecesarios * recetaIngrediente.tiempoCreacion;
+				cantSobrante = cantCrafteosNecesarios * recetaIngrediente.cantidadDevuelta - cantIngrediente
+						- cantSobrante;
+				if (cantSobrante > 0) {
+					sobrantes.put(ingrediente, cantSobrante);
+				}
+				for (Objeto subingrediente : recetaIngrediente.ingredientes.keySet()) {
+					if (mapRet.containsKey(subingrediente)) {
+						mapRet.put(subingrediente, mapRet.get(subingrediente)
+								+ cantCrafteosNecesarios * recetaIngrediente.ingredientes.get(subingrediente));
+					} else {
+						mapRet.put(subingrediente,
+								cantCrafteosNecesarios * recetaIngrediente.ingredientes.get(subingrediente));
+					}
+				}
+
 			}
 		}
 		return new Receta(tiempoRet, this.cantidadDevuelta, mapRet);
 	}
 
-//	public int getCantIngrediente(Objeto ingrediente) {
-//		return this.ingredientes.getOrDefault(ingrediente, 0);
-//	}
-//	
-//	public double getTiempoCreacion() {
-//		return this.tiempoCreacion;
-//	}
-//	
-//	public int getCantidadDevuelta() {
-//		return this.cantidadDevuelta;
-//	}
+	public Map<Objeto, Integer> getIngredientes() {
+		return new HashMap<Objeto, Integer>(this.ingredientes);
+	}
+
+	public int getCantIngrediente(Objeto ingrediente) {
+		return this.ingredientes.getOrDefault(ingrediente, 0);
+	}
+
+	public double getTiempoCreacion() {
+		return this.tiempoCreacion;
+	}
+
+	public int getCantidadDevuelta() {
+		return this.cantidadDevuelta;
+	}
 
 	@Override
 	public String toString() {

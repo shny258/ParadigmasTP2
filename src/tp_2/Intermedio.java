@@ -1,6 +1,5 @@
 package tp_2;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -10,6 +9,7 @@ public class Intermedio extends Objeto {
 
 	public Intermedio(String nombre, Receta receta) {
 		this.nombre = nombre;
+		//super(nombre);
 		this.receta = receta;
 	}
 	
@@ -21,27 +21,12 @@ public class Intermedio extends Objeto {
 		return this.receta;
 	}
 
-//	public Receta obtenerRecetaCompleta() {
-//		Map<Objeto, Integer> mapRet = new HashMap<>();
-//		double tiempoRet = this.receta.getTiempoCreacion();
-//
-//		for (Objeto ingrediente : this.receta.getIngredientes()) {
-//			int cantIngrediente = this.receta.getCantIngrediente(ingrediente);
-//			Receta recetaIngrediente = ingrediente.obtenerRecetaCompleta();
-//			tiempoRet += cantIngrediente * recetaIngrediente.getTiempoCreacion();
-//			for (Objeto subingrediente : recetaIngrediente.getIngredientes()) {
-//				if (mapRet.containsKey(subingrediente)) {
-//					mapRet.put(subingrediente, mapRet.get(subingrediente)
-//							+ cantIngrediente * recetaIngrediente.getCantIngrediente(subingrediente));
-//				} else {
-//					mapRet.put(subingrediente, cantIngrediente * recetaIngrediente.getCantIngrediente(subingrediente));
-//				}
-//			}
-//		}
-//		return new Receta(tiempoRet, 0, mapRet);
-//	}
 	public Receta obtenerRecetaCompleta() {
 		return this.receta.obtenerRecetaCompleta();
+	}
+	
+	protected Receta obtenerRecetaCompleta(Map<Objeto, Integer> sobrantes) {
+		return this.receta.obtenerRecetaCompleta(sobrantes);
 	}
 
 	@Override
@@ -60,4 +45,5 @@ public class Intermedio extends Objeto {
 		Intermedio other = (Intermedio) obj;
 		return Objects.equals(nombre, other.nombre) && Objects.equals(receta, other.receta);
 	}
+	
 }
