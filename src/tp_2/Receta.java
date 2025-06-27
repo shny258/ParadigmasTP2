@@ -2,7 +2,6 @@ package tp_2;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class Receta {
 	private double tiempoCreacion;
@@ -14,47 +13,73 @@ public class Receta {
 		this.cantidadDevuelta = cantDevuelta;
 		this.ingredientes = new HashMap<>(ingredientes);
 	}
-
+	
 	public Receta obtenerRecetaCompleta() {
-		return this.obtenerRecetaCompleta(new HashMap<Objeto, Integer>());
-	}
-
-	public Receta obtenerRecetaCompleta(Map<Objeto, Integer> sobrantes) {
 		Map<Objeto, Integer> mapRet = new HashMap<>();
 		double tiempoRet = this.tiempoCreacion;
 
 		for (Objeto ingrediente : this.ingredientes.keySet()) {
-			int cantSobrante = sobrantes.getOrDefault(ingrediente, 0);
 			int cantIngrediente = this.ingredientes.get(ingrediente);
-			if (cantSobrante > cantIngrediente) {
-				sobrantes.put(ingrediente, cantSobrante - cantIngrediente);
-			} else {
-				if (cantSobrante != 0) {
-					sobrantes.remove(ingrediente);
+			Receta recetaIngrediente = ingrediente.obtenerRecetaCompleta();
+			int cantCrafteosNecesarios = (int) Math.ceil((double) cantIngrediente / recetaIngrediente.cantidadDevuelta);
+			tiempoRet += cantCrafteosNecesarios * recetaIngrediente.tiempoCreacion;
+			for (Objeto subingrediente : recetaIngrediente.ingredientes.keySet()) {
+				if (mapRet.containsKey(subingrediente)) {
+					mapRet.put(subingrediente, mapRet.get(subingrediente)
+							+ cantCrafteosNecesarios * recetaIngrediente.ingredientes.get(subingrediente));
+				} else {
+					mapRet.put(subingrediente,
+							cantCrafteosNecesarios * recetaIngrediente.ingredientes.get(subingrediente));
 				}
-				Receta recetaIngrediente = ingrediente.obtenerRecetaCompleta(sobrantes);
-				int cantCrafteosNecesarios = (int) Math
-						.ceil((double) (cantIngrediente - cantSobrante) / recetaIngrediente.cantidadDevuelta);
-				tiempoRet += cantCrafteosNecesarios * recetaIngrediente.tiempoCreacion;
-				cantSobrante = cantCrafteosNecesarios * recetaIngrediente.cantidadDevuelta
-						- (cantIngrediente - cantSobrante);
-				if (cantSobrante > 0) {
-					sobrantes.put(ingrediente, cantSobrante);
-				}
-				for (Objeto subingrediente : recetaIngrediente.ingredientes.keySet()) {
-					if (mapRet.containsKey(subingrediente)) {
-						mapRet.put(subingrediente, mapRet.get(subingrediente)
-								+ cantCrafteosNecesarios * recetaIngrediente.ingredientes.get(subingrediente));
-					} else {
-						mapRet.put(subingrediente,
-								cantCrafteosNecesarios * recetaIngrediente.ingredientes.get(subingrediente));
-					}
-				}
-
 			}
 		}
 		return new Receta(tiempoRet, this.cantidadDevuelta, mapRet);
 	}
+	
+////CONSIDERANDO SOBRANTES
+//	public Receta obtenerRecetaCompleta() {
+//		return this.obtenerRecetaCompleta(new HashMap<Objeto, Integer>());
+//	}
+//
+//	public Receta obtenerRecetaCompleta(Map<Objeto, Integer> sobrantes) {
+//		Map<Objeto, Integer> mapRet = new HashMap<>();
+//		double tiempoRet = this.tiempoCreacion;
+//
+//		for (Objeto ingrediente : this.ingredientes.keySet()) {
+//			int cantSobrante = sobrantes.getOrDefault(ingrediente, 0);
+//			int cantIngrediente = this.ingredientes.get(ingrediente);
+//			if (cantSobrante > cantIngrediente) {
+//				sobrantes.put(ingrediente, cantSobrante - cantIngrediente);
+//			} else {
+//				if (cantSobrante != 0) {
+//					sobrantes.remove(ingrediente);
+//				}
+//				
+//				Receta recetaIngrediente = ingrediente.obtenerReceta();
+//				int cantCrafteosNecesarios = (int) Math
+//						.ceil((double) (cantIngrediente - cantSobrante) / recetaIngrediente.cantidadDevuelta);
+//				cantSobrante = cantCrafteosNecesarios * recetaIngrediente.cantidadDevuelta
+//						- (cantIngrediente - cantSobrante);
+//				if (cantSobrante > 0) {
+//					sobrantes.put(ingrediente, cantSobrante);
+//				}
+//				Receta recetaIngredienteCompleta = ingrediente.obtenerRecetaCompleta(sobrantes);
+//				tiempoRet += cantCrafteosNecesarios * recetaIngredienteCompleta.tiempoCreacion;
+//				
+//				for (Objeto subingrediente : recetaIngredienteCompleta.ingredientes.keySet()) {
+//					if (mapRet.containsKey(subingrediente)) {
+//						mapRet.put(subingrediente, mapRet.get(subingrediente)
+//								+ cantCrafteosNecesarios * recetaIngredienteCompleta.ingredientes.get(subingrediente));
+//					} else {
+//						mapRet.put(subingrediente,
+//								cantCrafteosNecesarios * recetaIngredienteCompleta.ingredientes.get(subingrediente));
+//					}
+//				}
+//
+//			}
+//		}
+//		return new Receta(tiempoRet, this.cantidadDevuelta, mapRet);
+//	}
 
 	public Map<Objeto, Integer> getIngredientes() {
 		return new HashMap<Objeto, Integer>(this.ingredientes);
@@ -81,23 +106,5 @@ public class Receta {
 		}
 		;
 		return stringRet;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(cantidadDevuelta, ingredientes, tiempoCreacion);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Receta other = (Receta) obj;
-		return cantidadDevuelta == other.cantidadDevuelta && Objects.equals(ingredientes, other.ingredientes)
-				&& Double.doubleToLongBits(tiempoCreacion) == Double.doubleToLongBits(other.tiempoCreacion);
 	}
 }
