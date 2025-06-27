@@ -26,7 +26,7 @@ public class Receta {
 		for (Objeto ingrediente : this.ingredientes.keySet()) {
 			int cantSobrante = sobrantes.getOrDefault(ingrediente, 0);
 			int cantIngrediente = this.ingredientes.get(ingrediente);
-			if (cantSobrante >= cantIngrediente) {
+			if (cantSobrante > cantIngrediente) {
 				sobrantes.put(ingrediente, cantSobrante - cantIngrediente);
 			} else {
 				if (cantSobrante != 0) {
@@ -36,8 +36,8 @@ public class Receta {
 				int cantCrafteosNecesarios = (int) Math
 						.ceil((double) (cantIngrediente - cantSobrante) / recetaIngrediente.cantidadDevuelta);
 				tiempoRet += cantCrafteosNecesarios * recetaIngrediente.tiempoCreacion;
-				cantSobrante = cantCrafteosNecesarios * recetaIngrediente.cantidadDevuelta - cantIngrediente
-						- cantSobrante;
+				cantSobrante = cantCrafteosNecesarios * recetaIngrediente.cantidadDevuelta
+						- (cantIngrediente - cantSobrante);
 				if (cantSobrante > 0) {
 					sobrantes.put(ingrediente, cantSobrante);
 				}

@@ -24,7 +24,7 @@ public class IngredienteBasico extends Objeto {
 	}
 	
 	public Receta obtenerReceta() {
-		Map<Objeto,Integer> mapRet = new HashMap<>();
+		Map<Objeto,Integer> mapRet = new HashMap<Objeto,Integer>();
 		mapRet.put(this, CANT_INGREDIENTE);
 		return new Receta(TIEMPO_CREACION_ING_BASICO, CANT_DEVUELTA, mapRet);
 	}
