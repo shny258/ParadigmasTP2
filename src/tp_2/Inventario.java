@@ -6,9 +6,11 @@ import java.util.Map;
 
 public class Inventario {
 	private Map<Objeto, Integer> objetos;
+	private HistorialCrafteos historial;
 
 	public Inventario(Map<Objeto, Integer> objetos) {
 		this.objetos = objetos;
+		this.historial = new HistorialCrafteos();
 	}
 
 	public Map<Objeto, Integer> getObjetos() {
@@ -38,4 +40,34 @@ public class Inventario {
 
 		return new Receta(tiempoRet, recetaObjeto.getCantidadDevuelta(), ingredientesFaltantes);
 	}
+
+	public boolean craftear(Objeto objeto) {
+		Receta recetaFaltantes = this.faltantesParaCraftear(objeto);
+		if (!recetaFaltantes.getIngredientes().isEmpty()) {
+			return false;
+		}
+		Map<Objeto, Integer> ingredientes = objeto.obtenerReceta().getIngredientes();
+		for (Objeto ingrediente : ingredientes.keySet()) {
+			int cantActualizada = this.objetos.get(ingrediente) - ingredientes.get(ingrediente);
+			if (cantActualizada == 0) {
+				this.objetos.remove(ingrediente);
+			} else {
+				this.objetos.put(ingrediente, cantActualizada);
+			}
+		}
+		this.objetos.put(objeto, objeto.obtenerReceta().getCantidadDevuelta());
+		this.historial.agregarCrafteo(objeto);
+
+		return true;
+	}
+	
+	public HistorialCrafteos getHistorial() {
+		return this.historial;
+	}
+
+	@Override
+	public String toString() {
+		return objetos.toString();
+	}
+
 }

@@ -53,8 +53,17 @@ public class Main {
 		Map<Objeto, Integer> objetosInventario = new HashMap<>();
 		objetosInventario.put(carbon, 1);
 		objetosInventario.put(palo, 2);
+		objetosInventario.put(tablon, 1);
+		objetosInventario.put(marco, 1);
 		Inventario inventario = new Inventario(objetosInventario);
 		
+		System.out.println("INVENTARIO:\n" + inventario + "\n");
+		
 		System.out.println("FALTANTES PARA CRAFTEAR ANTORCHA:\n" + inventario.faltantesParaCraftear(antorcha));
+		
+		inventario.craftear(mesa);
+		System.out.println("CRAFTEAMOS MESA. INVENTARIO ACTUALIZADO:\n" + inventario + "\n");
+		
+		System.out.println("HISTORIAL DE CRAFTEOS:\n" + inventario.getHistorial());
 	}
 }
