@@ -1,16 +1,10 @@
-%¿Cuáles son todos los productos que podría generar con el inventario actual?
-%El sistema debe traducir el inventario actual a hechos en Prolog (tengo/2) y 
-%definir las reglas y recetas (ingrediente/3). Prolog responderá con la lista de objetos 
-%posibles, deduciendo automáticamente a partir de las recetas y cantidades disponibles.
-
 % Hechos
-ingrediente(bastón, bastón1, 1).
-ingrediente(bastón1, bastón2, 1).
-ingrediente(bastón2, madera, 2).
 
+ingrediente(bastón, madera, 2).
 ingrediente(espada, hierro, 3).
 ingrediente(espada, bastón, 1).
 ingrediente(espada, madera, 1).
+
 elemento_basico(madera).
 elemento_basico(hierro).
 
@@ -18,33 +12,52 @@ elemento_basico(hierro).
 % Inventario
 
 tengo(madera, 6).
-tengo(hierro, 5).
-tengo(bastón, 1).
-
+tengo(hierro, 90).
+tengo(bastón, 90).
+tengo(pepe, 1).
 % Reglas
-    
 
-puedo_craftear(Objeto) :-
-    ingrediente(Objeto, Ing, Cant),
-    tengo(Ing, CantDisponible),
-    CantDisponible >= Cant.
+%Consulta final:
+%quePuedoHacerConMiInventarioActual(Res)
+sumar_tuplas([], []).
+sumar_tuplas([(Obj, Cant)|T], Resultado) :-
+    sumar_tuplas(T, Parcial),
+    ( select((Obj, CantPrevio), Parcial, Resto) %intenta buscar si en la lista 
+    %Parcial ya existe una tupla con el mismo Obj.
+    -> NuevaCant is Cant + CantPrevio,
+       Resultado = [(Obj, NuevaCant)|Resto] %Si encuentra el objeto, lo pone con la nueva cantidad
+    ;  Resultado = [(Obj, Cant)|Parcial] %Si no lo encuentra, lo crea
+    ).
+%sumar_tuplas([(madera,3), (hierro,2), (madera,5)], Resultado).
+%Primera llamada:
+%Cabeza: (madera,3), Parcial1 [(hierro,2), (madera,5)]
+%Segunda llamada:
+%Cabeza: (hierro,2) Parcial2 [(madera,5)]
+%Tercera llamada:
+%Cabeza: (madera,5) Parcial3 []
+%Caso base de [] es []
+%Ahora vuelve para atras, existe (madera,5) en []? No, lo mete
+%existe (hierro,2) en [(madera,5)]? No, lo mete
+%existe (madera,3) en [(hierro,2), (madera,5)]? Si, asi que hace 3+5 = 8 y pone (madera,8)
+%Resultado final: [(madera, 8), (hierro, 2)]
 
-%Descomponer
-% Caso base: si es básico, devuelve una lista con N repeticiones
-descomponer(Objeto, [Objeto]) :- 
-    elemento_basico(Objeto).
+% Si el objeto está en inventario, lo consume
 
-% Caso recursivo: buscar ingredientes y descomponer
-descomponer(Objeto, ListaFinal) :-
-    %Si por ejemplo descompones baston, con esta funcion te sale [madera, madera]
-    findall(IngLista,
-        (ingrediente(Objeto, Ingr, Cant),
-         descomponer(Ingr, DescompIngr),
-         repetir_lista(DescompIngr, Cant, IngLista)),
-        Listas),
-    flatten(Listas, ListaFinal). %Aplana la lista de listas en una sola
+descomponer_hasta_inventario_tuplas([], _, []).
+descomponer_hasta_inventario_tuplas([(Obj, Cant)|T], Inventario, ResFinal) :-
+    repetir_lista([Obj], Cant, ListaObjs),
+    descomponer_hasta_inventario_tuplas(ListaObjs, Inventario, ResObj),
+    descomponer_hasta_inventario_tuplas(T, Inventario, ResResto),
+    append(ResObj, ResResto, ResFinal).
 
-%Repite una lista N veces
+
+descomponer_hasta_inventario_y_contar(TuplasEntrada, InvIntermedios, ResultadoFinal) :-
+    descomponer_hasta_inventario_tuplas(TuplasEntrada, InvIntermedios, ListaBasicos),
+    contar_elementos(ListaBasicos, ResultadoIntermedio),
+    sumar_tuplas(ResultadoIntermedio, ResultadoFinal).
+
+
+% Repite una lista N veces
 repetir_lista(_, 0, []) :- !.
 repetir_lista(L, N, R) :-
     N >= 1,
@@ -52,53 +65,103 @@ repetir_lista(L, N, R) :-
     repetir_lista(L, N1, R1),
     append(L, R1, R).
 
-contar_basicos([], []).
-contar_basicos([X|XS], Resultado) :-
-    contar_basicos(XS, Parcial),
-    actualizar_conteo(X, Parcial, Resultado).
+tuplaIngrediente(X, TuplaBasicos, TuplaIntermedios):-
+    findall((Clave, Valor), (ingrediente(X, Clave, Valor),elemento_basico(Clave)), TuplaBasicos),
+	findall((Clave, Valor), (ingrediente(X, Clave, Valor),\+elemento_basico(Clave)), TuplaIntermedios).
 
-% Si X ya está en la lista, incrementa el contador
-actualizar_conteo(X, [], [(X,1)]). %Lista vacia? Mete el primer elemento con 1
-actualizar_conteo(X, [(X,N)|XS], [(X,N1)|XS]) :-
-    N1 is N + 1. %Si lo encuentra (mira las 2 primeras X) le suma 1
-actualizar_conteo(X, [Y|XS], [Y|Resto]) :-
-    X \= Y, %Si no lo encuentra sigue
-    actualizar_conteo(X, XS, Resto).
+tuplaInventario(TuplaBasicos, TuplaIntermedios):-
+    findall((Clave, Valor), (tengo(Clave, Valor),elemento_basico(Clave)), TuplaBasicos),
+    findall((Clave, Valor), (tengo(Clave, Valor),\+elemento_basico(Clave)), TuplaIntermedios).     
 
+multiplicarTupla([],_,[]).
+multiplicarTupla([(Clave, Valor)|XS], N, [(Clave, Valor2)|Res]):-
+    Valor2 is Valor * N,
+    multiplicarTupla(XS, N, Res).
 
-materiales_necesarios(Objeto, Resumen) :-
-    descomponer(Objeto, Basicos), %Te da una lista de objetos basicos
-    contar_basicos(Basicos, Resumen). %La transforma en tuplas clave,valor
-
-%Por ahora no se usa
-sumar_listas_por_clave([], _, []).
-sumar_listas_por_clave([(K, V1)|T1], L2, [(K, Suma)|R]) :-
+restarListas([], _, []).
+restarListas([(K, V1)|T1], L2, [(K, V1)|R]) :-
+    \+member((K, _), L2),
+    restarListas(T1, L2, R).
+restarListas([(K, V1)|T1], L2, [(K, Resta)|R]) :-
     member((K, V2), L2),
-    Suma is V1 + V2,
-    sumar_listas_por_clave(T1, L2, R).
+    Resta is V1 - V2,
+    restarListas(T1, L2, R).
 
-%Te dice cuantas veces un determinado elemento se puede usar para craftear
-%Por ejemplo si tenemos 5 de madera y un crafteo requiere 2, este te devuelve 2
-cantidad_posible((Elem, Necesario), Inventario, CantPosible) :-
-    member((Elem, Disponible), Inventario),
-    CantPosible is Disponible // Necesario. %Division entera, descarta lo decimal
-cantidades_posibles([], _, []).
-
-cantidades_posibles([H|T], Inventario, [CP|R]) :- %Aplica el predicado anterior a toda la lista
-    cantidad_posible(H, Inventario, CP),
-    cantidades_posibles(T, Inventario, R).
-
-%Devuelve el minimo de una lista. Este minimo sera la cantidad de crafteos que 
-%puede hacerse de un item X con el inventario actual
-minimo_lista([X], X).
-minimo_lista([H|T], Min) :-
-    minimo_lista(T, MinResto),
-    Min is min(H, MinResto).
+%Chequea que todas las claves de la tupla sean positivas o 0
+chequearLista([]).
+chequearLista([(_, V1)|T1]):- V1>(-1), chequearLista(T1).
 
 
+purga_inventario_positivo([], []).
+purga_inventario_positivo([(Obj, Cant)|T], [(Obj, Cant)|Resto]) :-
+    Cant >= 1,
+    purga_inventario_positivo(T, Resto).
+purga_inventario_positivo([(_, Cant)|T], Resto) :-
+    Cant < 1,
+    purga_inventario_positivo(T, Resto).
 
-cuantosPuedoCraftear(Objeto, CantMax) :-
-    materiales_necesarios(Objeto, Tupla),
-    findall((Elemento, Valor), tengo(Elemento, Valor), MiInventario),
-    cantidades_posibles(Tupla, MiInventario, Cantidades),
-    minimo_lista(Cantidades, CantMax).
+existe(X):-
+    ingrediente(X,_,_),
+    \+elemento_basico(X).
+%Prueba si se puede craftear un objeto una N cantidad de veces. Devuelve true o false
+puedeCraftearN(Objeto, N):-
+    existe(Objeto), %El objeto existe?
+    tuplaInventario(TBI, TII),  %Devuelve una lista de tuplas de objetos basicos 
+    %e intermedios del inventario
+    tuplaIngrediente(Objeto, ParcialTBO, ParcialTIO), %Idem con el objeto solicitado
+    multiplicarTupla(ParcialTBO, N, TBO),
+    multiplicarTupla(ParcialTIO, N, TIO), %Multiplica todas las claves por N
+    restarListas(TBI, TBO, BasicosActualizado), % Resto los elementos básicos del inventario y tupla
+    chequearLista(BasicosActualizado), %Si alguno tiene negativo, ya tira false
+    %Resto ambas listas entre si para eliminar si es posible a los objetos intermedios
+    restarListas(TIO, TII, IntermediosObjActualizado),
+    restarListas(TII, TIO, IntermediosInvActualizado),
+	%Transforma (elem, cant) en [elem, elem, elem...] cant veces
+    %Si los elementos son 0 o vacios los quita de la lista
+    %expandir_tuplas(IntermediosObjActualizado, ListaIntermedios),
+    %Si el inventario tiene algun elemento en 0 o negativo, es decir ese elemento
+    %ya no forma parte del inventario, lo elimino de la lista
+    purga_inventario_positivo(IntermediosInvActualizado, InvFinal),
+    purga_inventario_positivo(IntermediosObjActualizado, ObjFinal),
+    %Todo lo que se puede restar de acá se resta de lo que quede del inventario
+    %Devuelve una lista de todos los elementos básicos faltantes
+    descomponer_hasta_inventario_tuplas(ObjFinal, InvFinal, BasicosFaltantes),
+	%finalmente, resta de nuevo las listas. Si la lista del inventario es 0 o positiva, es
+    %que lo pudo craftear
+    restarListas(BasicosActualizado, BasicosFaltantes, Final),
+    chequearLista(Final).
+
+%Retorna cuantas veces se puede craftear un objeto
+cuantosPuedeCraftear(Objeto, Cant):- puedeHacer(Objeto, 1, Cant).
+puedeHacer(Objeto, Actuales, Res):-
+   	\+puedeCraftearN(Objeto, Actuales),
+    Res is Actuales - 1.
+puedeHacer(Objeto, Actuales, Res):-
+   	puedeCraftearN(Objeto, Actuales),
+    Actualizar is Actuales + 1,
+    puedeHacer(Objeto, Actualizar, Res).
+
+%Lista todos los objetos que tengan alguna receta
+lista_objetos_compuestos(Lista) :-
+    findall(Objeto, ingrediente(Objeto, _, _), Objetos),
+    sort(Objetos, Lista). % sort elimina duplicados y ordena
+%Se fija cuantos puede craftear de un determinado objeto. Si no puede craftear ninguno no
+%lo pone en la lista
+iterar([],[]).
+iterar([Objeto|Cola],Res):-
+	cuantosPuedeCraftear(Objeto, Parcial),
+    Parcial<1,
+    iterar(Cola, Res).
+iterar([Objeto|Cola],[(Objeto, Num)|Res]):-
+	cuantosPuedeCraftear(Objeto, Parcial),
+    Parcial>=1,
+    Num is Parcial,
+    iterar(Cola, Res).
+
+quePuedoHacerConMiInventarioActual(Res):-
+    lista_objetos_compuestos(ListaCompuestos),
+    iterar(ListaCompuestos,Res).
+
+
+
+
