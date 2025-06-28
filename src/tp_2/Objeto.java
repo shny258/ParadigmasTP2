@@ -38,5 +38,8 @@ public abstract class Objeto{
 		return Objects.equals(nombre, other.nombre);
 	}
 
-
+	@Override
+	public String toString() {
+		return nombre;
+	}
 }
