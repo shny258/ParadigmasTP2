@@ -1,21 +1,22 @@
 package tp_2;
 
-
+import java.util.Map;
 import java.util.Objects;
 
-public abstract class Objeto{
+public abstract class Objeto {
 	private String nombre;
 
 	public Objeto(String nombre) {
 		this.nombre = nombre;
 	}
-	
+
 	public abstract Receta obtenerReceta();
+
 	public abstract Receta obtenerRecetaCompleta();
-	//protected abstract Receta obtenerRecetaCompleta(Map<Objeto, Integer> sobrantes);
-	//public abstract String getNombre();
-	//public abstract boolean equals(Object obj);
-    //public abstract int hashCode();
+
+	protected abstract boolean esCrafteable();
+
+	protected abstract Receta obtenerRecetaCompleta(Map<Objeto, Integer> sobrantes);
 
 	public String getNombre() {
 		return nombre;

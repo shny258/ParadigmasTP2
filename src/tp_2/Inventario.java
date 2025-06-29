@@ -29,12 +29,12 @@ public class Inventario {
 			if (cantIngredienteEnInventario >= cantFaltante) {
 				ingredientesTenidos.add(ingrediente);
 			} else if (cantIngredienteEnInventario != 0) {
-				int faltantesActualizado = ingredientesFaltantes.get(ingrediente) - cantIngredienteEnInventario;
-				ingredientesFaltantes.put(ingrediente, faltantesActualizado);
-				int cantCrafteosNecesarios = (int) Math
-						.ceil((double) faltantesActualizado / ingrediente.obtenerReceta().getCantidadDevuelta());
-				tiempoRet += ingrediente.obtenerReceta().getTiempoCreacion() * cantCrafteosNecesarios;
+				cantFaltante = ingredientesFaltantes.get(ingrediente) - cantIngredienteEnInventario;
+				ingredientesFaltantes.put(ingrediente, cantFaltante);
 			}
+			int cantCrafteosNecesarios = (int) Math
+					.ceil((double) cantFaltante / ingrediente.obtenerReceta().getCantidadDevuelta());
+			tiempoRet += ingrediente.obtenerReceta().getTiempoCreacion() * cantCrafteosNecesarios;
 		}
 		ingredientesFaltantes.keySet().removeAll(ingredientesTenidos);
 
@@ -60,7 +60,7 @@ public class Inventario {
 
 		return true;
 	}
-	
+
 	public HistorialCrafteos getHistorial() {
 		return this.historial;
 	}

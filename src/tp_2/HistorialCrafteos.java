@@ -21,6 +21,5 @@ public class HistorialCrafteos {
 	public String toString() {
 		return historial.toString();
 	}
-	
-	
+
 }

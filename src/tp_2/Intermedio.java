@@ -1,18 +1,14 @@
 package tp_2;
 
+import java.util.Map;
+
 public class Intermedio extends Objeto {
-//	private String nombre;
 	private Receta receta;
 
 	public Intermedio(String nombre, Receta receta) {
-//		this.nombre = nombre;
 		super(nombre);
 		this.receta = receta;
 	}
-	
-//	public String getNombre() {
-//		return this.nombre;
-//	}
 
 	public Receta obtenerReceta() {
 		return this.receta;
@@ -21,8 +17,13 @@ public class Intermedio extends Objeto {
 	public Receta obtenerRecetaCompleta() {
 		return this.receta.obtenerRecetaCompleta();
 	}
-	
-//	protected Receta obtenerRecetaCompleta(Map<Objeto, Integer> sobrantes) {
-//		return this.receta.obtenerRecetaCompleta(sobrantes);
-//	}
+
+	@Override
+	protected boolean esCrafteable() {
+		return true;
+	}
+
+	protected Receta obtenerRecetaCompleta(Map<Objeto, Integer> sobrantes) {
+		return this.receta.obtenerRecetaCompleta(sobrantes);
+	}
 }
