@@ -40,4 +40,20 @@ public class ManejadorArchivos {
 			registroObjetos.agregarObjeto(new Intermedio(nombreIntermedio, receta));
 		}
 	}
+
+	public Inventario cargarInventarioDesdeJson(String path, RegistroObjetos registroObjetos) throws Exception {
+		String contenido = new String(Files.readAllBytes(Paths.get(path)));
+		JSONObject inventarioJson = new JSONObject(contenido);
+
+		Map<Objeto, Integer> objetosInventario = new HashMap<>();
+		for (String nombreObjeto : inventarioJson.keySet()) {
+			int cantidadObjeto = inventarioJson.getInt(nombreObjeto);
+			Objeto objeto = registroObjetos.obtenerObjeto(nombreObjeto);
+			if (objeto == null) {
+				throw new Exception("Ingrediente " + nombreObjeto + " inexistente.\n");
+			}
+			objetosInventario.put(objeto, objetosInventario.getOrDefault(objeto, 0) + cantidadObjeto);
+		}
+		return new Inventario(objetosInventario);
+	}
 }
