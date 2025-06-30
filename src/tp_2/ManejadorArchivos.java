@@ -6,8 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import prolog.*;
+
 public class ManejadorArchivos {
-	public void cargarRecetasDesdeJson(String path, RegistroObjetos registroObjetos) throws Exception {
+	public void cargarRecetasDesdeJson(String path, RegistroObjetos registroObjetos, ManejoProlog prolog) throws Exception {
 		String contenido = new String(Files.readAllBytes(Paths.get(path)));
 		JSONObject json = new JSONObject(contenido);
 
@@ -17,6 +19,7 @@ public class ManejadorArchivos {
 			String nombre = basicos.getString(i);
 			IngredienteBasico basico = new IngredienteBasico(nombre);
 			registroObjetos.agregarObjeto(basico);
+			prolog.elemento_basico(nombre);
 		}
 
 		// CREAR INTERMEDIOS
@@ -38,10 +41,11 @@ public class ManejadorArchivos {
 			double tiempoCrafteo = recetaJson.getDouble("tiempo");
 			Receta receta = new Receta(tiempoCrafteo, cantidadDevuelta, ingredientes);
 			registroObjetos.agregarObjeto(new Intermedio(nombreIntermedio, receta));
+			prolog.ingrediente(new Intermedio(nombreIntermedio, receta));
 		}
 	}
 
-	public Inventario cargarInventarioDesdeJson(String path, RegistroObjetos registroObjetos) throws Exception {
+	public Inventario cargarInventarioDesdeJson(String path, RegistroObjetos registroObjetos, ManejoProlog prolog) throws Exception {
 		String contenido = new String(Files.readAllBytes(Paths.get(path)));
 		JSONObject inventarioJson = new JSONObject(contenido);
 
@@ -53,6 +57,7 @@ public class ManejadorArchivos {
 				throw new Exception("Ingrediente " + nombreObjeto + " inexistente.\n");
 			}
 			objetosInventario.put(objeto, objetosInventario.getOrDefault(objeto, 0) + cantidadObjeto);
+			prolog.tengo(objeto.getNombre(), cantidadObjeto);
 		}
 		return new Inventario(objetosInventario);
 	}

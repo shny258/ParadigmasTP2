@@ -5,20 +5,10 @@ minimo_crafteos([D/N | Resto], Cant) :-
     minimo_crafteos(Resto, CantResto),
     Cant is min(floor(D / N), CantResto).
 
-objetos_disponibles(Objeto) :- %Esto es para no poner mas de una vez cada ingrediente
-    setof(O, Ing^Cant^ingrediente(O, Ing, Cant), Objetos),
-    member(Objeto, Objetos).
-objetosDisponibles(Objeto):-
-    objetos_disponibles(Objeto), %TODOS los objetos
-    \+ingredienteMesa(_,Objeto) % - los de la mesa
-    ;
-    %O sumo los crafteos de la mesa si tengo al menos una mesa
-    (tengo(Mesa, Cant),Cant>=1, ingredienteMesa(Mesa, Objeto)).
-
 
 % Verifica si tengo suficientes de todos los ingredientes
 puedo_craftear(Objeto, Cantidad, TiempoTotal) :-
-    objetosDisponibles(Objeto),
+    %objetosDisponibles(Objeto),
     receta(Objeto, CantDevuelta, Tiempo),
     (   (ingrediente(Objeto, Ing, _), %Condicion: Si hay algún ingrediente del objeto
 	\+tengo(Ing, _))					%Que NO tengo

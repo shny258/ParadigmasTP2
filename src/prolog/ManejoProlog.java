@@ -4,7 +4,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.jpl7.Atom;
@@ -15,18 +14,26 @@ import org.jpl7.Variable;
 import tp_2.*;
 
 public class ManejoProlog {
-	StringBuilder prologFacts;
-
+	StringBuilder prologTodo;
+	StringBuilder prologElemento_basico;
+	StringBuilder prologIngrediente;
+	StringBuilder prologReceta;
+	StringBuilder prologTengo;
+	
 	public ManejoProlog() {
-		prologFacts = new StringBuilder();
+		prologElemento_basico = new StringBuilder();
+		prologIngrediente = new StringBuilder();
+		prologReceta = new StringBuilder();
+		prologTengo = new StringBuilder();
+		prologTodo = new StringBuilder();
 	}
 
 	public void tengo(String nombre, int cantidad) {
-		prologFacts.append("tengo(\"" + nombre.toLowerCase() + "\", " + cantidad + ").\n");
+		prologTengo.append("tengo(\"" + nombre.toLowerCase() + "\", " + cantidad + ").\n");
 	}
 
 	public void elemento_basico(String nombre) {
-		prologFacts.append("elemento_basico(\"" + nombre.toLowerCase() + "\").\n");
+		prologElemento_basico.append("elemento_basico(\"" + nombre.toLowerCase() + "\").\n");
 	}
 
 	public void ingrediente(Objeto obj) {
@@ -35,39 +42,38 @@ public class ManejoProlog {
 		for (Map.Entry<Objeto, Integer> ingrediente : receta.getIngredientes().entrySet()) {
 			String nombreIngrediente = ingrediente.getKey().getNombre();
 			int cantidad = ingrediente.getValue();
-			prologFacts.append("ingrediente(\"" + nombre.toLowerCase() + "\",\"" + nombreIngrediente.toLowerCase()
+			prologIngrediente.append("ingrediente(\"" + nombre.toLowerCase() + "\",\"" + nombreIngrediente.toLowerCase()
 					+ "\"," + cantidad + ").\n");
 		}
-		prologFacts.append("receta(\"" + nombre.toLowerCase() + "\"," + receta.getCantidadDevuelta() + ","
+		prologReceta.append("receta(\"" + nombre.toLowerCase() + "\"," + receta.getCantidadDevuelta() + ","
 				+ receta.getTiempoCreacion() + ").\n");
+	}
+	public void escribirReglas(String pathing) {
+		try {
+			String contenido = Files.readString(Paths.get(pathing));
+			prologTodo.append(prologElemento_basico.toString() + prologIngrediente.toString() + prologTengo.toString() + prologReceta.toString());
+			prologTodo.append(contenido);
+		} catch (IOException e) {
+			System.out.println("Error para leer archivo " + pathing + ": " + e.getMessage());
+		}
 	}
 
 	public void escribir(String pathing) {
 		try (FileWriter writer = new FileWriter(pathing)) {
-			writer.write(prologFacts.toString());
+			writer.write(prologTodo.toString());
 		} catch (IOException e) {
-			System.out.println("Error escribiendo crafting.pl: " + e.getMessage());
+			System.out.println("Error escribiendo " + pathing + ": " + e.getMessage());
 			return;
 		}
 	}
 
-	public void escribirReglas(String pathing) {
-		try {
-			String contenido = Files.readString(Paths.get(pathing));
-			prologFacts.append(contenido);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	
-	public void quePuedoCraftear() {
-		Query q = new Query("consult", new Term[] { new Atom(".\\src\\prolog\\crafting.pl") });
+	public void quePuedoCraftear(String pathing) {
+		Query q = new Query("consult", new Term[] { new Atom(pathing) });
 		if (!q.hasSolution()) {
 			System.out.println("Failed to consult Prolog file");
 			return;
 		}
-		
 		Variable objeto = new Variable("Objeto");
 		Variable cantidad = new Variable("Cantidad");
 		Variable tiempo = new Variable("Tiempo");
@@ -75,7 +81,6 @@ public class ManejoProlog {
 		System.out.println("Productos que puedo craftear:");
 		while (query.hasMoreSolutions()) {
 			Map<String, Term> solution = query.nextSolution();
-			System.out.println(solution.get("Objeto").toString() + solution.get("Cantidad").toString() + solution.get("Tiempo").toString());
-		}
+			System.out.printf("%30s | %5s | %5s\n",solution.get("Objeto").toString(),solution.get("Cantidad").toString(),solution.get("Tiempo").toString());		}
 	}
 }
