@@ -18,10 +18,11 @@ public class RegistroObjetos {
 		this.registro.put(objeto.getNombre(), objeto);
 	}
 
+	public Map<String, Objeto> getRegistro(){
+		return new  HashMap<String, Objeto>(registro);
+	}
 	@Override
 	public String toString() {
 		return registro.toString();
 	}
-	
-	
 }
