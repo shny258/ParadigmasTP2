@@ -31,9 +31,11 @@ public class Main {
 		System.out.println("INVENTARIO:\n" + inventario + "\n");
 
 		System.out.println("FALTANTES PARA CRAFTEAR ANTORCHA:\n" + inventario.faltantesParaCraftear(antorcha));
+		System.out.println("FALTANTES PARA CRAFTEAR ANTORCHA DESDE CERO:\n" + inventario.faltantesParaCraftearDeCero(antorcha));
 
 		inventario.craftear(mesa);
 		System.out.println("CRAFTEAMOS MESA. INVENTARIO ACTUALIZADO:\n" + inventario + "\n");
+		System.out.println("FALTANTES PARA CRAFTEAR MESA DESDE CERO:\n" + inventario.faltantesParaCraftearDeCero(mesa));
 
 		System.out.println("HISTORIAL DE CRAFTEOS:\n" + inventario.getHistorial());
 

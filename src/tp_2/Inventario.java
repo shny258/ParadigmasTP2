@@ -1,6 +1,7 @@
 package tp_2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ public class Inventario {
 	}
 
 	public Map<Objeto, Integer> getObjetos() {
-		return objetos;
+		return new HashMap<Objeto, Integer>(objetos);
 	}
 
 	public Receta faltantesParaCraftear(Objeto objeto) {
@@ -28,16 +29,67 @@ public class Inventario {
 			int cantFaltante = ingredientesFaltantes.get(ingrediente);
 			if (cantIngredienteEnInventario >= cantFaltante) {
 				ingredientesTenidos.add(ingrediente);
-			} else if (cantIngredienteEnInventario != 0) {
+			} else {
 				cantFaltante = ingredientesFaltantes.get(ingrediente) - cantIngredienteEnInventario;
-				ingredientesFaltantes.put(ingrediente, cantFaltante);
+				if (cantIngredienteEnInventario != 0) {
+					ingredientesFaltantes.put(ingrediente, cantFaltante);
+				}
+				int cantCrafteosNecesarios = (int) Math
+						.ceil((double) cantFaltante / ingrediente.obtenerReceta().getCantidadDevuelta());
+				tiempoRet += ingrediente.obtenerReceta().getTiempoCreacion() * cantCrafteosNecesarios;
 			}
-			int cantCrafteosNecesarios = (int) Math
-					.ceil((double) cantFaltante / ingrediente.obtenerReceta().getCantidadDevuelta());
-			tiempoRet += ingrediente.obtenerReceta().getTiempoCreacion() * cantCrafteosNecesarios;
 		}
 		ingredientesFaltantes.keySet().removeAll(ingredientesTenidos);
 
+		return new Receta(tiempoRet, recetaObjeto.getCantidadDevuelta(), ingredientesFaltantes);
+	}
+
+	public Receta faltantesParaCraftearDeCero(Objeto objeto) {
+		Inventario inventario = new Inventario(this.getObjetos()); // copia del inventario
+		return inventario.faltantesParaCraftearDeCeroRec(objeto);
+	}
+
+	private Receta faltantesParaCraftearDeCeroRec(Objeto objeto) {
+		if (!objeto.esCrafteable()) {
+			return objeto.obtenerReceta();
+		}
+		Map<Objeto, Integer> ingredientesFaltantes = new HashMap<Objeto, Integer>();
+		Receta recetaObjeto = objeto.obtenerReceta();
+		double tiempoRet = recetaObjeto.getTiempoCreacion();
+		Map<Objeto, Integer> ingredientesNecesarios = recetaObjeto.getIngredientes();
+
+		for (Objeto ingrediente : ingredientesNecesarios.keySet()) {
+			int cantIngredienteEnInventario = this.objetos.getOrDefault(ingrediente, 0);
+			int cantIngrediente = ingredientesNecesarios.get(ingrediente);
+			if (cantIngredienteEnInventario > cantIngrediente) {
+				this.objetos.put(ingrediente, cantIngredienteEnInventario - cantIngrediente);
+			} else {
+				if (cantIngredienteEnInventario != 0) {
+					this.objetos.remove(ingrediente);
+				}
+				Receta recetaIngrediente = ingrediente.obtenerReceta();
+				int cantCrafteosNecesarios = (int) Math.ceil((double) (cantIngrediente - cantIngredienteEnInventario)
+						/ recetaIngrediente.getCantidadDevuelta());
+				for (int i = 0; i < cantCrafteosNecesarios; i++) {
+					Receta recetaFaltantes = this.faltantesParaCraftearDeCeroRec(ingrediente);
+					tiempoRet += recetaFaltantes.getTiempoCreacion();
+					for (Objeto subingrediente : recetaFaltantes.getIngredientes().keySet()) {
+						if (ingredientesFaltantes.containsKey(subingrediente)) {
+							ingredientesFaltantes.put(subingrediente, ingredientesFaltantes.get(subingrediente)
+									+ recetaFaltantes.getIngredientes().get(subingrediente));
+						} else {
+							ingredientesFaltantes.put(subingrediente,
+									recetaFaltantes.getIngredientes().get(subingrediente));
+						}
+					}
+				}
+				cantIngredienteEnInventario = cantCrafteosNecesarios * recetaIngrediente.getCantidadDevuelta()
+						- (cantIngrediente - cantIngredienteEnInventario);
+				if (cantIngredienteEnInventario > 0) {
+					this.objetos.put(ingrediente, cantIngredienteEnInventario);
+				}
+			}
+		}
 		return new Receta(tiempoRet, recetaObjeto.getCantidadDevuelta(), ingredientesFaltantes);
 	}
 
@@ -55,7 +107,7 @@ public class Inventario {
 				this.objetos.put(ingrediente, cantActualizada);
 			}
 		}
-		this.objetos.put(objeto, objeto.obtenerReceta().getCantidadDevuelta());
+		this.objetos.put(objeto, this.objetos.getOrDefault(objeto, 0) + objeto.obtenerReceta().getCantidadDevuelta());
 		this.historial.agregarCrafteo(objeto);
 
 		return true;
