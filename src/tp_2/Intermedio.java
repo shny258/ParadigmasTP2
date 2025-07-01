@@ -25,7 +25,7 @@ public class Intermedio extends Objeto {
 	
 	@Override
 	public void mostrarArbolCrafteos() {
-		System.out.println("x" + receta.getCantidadDevuelta() + " " + getNombre() + " - " + receta.getTiempoCreacion() + " segundo(s):");
+		System.out.println("x" + receta.getCantidadDevuelta() + " " + getNombre() + " - " + receta.getTiempoCreacion() + " minuto(s):");
 		for(Objeto ingrediente : receta.getIngredientes().keySet()) {
 			ingrediente.mostrarArbolCrafteos(receta.getCantIngrediente(ingrediente), 1);
 		}
@@ -36,7 +36,7 @@ public class Intermedio extends Objeto {
 		int cantCrafteos = (int)Math.ceil((double)unidades/receta.getCantidadDevuelta());
 		for (int i = 0; i < nivel; i++)
 			System.out.print("\t");
-		System.out.print("x" + unidades + " " + getNombre() + " - " + receta.getTiempoCreacion() * cantCrafteos + " segundo(s):\n");
+		System.out.print("x" + unidades + " " + getNombre() + " - " + receta.getTiempoCreacion() * cantCrafteos + " minuto(s):\n");
 		for(Objeto ingrediente : receta.getIngredientes().keySet()) {
 			ingrediente.mostrarArbolCrafteos(receta.getCantIngrediente(ingrediente) * cantCrafteos, nivel + 1);
 		}

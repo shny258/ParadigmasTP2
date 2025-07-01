@@ -98,6 +98,16 @@ public class Main {
 		    case 11:
 		    	System.out.println("Inventario:\n"+ inventario);
 		    	break;
+		    case 12:
+		    	System.out.println("Cual Objeto ?");
+		    	for(String objeto : registroObjetos.getRegistro().keySet()) {
+		        	System.out.println(objeto);
+		        }
+		    	opcionString = sc.nextLine();
+		    	objSolicitado = registroObjetos.obtenerObjeto(opcionString);
+		    	System.out.println("Arbol de Crafteo de "+opcionString+":\n");
+		    	objSolicitado.mostrarArbolCrafteos();
+		    	break;
 		    default:
 		        System.out.println("Opción inválida");
 		        break;
@@ -119,5 +129,6 @@ public class Main {
 		System.out.println("9. Salir y exportar inventario a Json.");
 		System.out.println("10. Mostrar esta ayuda.");
 		System.out.println("11. Mostrar inventario.");
+		System.out.println("12. Mostrar Arbol de crafteo.");
 	}
 }
