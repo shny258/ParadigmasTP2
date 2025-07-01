@@ -13,7 +13,7 @@ public class Main {
 		String pathRecetas = "archivos/recetas.json";
 		String pathProlog = "archivos/crafting.pl";
 		String pathPrologReglas = "archivos/reglasProlog.txt";
-		ManejoProlog prolog = ManejoProlog.getInstance(pathProlog, pathPrologReglas);
+		ManejoProlog.getInstance(pathProlog, pathPrologReglas);
 		
 		try {
 			manejador.cargarRecetasDesdeJson(pathRecetas, registroObjetos);
@@ -90,6 +90,7 @@ public class Main {
 		    	inventario.quePuedoCraftear();
 		    	break;
 		    case 9:
+		    	manejador.generarJsonInventario("archivos/inventario-out.json", inventario);
 		    	break;
 		    case 10:
 		    	mostrarMenu();
@@ -102,6 +103,7 @@ public class Main {
 		        break;
 			}
 		}
+		sc.close();
         System.out.println("Chau Chau");
 	}
 	

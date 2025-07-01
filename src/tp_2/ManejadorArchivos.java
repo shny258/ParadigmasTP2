@@ -2,6 +2,8 @@ package tp_2;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -64,5 +66,22 @@ public class ManejadorArchivos {
 		pl.tengo(new Inventario(objetosInventario));
 		pl.escribir();
 		return new Inventario(objetosInventario);
+	}
+	
+	public void generarJsonInventario(String path, Inventario inventario) {
+        try {
+            // Crear el objeto JSON desde el String
+            JSONObject jsonObject = new JSONObject(inventario.toJson());
+            // Crear la ruta completa al archivo
+            String rutaCompleta = path;
+            // Escribir el JSON en archivo
+            try (FileWriter file = new FileWriter(rutaCompleta)) {
+                file.write(jsonObject.toString(4));  // 4 = cantidad de espacios de indentado
+                file.flush();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 }

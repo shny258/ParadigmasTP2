@@ -99,7 +99,7 @@ public class Inventario {
 	}
 
 	public boolean craftear(Objeto objeto) {
-		if(!objeto.esCrafteable()) {
+		if (!objeto.esCrafteable()) {
 			return false;
 		}
 		Receta recetaFaltantes = this.faltantesParaCraftear(objeto);
@@ -123,41 +123,23 @@ public class Inventario {
 	public HistorialCrafteos getHistorial() {
 		return this.historial;
 	}
-	
+
 	public void quePuedoCraftear() {
 		ManejoProlog.getInstance().quePuedoCraftear(this);
 	}
-	
-	public void exportarAJSON(String path) {
-        try {
-            // Crear el objeto JSON desde el String
-            JSONObject jsonObject = new JSONObject(this.toJson());
-            // Crear la ruta completa al archivo
-            String rutaCompleta = path;
-            // Escribir el JSON en archivo
-            try (FileWriter file = new FileWriter(rutaCompleta)) {
-                file.write(jsonObject.toString(4));  // 4 = cantidad de espacios de indentado
-                file.flush();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-	}
 
 	public String toJson() {
-	String cadenaRet=new String("{\n");
-	for(Objeto ingrediente: objetos.keySet())
-	{
-	cadenaRet+="\t"+"\""+ingrediente.getNombre()+"\":"+objetos.get(ingrediente)+",\n";
+		String cadenaRet = new String("{\n");
+		for (Objeto ingrediente : objetos.keySet()) {
+			cadenaRet += "\t" + "\"" + ingrediente.getNombre() + "\":" + objetos.get(ingrediente) + ",\n";
+		}
+		cadenaRet += "}";
+		return cadenaRet;
 	}
-	cadenaRet+="}";
-	return cadenaRet;
-	}
-	
+
 	@Override
 	public String toString() {
 		return objetos.toString();
 	}
-	
+
 }
