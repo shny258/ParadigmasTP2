@@ -1,9 +1,12 @@
 package tp_2;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.json.JSONObject;
 
 public class Inventario {
 	private Map<Objeto, Integer> objetos;
@@ -116,10 +119,37 @@ public class Inventario {
 	public HistorialCrafteos getHistorial() {
 		return this.historial;
 	}
+	
+	public void exportarAJSON(String path) {
+        try {
+            // Crear el objeto JSON desde el String
+            JSONObject jsonObject = new JSONObject(this.toJson());
+            // Crear la ruta completa al archivo
+            String rutaCompleta = path;
+            // Escribir el JSON en archivo
+            try (FileWriter file = new FileWriter(rutaCompleta)) {
+                file.write(jsonObject.toString(4));  // 4 = cantidad de espacios de indentado
+                file.flush();
+            }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+}
+
+	public String toJson() {
+	String cadenaRet=new String("{\n");
+	for(Objeto ingrediente: objetos.keySet())
+	{
+	cadenaRet+="\t"+"\""+ingrediente.getNombre()+"\":"+objetos.get(ingrediente)+",\n";
+	}
+	cadenaRet+="}";
+	return cadenaRet;
+	}
+	
 	@Override
 	public String toString() {
 		return objetos.toString();
 	}
-
+	
 }
