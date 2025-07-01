@@ -63,17 +63,17 @@ ingrediente("computadora de escritorio","computadora gabinete",1).
 ingrediente("computadora de escritorio","camara",1).
 ingrediente("maquina virtual","sistema operativo",50).
 ingrediente("maquina virtual","rack de 10 servidores",1).
-tengo("cable", 500).
-tengo("plastico", 500).
-tengo("rack para servidores", 1).
 tengo("circuitos", 10000).
-tengo("memoria ram 4gb", 2).
+tengo("cable", 500).
+tengo("plastico", 350).
+tengo("rack para servidores", 2).
 tengo("cristal liquido", 500).
-tengo("metal", 500).
-tengo("servidor", 5).
+tengo("memoria ram 4gb", 2).
+tengo("metal", 470).
 tengo("chip", 10).
-tengo("capacitor", 500).
+tengo("servidor", 5).
 tengo("sistema operativo", 5).
+tengo("capacitor", 500).
 receta("cpu",1,15.0).
 receta("chip",2,8.0).
 receta("fuente de alimentación",1,5.0).

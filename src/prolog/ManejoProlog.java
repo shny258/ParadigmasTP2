@@ -14,22 +14,43 @@ import org.jpl7.Variable;
 import tp_2.*;
 
 public class ManejoProlog {
-	StringBuilder prologTodo;
-	StringBuilder prologElemento_basico;
-	StringBuilder prologIngrediente;
-	StringBuilder prologReceta;
-	StringBuilder prologTengo;
+	private static ManejoProlog instancia;
 	
-	public ManejoProlog() {
+    private StringBuilder prologTodo;
+    private StringBuilder prologElemento_basico;
+    private StringBuilder prologIngrediente;
+    private StringBuilder prologReceta;
+    private StringBuilder prologTengo;
+    private StringBuilder prologReglas;
+    private String pathProlog;
+	
+	
+	private ManejoProlog(String archPlFinal,String pathReglas) {
 		prologElemento_basico = new StringBuilder();
 		prologIngrediente = new StringBuilder();
 		prologReceta = new StringBuilder();
-		prologTengo = new StringBuilder();
 		prologTodo = new StringBuilder();
+		prologReglas = new StringBuilder();
+		escribirReglas(pathReglas);
+		this.pathProlog = archPlFinal;
 	}
+	
+	public static ManejoProlog  getInstance(String archPlFinal,String pathReglas) {
+		if (instancia == null) {
+            instancia = new ManejoProlog(archPlFinal, pathReglas);
+        }
+        return instancia;
+    }
+	
+	public static ManejoProlog  getInstance() {
+        return (instancia == null)?null:instancia;
+    }
 
-	public void tengo(String nombre, int cantidad) {
-		prologTengo.append("tengo(\"" + nombre.toLowerCase() + "\", " + cantidad + ").\n");
+	public void tengo(Inventario inventario) {
+		prologTengo = new StringBuilder();
+		for(Objeto o : inventario.getObjetos().keySet()) {
+			prologTengo.append("tengo(\"" + o.getNombre().toLowerCase() + "\", " + inventario.getObjetos().get(o) + ").\n");
+		}
 	}
 
 	public void elemento_basico(String nombre) {
@@ -51,25 +72,24 @@ public class ManejoProlog {
 	public void escribirReglas(String pathing) {
 		try {
 			String contenido = Files.readString(Paths.get(pathing));
-			prologTodo.append(prologElemento_basico.toString() + prologIngrediente.toString() + prologTengo.toString() + prologReceta.toString());
-			prologTodo.append(contenido);
+			prologReglas.append(contenido);
 		} catch (IOException e) {
 			System.out.println("Error para leer archivo " + pathing + ": " + e.getMessage());
 		}
 	}
-
-	public void escribir(String pathing) {
-		try (FileWriter writer = new FileWriter(pathing)) {
+	public void escribir() {
+		prologTodo = new StringBuilder();
+		prologTodo.append(prologElemento_basico.toString() + prologIngrediente.toString()+ prologTengo.toString() + prologReceta.toString() + prologReglas.toString());
+		try (FileWriter writer = new FileWriter(pathProlog)) {
 			writer.write(prologTodo.toString());
 		} catch (IOException e) {
-			System.out.println("Error escribiendo " + pathing + ": " + e.getMessage());
+			System.out.println("Error escribiendo " + pathProlog + ": " + e.getMessage());
 			return;
 		}
 	}
-
 	
-	public void quePuedoCraftear(String pathing) {
-		Query q = new Query("consult", new Term[] { new Atom(pathing) });
+	public void quePuedoCraftear() {
+		Query q = new Query("consult", new Term[] { new Atom(pathProlog) });
 		if (!q.hasSolution()) {
 			System.out.println("Failed to consult Prolog file");
 			return;

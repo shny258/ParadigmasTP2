@@ -8,6 +8,8 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import prolog.ManejoProlog;
+
 public class Inventario {
 	private Map<Objeto, Integer> objetos;
 	private HistorialCrafteos historial;
@@ -115,7 +117,9 @@ public class Inventario {
 		}
 		this.objetos.put(objeto, this.objetos.getOrDefault(objeto, 0) + objeto.obtenerReceta().getCantidadDevuelta());
 		this.historial.agregarCrafteo(objeto);
-
+		ManejoProlog pl = ManejoProlog.getInstance();
+		pl.tengo(this);
+		pl.escribir();
 		return true;
 	}
 

@@ -45,7 +45,7 @@ public class ManejadorArchivos {
 		}
 	}
 
-	public Inventario cargarInventarioDesdeJson(String path, RegistroObjetos registroObjetos, ManejoProlog prolog) throws Exception {
+	public Inventario cargarInventarioDesdeJson(String path, RegistroObjetos registroObjetos) throws Exception {
 		String contenido = new String(Files.readAllBytes(Paths.get(path)));
 		JSONObject inventarioJson = new JSONObject(contenido);
 
@@ -57,8 +57,10 @@ public class ManejadorArchivos {
 				throw new Exception("Ingrediente " + nombreObjeto + " inexistente.\n");
 			}
 			objetosInventario.put(objeto, objetosInventario.getOrDefault(objeto, 0) + cantidadObjeto);
-			prolog.tengo(objeto.getNombre(), cantidadObjeto);
 		}
+		ManejoProlog pl = ManejoProlog.getInstance();
+		pl.tengo(new Inventario(objetosInventario));
+		pl.escribir();
 		return new Inventario(objetosInventario);
 	}
 }
