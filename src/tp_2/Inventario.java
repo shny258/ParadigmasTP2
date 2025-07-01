@@ -117,14 +117,15 @@ public class Inventario {
 		}
 		this.objetos.put(objeto, this.objetos.getOrDefault(objeto, 0) + objeto.obtenerReceta().getCantidadDevuelta());
 		this.historial.agregarCrafteo(objeto);
-		ManejoProlog pl = ManejoProlog.getInstance();
-		pl.tengo(this);
-		pl.escribir();
 		return true;
 	}
 
 	public HistorialCrafteos getHistorial() {
 		return this.historial;
+	}
+	
+	public void quePuedoCraftear() {
+		ManejoProlog.getInstance().quePuedoCraftear(this);
 	}
 	
 	public void exportarAJSON(String path) {
@@ -142,7 +143,7 @@ public class Inventario {
         } catch (Exception e) {
             e.printStackTrace();
         }
-}
+	}
 
 	public String toJson() {
 	String cadenaRet=new String("{\n");

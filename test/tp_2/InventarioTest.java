@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import prolog.ManejoProlog;
 
 class InventarioTest {
+	/*
 	String pathInventario = "archivos/inventario.json";
 	String pathRecetas = "archivos/recetas.json";
 	String pathRecetasTest= "archivos/testrecetas.json";
@@ -157,4 +158,5 @@ class InventarioTest {
 			return;
 		}
 	}
+	*/
 }

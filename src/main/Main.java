@@ -16,7 +16,7 @@ public class Main {
 		ManejoProlog prolog = ManejoProlog.getInstance(pathProlog, pathPrologReglas);
 		
 		try {
-			manejador.cargarRecetasDesdeJson(pathRecetas, registroObjetos, prolog);
+			manejador.cargarRecetasDesdeJson(pathRecetas, registroObjetos);
 		} catch (Exception e) {
 			System.err.println("ERROR AL CARGAR LAS RECETAS");
 			return;
@@ -32,8 +32,8 @@ public class Main {
 	    int opcionInt = 0;
 		String opcionString;
 		Objeto objSolicitado;
-		mostrarMenu();
 		while(opcionInt !=9) {
+			mostrarMenu();
 			System.out.print("Ingrese Opcion: ");
 			opcionInt = sc.nextInt();
 			sc.nextLine();
@@ -63,7 +63,7 @@ public class Main {
 		        }
 		    	opcionString = sc.nextLine();
 		        objSolicitado = registroObjetos.obtenerObjeto(opcionString);
-		        System.out.printf("%s\n", (inventario.faltantesParaCraftear(objSolicitado)==null)?"No hace falta ningún recurso para craftear este objeto, todos están en el inventario.":("FALTANTES PARA CRAFTEAR "+opcionString.toUpperCase()+":\n" + inventario.faltantesParaCraftear(objSolicitado)));
+		        System.out.printf("%s\n", (inventario.faltantesParaCraftear(objSolicitado).getIngredientes().isEmpty())?"No hace falta ningún recurso para craftear este objeto, todos están en el inventario.":("FALTANTES PARA CRAFTEAR "+opcionString.toUpperCase()+":\n" + inventario.faltantesParaCraftear(objSolicitado)));
 		        break;
 		    case 4:
 		    	System.out.println("Cual Objeto ?");
@@ -72,7 +72,7 @@ public class Main {
 		        }
 		    	opcionString = sc.nextLine();
 		        objSolicitado = registroObjetos.obtenerObjeto(opcionString);
-		        System.out.printf("%s\n", (inventario.faltantesParaCraftearDeCero(objSolicitado)==null)?"No hace falta ningún recurso para craftear este objeto, todos están en el inventario.":("FALTANTES PARA CRAFTEAR "+opcionString.toUpperCase()+" desde cero:\n" + inventario.faltantesParaCraftearDeCero(objSolicitado)));
+		        System.out.printf("%s\n", (inventario.faltantesParaCraftearDeCero(objSolicitado).getIngredientes().isEmpty())?"No hace falta ningún recurso para craftear este objeto, todos están en el inventario.":("FALTANTES PARA CRAFTEAR "+opcionString.toUpperCase()+" desde cero:\n" + inventario.faltantesParaCraftearDeCero(objSolicitado)));
 		        break;
 		    case 6:
 		    	System.out.println("Cual Objeto ?");
@@ -87,7 +87,7 @@ public class Main {
 		    	System.out.println("HISTORIAL DE CRAFTEOS:\n" + inventario.getHistorial());
 		    	break;
 		    case 8:
-		    	prolog.quePuedoCraftear();
+		    	inventario.quePuedoCraftear();
 		    	break;
 		    case 9:
 		    	break;

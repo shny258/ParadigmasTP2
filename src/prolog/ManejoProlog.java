@@ -88,7 +88,9 @@ public class ManejoProlog {
 		}
 	}
 	
-	public void quePuedoCraftear() {
+	public void quePuedoCraftear(Inventario inv) {
+		tengo(inv);
+		escribir();
 		Query q = new Query("consult", new Term[] { new Atom(pathProlog) });
 		if (!q.hasSolution()) {
 			System.out.println("Failed to consult Prolog file");

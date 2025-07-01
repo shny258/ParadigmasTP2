@@ -9,16 +9,18 @@ import java.util.*;
 import prolog.*;
 
 public class ManejadorArchivos {
-	public void cargarRecetasDesdeJson(String path, RegistroObjetos registroObjetos, ManejoProlog prolog) throws Exception {
+	public void cargarRecetasDesdeJson(String path, RegistroObjetos registroObjetos) throws Exception {
 		String contenido = new String(Files.readAllBytes(Paths.get(path)));
 		JSONObject json = new JSONObject(contenido);
-
+		ManejoProlog prolog = ManejoProlog.getInstance();
+		
 		// CREAR INGREDIENTES BASICOS
 		JSONArray basicos = json.getJSONArray("ingredientes_basicos");
 		for (int i = 0; i < basicos.length(); i++) {
 			String nombre = basicos.getString(i);
 			IngredienteBasico basico = new IngredienteBasico(nombre);
 			registroObjetos.agregarObjeto(basico);
+			
 			prolog.elemento_basico(nombre);
 		}
 
