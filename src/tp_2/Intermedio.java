@@ -22,6 +22,25 @@ public class Intermedio extends Objeto {
 	protected boolean esCrafteable() {
 		return true;
 	}
+	
+	@Override
+	public void mostrarArbolCrafteos() {
+		System.out.println("x" + receta.getCantidadDevuelta() + " " + getNombre() + " - " + receta.getTiempoCreacion() + " segundo(s):");
+		for(Objeto ingrediente : receta.getIngredientes().keySet()) {
+			ingrediente.mostrarArbolCrafteos(receta.getCantIngrediente(ingrediente), 1);
+		}
+	}
+	
+	@Override
+	protected void mostrarArbolCrafteos(int unidades, int nivel) {
+		int cantCrafteos = (int)Math.ceil((double)unidades/receta.getCantidadDevuelta());
+		for (int i = 0; i < nivel; i++)
+			System.out.print("\t");
+		System.out.print("x" + unidades + " " + getNombre() + " - " + receta.getTiempoCreacion() * cantCrafteos + " segundo(s):\n");
+		for(Objeto ingrediente : receta.getIngredientes().keySet()) {
+			ingrediente.mostrarArbolCrafteos(receta.getCantIngrediente(ingrediente) * cantCrafteos, nivel + 1);
+		}
+	}
 
 	protected Receta obtenerRecetaCompleta(Map<Objeto, Integer> sobrantes) {
 		return this.receta.obtenerRecetaCompleta(sobrantes);

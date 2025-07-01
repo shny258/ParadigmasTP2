@@ -26,6 +26,18 @@ public class IngredienteBasico extends Objeto {
 	protected boolean esCrafteable() {
 		return false;
 	}
+	
+	@Override
+	public void mostrarArbolCrafteos() {
+		System.out.println("x1 " + getNombre() + " - " + "Ingrediente Básico");
+	}
+	
+	@Override
+	protected void mostrarArbolCrafteos(int unidades, int nivel) {
+		for (int i = 0; i < nivel; i++)
+			System.out.print("\t");
+		System.out.print("x" + unidades + " " + getNombre() + " - " + "Ingrediente Básico.\n");
+	}
 
 	protected Receta obtenerRecetaCompleta(Map<Objeto, Integer> sobrantes) {
 		return this.obtenerReceta();

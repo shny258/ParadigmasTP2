@@ -13,6 +13,10 @@ public abstract class Objeto {
 	public abstract Receta obtenerReceta();
 
 	public abstract Receta obtenerRecetaCompleta();
+	
+	public abstract void mostrarArbolCrafteos();
+	
+	protected abstract void mostrarArbolCrafteos(int unidades, int nivel);
 
 	protected abstract boolean esCrafteable();
 
