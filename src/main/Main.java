@@ -116,7 +116,7 @@ public class Main {
 		System.out.println("6. Realizar el crafteo indicado");
 		System.out.println("7. Ver el historial de crafteos");
 		System.out.println("8. ¿Qué puedo craftear con mi inventario actual?");
-		System.out.println("9. Salir.");
+		System.out.println("9. Salir y exportar inventario a Json.");
 		System.out.println("10. Mostrar esta ayuda.");
 		System.out.println("11. Mostrar inventario.");
 	}

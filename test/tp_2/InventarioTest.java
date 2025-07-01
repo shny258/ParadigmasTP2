@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import prolog.ManejoProlog;
 
 class InventarioTest {
-	/*
+	
 	String pathInventario = "archivos/inventario.json";
 	String pathRecetas = "archivos/recetas.json";
 	String pathRecetasTest= "archivos/testrecetas.json";
@@ -23,38 +23,34 @@ class InventarioTest {
 	RegistroObjetos registroObjetos;
 	RegistroObjetos registroObjetosTest;
 	ManejadorArchivos manejador;
-	ManejoProlog prolog1;
-	ManejoProlog prolog2;
 	
 	@BeforeEach
 	public void setUp() {
 		registroObjetos = new RegistroObjetos();
 		registroObjetosTest = new RegistroObjetos();
 		manejador = new ManejadorArchivos();
-		prolog1 = new ManejoProlog();
-		prolog2 = new ManejoProlog();
 		
 		try {
-			manejador.cargarRecetasDesdeJson(pathRecetas, registroObjetos, prolog1);
+			manejador.cargarRecetasDesdeJson(pathRecetas, registroObjetos);
 		} catch (Exception e) {
 			System.err.println("ERROR AL CARGAR LAS RECETAS");
 			return;
 		}
 		try {
-			inventarioJson = manejador.cargarInventarioDesdeJson(pathInventario, registroObjetos, prolog1);
+			inventarioJson = manejador.cargarInventarioDesdeJson(pathInventario, registroObjetos);
 		} catch (Exception e) {
 			System.err.println("ERROR AL CARGAR EL INVENTARIO");
 			return;
 		}
 		
 		try {
-			manejador.cargarRecetasDesdeJson(pathRecetasTest, registroObjetosTest, prolog2);
+			manejador.cargarRecetasDesdeJson(pathRecetasTest, registroObjetosTest);
 		} catch (Exception e) {
 			System.err.println("ERROR AL CARGAR LAS RECETAS");
 			return;
 		}
 		try {
-			inventarioJsonTest = manejador.cargarInventarioDesdeJson(pathInventarioTest, registroObjetosTest, prolog2);
+			inventarioJsonTest = manejador.cargarInventarioDesdeJson(pathInventarioTest, registroObjetosTest);
 		} catch (Exception e) {
 			System.err.println("ERROR AL CARGAR EL INVENTARIO");
 			return;
@@ -145,18 +141,4 @@ class InventarioTest {
 		assertEquals(inventarioEsperado,inventarioJsonTest.getObjetos());
 		assertEquals("{}",inventarioJsonTest.getHistorial().toString());	
 	}
-	@Test
-	void mostrarJson() {
-		System.out.println(inventarioJsonTest.toJson());
-		inventarioJsonTest.exportarAJSON("inventarioJsonOut.json");
-		Inventario inventarioCargar;
-		
-		try {
-			inventarioCargar = manejador.cargarInventarioDesdeJson(pathInventarioJsonOut, registroObjetosTest, prolog1);
-		} catch (Exception e) {
-			System.err.println("ERROR AL CARGAR EL INVENTARIO");
-			return;
-		}
-	}
-	*/
 }
