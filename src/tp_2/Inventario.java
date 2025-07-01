@@ -94,6 +94,9 @@ public class Inventario {
 	}
 
 	public boolean craftear(Objeto objeto) {
+		if(!objeto.esCrafteable()) {
+			return false;
+		}
 		Receta recetaFaltantes = this.faltantesParaCraftear(objeto);
 		if (!recetaFaltantes.getIngredientes().isEmpty()) {
 			return false;
