@@ -1,12 +1,11 @@
 package prolog;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
-
 import org.jpl7.Atom;
+import org.jpl7.JPL;
 import org.jpl7.Query;
 import org.jpl7.Term;
 import org.jpl7.Variable;
@@ -26,6 +25,10 @@ public class ManejoProlog {
 	
 	
 	private ManejoProlog(String archPlFinal,String pathReglas) {
+		JPL.setDefaultInitArgs(new String[] {
+		        "--home=C:/Program Files/swipl",
+				"--quiet"
+		    });
 		prologElemento_basico = new StringBuilder();
 		prologIngrediente = new StringBuilder();
 		prologReceta = new StringBuilder();
@@ -78,6 +81,7 @@ public class ManejoProlog {
 		}
 	}
 	public void escribir() {
+
 		prologTodo = new StringBuilder();
 		prologTodo.append(prologElemento_basico.toString() + prologIngrediente.toString()+ prologTengo.toString() + prologReceta.toString() + prologReglas.toString());
 		try (FileWriter writer = new FileWriter(pathProlog)) {
@@ -103,6 +107,6 @@ public class ManejoProlog {
 		System.out.println("Productos que puedo craftear:");
 		while (query.hasMoreSolutions()) {
 			Map<String, Term> solution = query.nextSolution();
-			System.out.printf("%30s | %5s | %5s\n",solution.get("Objeto").toString(),solution.get("Cantidad").toString(),solution.get("Tiempo").toString());		}
+			System.out.printf("%30s | %5s | %5s\n",solution.get("Objeto").name(),solution.get("Cantidad").toString(),solution.get("Tiempo").toString());		}
 	}
 }
