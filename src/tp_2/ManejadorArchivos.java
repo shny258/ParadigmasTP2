@@ -62,9 +62,6 @@ public class ManejadorArchivos {
 			}
 			objetosInventario.put(objeto, objetosInventario.getOrDefault(objeto, 0) + cantidadObjeto);
 		}
-		ManejoProlog pl = ManejoProlog.getInstance();
-		pl.tengo(new Inventario(objetosInventario));
-		pl.escribir();
 		return new Inventario(objetosInventario);
 	}
 	
