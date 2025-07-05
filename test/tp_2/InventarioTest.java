@@ -53,7 +53,7 @@ class InventarioTest {
 		objetos.put(carbon, 20);
 		objetos.put(madera, 20);
 
-		Inventario inventarioCreado = new Inventario(objetos);
+		Inventario inventarioCreado = new Inventario(objetos, null);
 		Inventario inventarioVacio = new Inventario();
 		assertEquals(objetos, inventarioCreado.getObjetos());
 		assertEquals(objetosVacio, inventarioVacio.getObjetos());

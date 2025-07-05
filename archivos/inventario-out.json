@@ -1,13 +1,14 @@
 {
-    "Cable": 500,
-    "Plastico": 500,
+    "Cable": 498,
+    "Plastico": 495,
     "Rack para Servidores": 1,
-    "Circuitos": 10000,
+    "Circuitos": 9994,
     "Memoria Ram 4GB": 2,
-    "Cristal Liquido": 500,
+    "Placa de Video": 1,
+    "Cristal Liquido": 490,
+    "Pantalla": 2,
     "Metal": 500,
     "Servidor": 5,
-    "Chip": 10,
     "Sistema Operativo": 5,
     "Capacitor": 500
 }

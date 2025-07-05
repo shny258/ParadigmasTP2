@@ -1,4 +1,5 @@
 package main;
+
 import java.util.Scanner;
 import prolog.ManejoProlog;
 import tp_2.*;
@@ -8,15 +9,15 @@ public class Main {
 		RegistroObjetos registroObjetos = new RegistroObjetos();
 		ManejadorArchivos manejador = new ManejadorArchivos();
 		String pathInventario = "archivos/inventario.json";
-		String pathRecetasRandom = "archivos/recetasRandom.json";
-		String pathRecetas = "archivos/recetas.json";
+		//String pathRecetasRandom = "archivos/recetasRandom.json";
+		String pathRecetas = "archivos/viejo_recetas.json";
 		String pathProlog = "archivos/crafting.pl";
 		String pathPrologReglas = "archivos/reglasProlog.txt";
 		ManejoProlog.getInstance(pathProlog, pathPrologReglas);
 
 		try {
-			manejador.cargarRecetasDesdeJsonAleatorio(pathRecetasRandom, registroObjetos);
-			//manejador.cargarRecetasDesdeJson(pathRecetas, registroObjetos);
+			manejador.testCargarRecetas(pathRecetas, registroObjetos);
+			// manejador.cargarRecetasDesdeJson(pathRecetas, registroObjetos);
 		} catch (Exception e) {
 			System.err.println("ERROR AL CARGAR LAS RECETAS");
 			return;
@@ -35,72 +36,86 @@ public class Main {
 			mostrarMenu();
 
 			System.out.print("Ingrese Opcion: ");
-			opcionInt = sc.nextInt();
-			sc.nextLine();
-			switch (opcionInt) {
-			case 1:
-				objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
-				System.out.println(
-						"RECETA " + objSolicitado.getNombre().toUpperCase() + ":\n" + objSolicitado.obtenerReceta());
-				break;
-			case 2:
-				objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
-				System.out.println("RECETA " + objSolicitado.getNombre().toUpperCase()
-						+ " COMPLETA DESCOMPUESTA EN SUBINGREDIENTES:\n" + objSolicitado.obtenerRecetaCompleta());
-				break;
-			case 3:
-				objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
-				System.out.printf("%s\n", (inventario.faltantesParaCraftear(objSolicitado).getIngredientes().isEmpty())
-						? "No hace falta ningún recurso para craftear este objeto, todos están en el inventario."
-						: ("FALTANTES PARA CRAFTEAR " + objSolicitado.getNombre().toUpperCase()+ ":\n"
-								+ inventario.faltantesParaCraftear(objSolicitado)));
-				break;
-			case 4:
-				objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
-				System.out.printf("%s\n",
-						(inventario.faltantesParaCraftearDeCero(objSolicitado).getIngredientes().isEmpty())
-								? "No hace falta ningún recurso para craftear este objeto, todos están en el inventario."
-								: ("FALTANTES PARA CRAFTEAR " + objSolicitado.getNombre().toUpperCase() + " desde cero:\n"
-										+ inventario.faltantesParaCraftearDeCero(objSolicitado)));
-				break;
-			case 5:
-				objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
-				System.out.println("Se pueden craftear " + inventario.cuantosPuedoCraftear(objSolicitado) + " de " + objSolicitado.getNombre());
-				break;
-			case 6:
-				objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
-				System.out.printf("%s\n",
-						(inventario.craftear(objSolicitado))
-								? ("CRAFTEAMOS " + objSolicitado.getNombre() + ". INVENTARIO ACTUALIZADO:\n" + inventario + "\n")
-								: "No dispones de los items requeridos para realizar el crafteo");
-				break;
-			case 7:
-				System.out.println("HISTORIAL DE CRAFTEOS:\n" + inventario.getHistorial());
-				break;
-			case 8:
-				inventario.quePuedoCraftear();
-				break;
-			case 9:
-				manejador.generarJsonInventario("archivos/inventario-out.json", inventario);
-				break;
-			case 10:
-				mostrarMenu();
-				break;
-			case 11:
-				System.out.println("Inventario:\n" + inventario);
-				break;
-			case 12:
-				objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
-				System.out.println("Arbol de Crafteo de " + objSolicitado.getNombre() + ":\n");
-				objSolicitado.mostrarArbolCrafteos();
-				break;
-			default:
-				System.out.println("Opción inválida");
-				break;
-			}
-			if(opcionInt != 9) {
-				System.out.println("\nPresione ENTER para continuar...");
-				sc.nextLine();				
+
+			String opcion = sc.nextLine();
+			try {
+				opcionInt = Integer.parseInt(opcion);
+				// opcionInt = sc.nextInt();
+				// sc.nextLine();
+				switch (opcionInt) {
+				case 1:
+					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
+					System.out.println("RECETA " + objSolicitado.getNombre().toUpperCase() + ":\n"
+							+ objSolicitado.obtenerReceta());
+					break;
+				case 2:
+					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
+					System.out.println("RECETA " + objSolicitado.getNombre().toUpperCase()
+							+ " COMPLETA DESCOMPUESTA EN SUBINGREDIENTES:\n" + objSolicitado.obtenerRecetaCompleta());
+					break;
+				case 3:
+					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
+					System.out.printf("%s\n",
+							(inventario.faltantesParaCraftear(objSolicitado).getIngredientes().isEmpty())
+									? "No hace falta ningún recurso para craftear este objeto, todos están en el inventario."
+									: ("FALTANTES PARA CRAFTEAR " + objSolicitado.getNombre().toUpperCase() + ":\n"
+											+ inventario.faltantesParaCraftear(objSolicitado)));
+					break;
+				case 4:
+					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
+					System.out.printf("%s\n",
+							(inventario.faltantesParaCraftearDeCero(objSolicitado).getIngredientes().isEmpty())
+									? "No hace falta ningún recurso para craftear este objeto, todos están en el inventario."
+									: ("FALTANTES PARA CRAFTEAR " + objSolicitado.getNombre().toUpperCase()
+											+ " desde cero:\n"
+											+ inventario.faltantesParaCraftearDeCero(objSolicitado)));
+					break;
+				case 5:
+					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
+					System.out.println("Se pueden craftear " + inventario.cuantosPuedoCraftear(objSolicitado) + " de "
+							+ objSolicitado.getNombre());
+					break;
+				case 6:
+					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
+					System.out.printf("%s\n",
+							(inventario.craftear(objSolicitado))
+									? ("CRAFTEAMOS " + objSolicitado.getNombre() + ". INVENTARIO ACTUALIZADO:\n"
+											+ inventario + "\n")
+									: "No dispones de los items requeridos para realizar el crafteo");
+					break;
+				case 7:
+					System.out.println("----------------------------------------------------------.");
+					System.out.println("                 HISTORIAL DE CRAFTEOS                    |");
+					System.out.println("----------------------------------------------------------'");
+					System.out.println(inventario.getHistorial());
+					break;
+				case 8:
+					inventario.quePuedoCraftear();
+					break;
+				case 9:
+					manejador.generarJsonInventario("archivos/inventario-out.json", inventario);
+					break;
+				case 10:
+					mostrarMenu();
+					break;
+				case 11:
+					System.out.println("Inventario:\n" + inventario);
+					break;
+				case 12:
+					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
+					System.out.println("Arbol de Crafteo de " + objSolicitado.getNombre() + ":\n");
+					objSolicitado.mostrarArbolCrafteos();
+					break;
+				default:
+					System.out.println("Opción inválida");
+					break;
+				}
+				if (opcionInt != 9) {
+					System.out.println("\nPresione ENTER para continuar...");
+					sc.nextLine();
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("Entrada inválida. Por favor, ingrese un número.");
 			}
 		}
 		sc.close();

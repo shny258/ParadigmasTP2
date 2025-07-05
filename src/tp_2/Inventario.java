@@ -11,10 +11,12 @@ import prolog.ManejoProlog;
 public class Inventario {
 	private Map<Objeto, Integer> objetos;
 	private HistorialCrafteos historial;
+	private List<String> mesas;
 
-	public Inventario(Map<Objeto, Integer> objetos) {
+	public Inventario(Map<Objeto, Integer> objetos, List<String> mesas) {
 		this.objetos = objetos;
 		this.historial = new HistorialCrafteos();
+		this.mesas = new ArrayList<String>(mesas);
 	}
 
 	public Inventario() {
@@ -83,7 +85,7 @@ public class Inventario {
 	}
 
 	public Receta faltantesParaCraftearDeCero(Objeto objeto) {
-		Inventario inventario = new Inventario(this.getObjetos()); // copia del inventario
+		Inventario inventario = new Inventario(this.getObjetos(), null); // copia del inventario
 		return inventario.faltantesParaCraftearDeCeroRec(objeto);
 	}
 
@@ -198,11 +200,11 @@ public class Inventario {
 
 	public int cuantosPuedoCraftear(Objeto objeto) {
 		int cant = 0;
-		Inventario copiaInventario = new Inventario(this.getObjetos());
+		Inventario copiaInventario = new Inventario(this.getObjetos(), null);
 
 		while (copiaInventario.puedoCraftear(objeto, cant + 1)) {
 			cant++;
-			copiaInventario = new Inventario(this.getObjetos());
+			copiaInventario = new Inventario(this.getObjetos(), null);
 		}
 
 		return cant;
