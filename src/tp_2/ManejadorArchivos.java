@@ -1,10 +1,13 @@
 package tp_2;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -12,6 +15,25 @@ import prolog.*;
 
 public class ManejadorArchivos {
 	public void cargarRecetasDesdeJson(String path, RegistroObjetos registroObjetos) throws Exception {
+		try {
+		    validarExtensionJson(path); // primero la extensión
+		    
+		    String contenido = new String(Files.readAllBytes(Paths.get(path)));
+		    if (contenido.isBlank()) {
+		        throw new Exception("El archivo " + path + " está vacío.");
+		    }
+
+		    JSONObject json = new JSONObject(contenido); // recién ahora parseo JSON
+		    validarEstructura(json);                     // después validaciones propias
+		    JSONArray recetas = json.getJSONArray("recetas");
+		    validarRecetas(recetas);
+		    
+		}	catch (NoSuchFileException e) {
+			System.err.println("El archivo " + path + " no existe.");}
+		catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+
 		String contenido = new String(Files.readAllBytes(Paths.get(path)));
 		JSONObject json = new JSONObject(contenido);
 		ManejoProlog prolog = ManejoProlog.getInstance();
@@ -170,4 +192,45 @@ public class ManejadorArchivos {
             e.printStackTrace();
         }
 	}
+	public void validarExtensionJson(String path) throws Exception {
+	    if (!path.toLowerCase().endsWith(".json")) {
+	        throw new Exception("El archivo " + path + " no tiene extensión .json");
+	    }
+	}
+	public JSONObject cargarJson(String path) throws IOException, JSONException {
+        String contenido = new String(Files.readAllBytes(Paths.get(path)));
+        return new JSONObject(contenido);
+    }
+
+    public void validarEstructura(JSONObject json) throws Exception {
+        if (!json.has("recetas")) {
+            throw new Exception("El JSON no contiene la clave 'recetas'.");
+        }
+        // Validar tipo de datos de cada clave
+        if (!(json.get("recetas") instanceof JSONArray)) {
+            throw new Exception("La clave 'recetas' no es un arreglo.");
+        }
+    }
+
+    public void validarRecetas(JSONArray recetas) throws Exception {
+    	String error = new String();
+        for (int i = 0; i < recetas.length(); i++) {
+            JSONObject receta = recetas.getJSONObject(i);
+
+            if (!receta.has("nombre")) {
+                error+=("Falta 'nombre' en receta #" + i + "\n");
+            }
+            if (!receta.has("cantidad_creada")) {
+            	error+=("Falta 'cantidad_creada' en receta " + receta.getString("nombre")+ "\n");
+            }
+            if (!receta.has("ingredientes")) {
+            	error+=("Falta 'ingredientes' en receta " + receta.getString("nombre")+ "\n");
+            }
+            if (!receta.has("tiempo")) {
+            	error+=("Falta 'tiempo' en receta " + receta.getString("nombre")+ "\n");
+            }
+        }
+        if(!(error.isBlank()))
+        	throw new Exception(error);
+    }
 }

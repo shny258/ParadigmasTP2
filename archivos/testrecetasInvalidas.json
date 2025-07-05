@@ -1,0 +1,58 @@
+{
+  "ingredientes_basicos": [
+    "Madera",
+    "Carbon"
+  ],
+  "recetas": [
+    {
+      "nombre": "Palo",
+      "cantidad_creada": 2,
+      "ingredientes": {
+        "Madera": 3
+      },
+      "tiempo": 2
+    },
+    {
+      "nombre": "Antorcha",
+      "cantidad_creada": 1,
+      "ingredientes": {
+        "Palo": 5,
+        "Carbon": 1
+      },
+      "tiempo": 5
+    },
+    {
+      "nombre": "Tornillo",
+      "cantidad_creada": 4,
+      "ingredientes": {
+        "Madera": 2
+      },
+      "tiempo": 3
+    },
+    {
+      "nombre": "Tablon",
+      "cantidad_creada": 1,
+      "ingredientes": {
+        "Palo": 5,
+        "Tornillo": 1
+      }
+
+    },
+    {
+      "nombre": "Marco",
+      "cantidad_creada": 1,
+
+      "tiempo": 8
+    },
+    {
+
+      "cantidad_creada": 1,
+      "ingredientes": {
+        "Tablon": 1,
+        "Palo": 2,
+        "Marco": 1
+      },
+      "tiempo": 15
+    }
+  ]
+}
