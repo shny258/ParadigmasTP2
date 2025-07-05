@@ -16,6 +16,41 @@ public class Inventario {
 		this.historial = new HistorialCrafteos();
 	}
 
+	public Inventario() {
+		this.objetos = new HashMap<>();
+		this.historial = new HistorialCrafteos();
+	}
+
+	public void agregar(Objeto objeto, int cantidad) {
+		objetos.put(objeto, cantidad);
+	}
+
+	public void agregarSumar(Objeto objeto, int cantidad) {
+		if (objetos.containsKey(objeto)) {
+			int cantActual = objetos.get(objeto);
+			objetos.put(objeto, cantActual + cantidad);
+		} else {
+			objetos.put(objeto, cantidad);
+		}
+	}
+
+	public boolean sacar(Objeto objeto) {
+		if(!objetos.containsKey(objeto)) return false;
+		objetos.remove(objeto);
+		return true;
+	}
+	
+	public boolean sacarRestar(Objeto objeto, int cantidad) {
+		if(!objetos.containsKey(objeto)) return false;
+		int cantActual  = objetos.get(objeto);
+		if(cantActual  < cantidad) return false;
+		if(cantActual  == cantidad)
+			objetos.remove(objeto);
+		else
+			objetos.put(objeto, cantActual  - cantidad);
+		return true;
+	}
+
 	public Map<Objeto, Integer> getObjetos() {
 		return new HashMap<Objeto, Integer>(objetos);
 	}
@@ -153,8 +188,8 @@ public class Inventario {
 			}
 		}
 		int cantSobrantes = (cantCrafteos * cantDevuelta) - cant;
-		if(cantSobrantes > 0) {
-			this.objetos.put(objeto, this.objetos.getOrDefault(objeto, 0) + cantSobrantes);			
+		if (cantSobrantes > 0) {
+			this.objetos.put(objeto, this.objetos.getOrDefault(objeto, 0) + cantSobrantes);
 		}
 
 		return true;
