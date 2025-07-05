@@ -8,13 +8,15 @@ public class Main {
 		RegistroObjetos registroObjetos = new RegistroObjetos();
 		ManejadorArchivos manejador = new ManejadorArchivos();
 		String pathInventario = "archivos/inventario.json";
+		String pathRecetasRandom = "archivos/recetasRandom.json";
 		String pathRecetas = "archivos/recetas.json";
 		String pathProlog = "archivos/crafting.pl";
 		String pathPrologReglas = "archivos/reglasProlog.txt";
 		ManejoProlog.getInstance(pathProlog, pathPrologReglas);
 
 		try {
-			manejador.cargarRecetasDesdeJson(pathRecetas, registroObjetos);
+			manejador.cargarRecetasDesdeJsonAleatorio(pathRecetasRandom, registroObjetos);
+			//manejador.cargarRecetasDesdeJson(pathRecetas, registroObjetos);
 		} catch (Exception e) {
 			System.err.println("ERROR AL CARGAR LAS RECETAS");
 			return;
