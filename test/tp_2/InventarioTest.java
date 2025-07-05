@@ -9,50 +9,33 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-//import prolog.ManejoProlog;
+import prolog.ManejoProlog;
 
 class InventarioTest {
 	
-	String pathInventario = "archivos/inventario.json";
-	String pathRecetas = "archivos/recetas.json";
+
 	String pathRecetasTest= "archivos/testrecetas.json";
 	String pathInventarioTest = "archivos/testinventario.json";
 	String pathInventarioJsonOut = "inventarioJsonOut.json";
-	Inventario inventarioJson;
 	Inventario inventarioJsonTest;
-	RegistroObjetos registroObjetos;
 	RegistroObjetos registroObjetosTest;
 	ManejadorArchivos manejador;
+	ManejoProlog pl = ManejoProlog.getInstance(pathRecetasTest, "archivos/reglasProlog.txt");
 	
 	@BeforeEach
 	public void setUp() {
-		registroObjetos = new RegistroObjetos();
 		registroObjetosTest = new RegistroObjetos();
-		manejador = new ManejadorArchivos();
-		
-		try {
-			manejador.cargarRecetasDesdeJson(pathRecetas, registroObjetos);
-		} catch (Exception e) {
-			System.err.println("ERROR AL CARGAR LAS RECETAS");
-			return;
-		}
-		try {
-			inventarioJson = manejador.cargarInventarioDesdeJson(pathInventario, registroObjetos);
-		} catch (Exception e) {
-			System.err.println("ERROR AL CARGAR EL INVENTARIO");
-			return;
-		}
-		
+		manejador = new ManejadorArchivos();		
 		try {
 			manejador.cargarRecetasDesdeJson(pathRecetasTest, registroObjetosTest);
 		} catch (Exception e) {
-			System.err.println("ERROR AL CARGAR LAS RECETAS");
+			System.err.println("ERROR AL CARGAR LAS RECETAS TEST");
 			return;
 		}
 		try {
 			inventarioJsonTest = manejador.cargarInventarioDesdeJson(pathInventarioTest, registroObjetosTest);
 		} catch (Exception e) {
-			System.err.println("ERROR AL CARGAR EL INVENTARIO");
+			System.err.println("ERROR AL CARGAR EL INVENTARIO TEST");
 			return;
 		}
 		
@@ -140,5 +123,73 @@ class InventarioTest {
 		assertFalse(inventarioJsonTest.craftear(tornillo));
 		assertEquals(inventarioEsperado,inventarioJsonTest.getObjetos());
 		assertEquals("{}",inventarioJsonTest.getHistorial().toString());	
+	}
+	
+	@Test
+	void cuantosPuedeCraftearTest_CraftearDosMesasSoloBasicos() {		
+		Objeto madera = registroObjetosTest.obtenerObjeto("Madera");
+		Objeto mesa = registroObjetosTest.obtenerObjeto("Mesa");
+		Map<Objeto, Integer> inventarioActual = new HashMap<>();
+
+		inventarioActual.put(madera, 57);
+		Inventario inv = new Inventario(inventarioActual);
+		
+		assertEquals(2,inv.cuantosPuedoCraftear(mesa));
+	}
+	
+	@Test
+	void cuantosPuedeCraftearTest_CraftearDosMesasConIntermediosVarios() {		
+		Objeto madera = registroObjetosTest.obtenerObjeto("Madera");
+		Objeto marco = registroObjetosTest.obtenerObjeto("Marco");
+		Objeto palo = registroObjetosTest.obtenerObjeto("Palo");
+		Objeto tablon = registroObjetosTest.obtenerObjeto("Tablon");
+		Objeto tornillo = registroObjetosTest.obtenerObjeto("Tornillo");
+		Objeto mesa = registroObjetosTest.obtenerObjeto("Mesa");
+		Map<Objeto, Integer> inventarioActual = new HashMap<>();
+		inventarioActual.put(madera, 2);
+		inventarioActual.put(marco, 1);
+		inventarioActual.put(tablon, 3);
+		inventarioActual.put(tornillo, 2);
+		inventarioActual.put(palo, 15);
+		
+		Inventario inv = new Inventario(inventarioActual);
+		
+		assertEquals(2,inv.cuantosPuedoCraftear(mesa));
+	}
+	
+	@Test
+	void cuantosPuedeCraftearTest_CraftearDosMesasConIntermediosTornillos() {		
+		Objeto madera = registroObjetosTest.obtenerObjeto("Madera");
+		Objeto palo = registroObjetosTest.obtenerObjeto("Palo");
+		Objeto tornillo = registroObjetosTest.obtenerObjeto("Tornillo");
+		Objeto mesa = registroObjetosTest.obtenerObjeto("Mesa");
+		Map<Objeto, Integer> inventarioActual = new HashMap<>();
+		inventarioActual.put(madera, 45);
+		inventarioActual.put(tornillo, 200);
+		inventarioActual.put(palo, 5);
+		
+		Inventario inv = new Inventario(inventarioActual);
+		
+		assertEquals(2,inv.cuantosPuedoCraftear(mesa));
+	}
+	
+	@Test
+	void cuantosPuedeCraftearTest_CraftearTresMesasConIntermediosVarios() {		
+		Objeto madera = registroObjetosTest.obtenerObjeto("Madera");
+		Objeto marco = registroObjetosTest.obtenerObjeto("Marco");
+		Objeto palo = registroObjetosTest.obtenerObjeto("Palo");
+		Objeto tablon = registroObjetosTest.obtenerObjeto("Tablon");
+		Objeto tornillo = registroObjetosTest.obtenerObjeto("Tornillo");
+		Objeto mesa = registroObjetosTest.obtenerObjeto("Mesa");
+		Map<Objeto, Integer> inventarioActual = new HashMap<>();
+		inventarioActual.put(madera, 60);
+		inventarioActual.put(marco, 1);
+		inventarioActual.put(tablon, 1);
+		inventarioActual.put(tornillo, 1);
+		inventarioActual.put(palo, 1);
+		
+		Inventario inv = new Inventario(inventarioActual);
+		
+		assertEquals(3,inv.cuantosPuedoCraftear(mesa));
 	}
 }
