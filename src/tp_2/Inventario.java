@@ -1,12 +1,9 @@
 package tp_2;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
 
 import prolog.ManejoProlog;
 
@@ -118,6 +115,61 @@ public class Inventario {
 		this.objetos.put(objeto, this.objetos.getOrDefault(objeto, 0) + objeto.obtenerReceta().getCantidadDevuelta());
 		this.historial.agregarCrafteo(objeto);
 		return true;
+	}
+
+	private boolean puedoCraftear(Objeto objeto, int cant) {
+		if (!objeto.esCrafteable()) {
+			return this.objetos.getOrDefault(objeto, 0) >= cant;
+		}
+
+		Receta recetaObjeto = objeto.obtenerReceta();
+		Map<Objeto, Integer> ingredientes = recetaObjeto.getIngredientes();
+		int cantDevuelta = recetaObjeto.getCantidadDevuelta();
+		int cantCrafteos = (int) Math.ceil((double) cant / cantDevuelta);
+
+		Map<Objeto, Integer> ingredientesTotales = new HashMap<Objeto, Integer>();
+
+		// agrego a un map todos los ingredientes que necesito para poder craftear cant
+		// veces el objeto
+		for (Objeto ingrediente : ingredientes.keySet()) {
+			ingredientesTotales.put(ingrediente, ingredientes.get(ingrediente) * cantCrafteos);
+		}
+
+		for (Objeto ingrediente : ingredientesTotales.keySet()) {
+			int cantEnInventario = this.objetos.getOrDefault(ingrediente, 0);
+			int cantNecesaria = ingredientesTotales.get(ingrediente);
+			if (cantEnInventario >= cantNecesaria) {
+				this.objetos.put(ingrediente, cantEnInventario - cantNecesaria);
+			} else {
+				this.objetos.remove(ingrediente);
+				int cantFaltante = cantNecesaria - cantEnInventario;
+
+				if (!ingrediente.esCrafteable()) {
+					return false;
+				}
+				if (!puedoCraftear(ingrediente, cantFaltante)) {
+					return false;
+				}
+			}
+		}
+		int cantSobrantes = (cantCrafteos * cantDevuelta) - cant;
+		if(cantSobrantes > 0) {
+			this.objetos.put(objeto, this.objetos.getOrDefault(objeto, 0) + cantSobrantes);			
+		}
+
+		return true;
+	}
+
+	public int cuantosPuedoCraftear(Objeto objeto) {
+		int cant = 0;
+		Inventario copiaInventario = new Inventario(this.getObjetos());
+
+		while (copiaInventario.puedoCraftear(objeto, cant + 1)) {
+			cant++;
+			copiaInventario = new Inventario(this.getObjetos());
+		}
+
+		return cant;
 	}
 
 	public HistorialCrafteos getHistorial() {

@@ -63,6 +63,10 @@ public class Main {
 								: ("FALTANTES PARA CRAFTEAR " + objSolicitado.getNombre().toUpperCase() + " desde cero:\n"
 										+ inventario.faltantesParaCraftearDeCero(objSolicitado)));
 				break;
+			case 5:
+				objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
+				System.out.println("Se pueden craftear " + inventario.cuantosPuedoCraftear(objSolicitado) + " de " + objSolicitado.getNombre());
+				break;
 			case 6:
 				objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
 				System.out.printf("%s\n",
@@ -94,23 +98,31 @@ public class Main {
 				System.out.println("Opción inválida");
 				break;
 			}
+			if(opcionInt != 9) {
+				System.out.println("\nPresione ENTER para continuar...");
+				sc.nextLine();				
+			}
 		}
 		sc.close();
 		System.out.println("Chau Chau");
 	}
 
 	public static void mostrarMenu() {
-		System.out.println("1. ¿Qué necesito para craftear un objeto?");
-		System.out.println("2. ¿Qué necesito para craftear un objeto desde cero?");
-		System.out.println("3. ¿Qué me falta para craftear un objeto?");
-		System.out.println("4. ¿Qué me falta para craftear un objeto desde cero?");
-		// System.out.println("5. ¿Cuántos puedo craftear?"); Eventualmente
-		System.out.println("6. Realizar el crafteo indicado");
-		System.out.println("7. Ver el historial de crafteos");
-		System.out.println("8. ¿Qué puedo craftear con mi inventario actual?");
-		System.out.println("9. Salir y exportar inventario a Json.");
-		System.out.println("10. Mostrar esta ayuda.");
-		System.out.println("11. Mostrar inventario.");
-		System.out.println("12. Mostrar Arbol de crafteo.");
+		System.out.println("----------------------------------------------------------.");
+		System.out.println("                          MENU                            |");
+		System.out.println("----------------------------------------------------------|");
+		System.out.println(" 1| ¿Qué necesito para craftear un objeto?                |");
+		System.out.println(" 2| ¿Qué necesito para craftear un objeto desde cero?     |");
+		System.out.println(" 3| ¿Qué me falta para craftear un objeto?                |");
+		System.out.println(" 4| ¿Qué me falta para craftear un objeto desde cero?     |");
+		System.out.println(" 5| ¿Cuántos puedo craftear?                              |");
+		System.out.println(" 6| Realizar el crafteo indicado                          |");
+		System.out.println(" 7| Ver el historial de crafteos                          |");
+		System.out.println(" 8| ¿Qué puedo craftear con mi inventario actual?         |");
+		System.out.println(" 9| Salir y exportar inventario a Json.                   |");
+		System.out.println("10| Mostrar esta ayuda.                                   |");
+		System.out.println("11| Mostrar inventario.                                   |");
+		System.out.println("12| Mostrar Arbol de crafteo.                             |");
+		System.out.println("----------------------------------------------------------'");
 	}
 }
