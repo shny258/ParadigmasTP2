@@ -152,7 +152,7 @@ public class Inventario {
 				}
 			}
 		}
-		int cantSobrantes = cant - (cantCrafteos * cantDevuelta);
+		int cantSobrantes = (cantCrafteos * cantDevuelta) - cant;
 		if(cantSobrantes > 0) {
 			this.objetos.put(objeto, this.objetos.getOrDefault(objeto, 0) + cantSobrantes);			
 		}
