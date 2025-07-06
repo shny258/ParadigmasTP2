@@ -74,7 +74,7 @@ tengo("chip", 10).
 tengo("servidor", 5).
 tengo("sistema operativo", 5).
 tengo("capacitor", 500).
-receta("rack para servidores",1,15.0).
+receta(Ingrediente,1,0) :- elemento_basico(Ingrediente). %SI ES BÁSICO DEVUELVE 1 Y TARDA 0receta("rack para servidores",1,15.0).
 receta("camara",1,5.0).
 receta("tecla",10,10.0).
 receta("parlante",2,15.0).
@@ -94,7 +94,6 @@ receta("computadora de escritorio",1,30.0).
 receta("rack de 10 servidores",1,20.0).
 receta("maquina virtual",50,120.0).
 % Calcula el mínimo cociente (lo que limita el número de crafteos)
-receta(Ingrediente,1,0) :- elemento_basico(Ingrediente). %SI ES BÁSICO DEVUELVE 1 Y TARDA 0
 minimo_crafteos([D/N], Cant) :- Cant is floor(D / N).
 minimo_crafteos([D/N | Resto], Cant) :-
     minimo_crafteos(Resto, CantResto),

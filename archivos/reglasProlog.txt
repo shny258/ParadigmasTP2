@@ -1,5 +1,4 @@
 % Calcula el mínimo cociente (lo que limita el número de crafteos)
-receta(Ingrediente,1,0) :- elemento_basico(Ingrediente). %SI ES BÁSICO DEVUELVE 1 Y TARDA 0
 minimo_crafteos([D/N], Cant) :- Cant is floor(D / N).
 minimo_crafteos([D/N | Resto], Cant) :-
     minimo_crafteos(Resto, CantResto),
