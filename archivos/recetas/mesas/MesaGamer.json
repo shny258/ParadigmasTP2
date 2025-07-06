@@ -1,0 +1,22 @@
+{
+    "recetas": [
+        {
+            "nombre": "Computadora Gamer",
+            "cantidad_creada": 1,
+            "ingredientes": {
+                "Computadora de Escritorio": 1,
+                "RGB": 100
+            },
+            "tiempo": 50
+        },
+        {
+            "nombre": "RGB",
+            "cantidad_creada": 30,
+            "ingredientes": {
+                "Cable": 10,
+                "Circuitos": 10
+            },
+            "tiempo": 5
+        }
+    ]
+}

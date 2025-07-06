@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 import prolog.ManejoProlog;
 
 class InventarioTest {
-	String pathRecetasTest = "archivos/testrecetas.json";
-	String pathInventarioTest = "archivos/testinventario.json";
-	String pathInventarioJsonOut = "inventarioJsonOut.json";
+	String pathRecetasTest = "archivos/inventario/testrecetas.json";
+	String pathInventarioTest = "archivos/inventario/testinventario.json";
+	String pathInventarioJsonOut = "archivos/inventario/inventarioJsonOut.json";
 	Inventario inventarioJsonTest;
 	RegistroObjetos registroObjetosTest;
 	ManejadorArchivos manejador;

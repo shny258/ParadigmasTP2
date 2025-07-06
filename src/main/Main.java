@@ -5,19 +5,26 @@ import prolog.ManejoProlog;
 import tp_2.*;
 
 public class Main {
+	private static final String NOMBRE_ARCHIVO_RECETAS = "recetas"; //MODIFICAR PARA USAR OTRO ARCHIVO DE RECETAS
+	private static final String NOMBRE_ARCHIVO_INVENTARIO = "inventario_con_mesas"; //MODIFICAR PARA USAR OTRO ARCHIVO DE INVENTARIO
+	
+	private static final String PATH_A_RECETAS = "archivos/recetas/"; //PATH DONDE ESTA EL ARCHIVO DE RECETAS
+	private static final String PATH_A_INVENTARIO = "archivos/inventario/"; //PATH DONDE ESTA EL ARCHIVO DE INVENTARIO
+	
+	private static final String PATH_REGLAS_PROLOG = "archivos/reglasProlog.txt";
+	private static final String PATH_ARCHIVO_PROLOG = "archivos/crafting.pl";
+	
+	private static final String PATH_INVENTARIO_FINAL = "archivos/inventario/inventario-out.json";
+
 	public static void main(String[] args) {
 		RegistroObjetos registroObjetos = new RegistroObjetos();
 		ManejadorArchivos manejador = new ManejadorArchivos();
-		String pathInventario = "archivos/inventario.json";
-		//String pathRecetasRandom = "archivos/recetasRandom.json";
-		String pathRecetas = "archivos/viejo_recetas.json";
-		String pathProlog = "archivos/crafting.pl";
-		String pathPrologReglas = "archivos/reglasProlog.txt";
-		ManejoProlog.getInstance(pathProlog, pathPrologReglas);
+		String pathRecetas = PATH_A_RECETAS + NOMBRE_ARCHIVO_RECETAS + ".json";
+		String pathInventario = PATH_A_INVENTARIO + NOMBRE_ARCHIVO_INVENTARIO + ".json";
+		ManejoProlog.getInstance(PATH_ARCHIVO_PROLOG, PATH_REGLAS_PROLOG);
 
 		try {
-			manejador.testCargarRecetas(pathRecetas, registroObjetos);
-			// manejador.cargarRecetasDesdeJson(pathRecetas, registroObjetos);
+			manejador.cargarRecetasDesdeJson(pathRecetas, registroObjetos);
 		} catch (Exception e) {
 			System.err.println("ERROR AL CARGAR LAS RECETAS");
 			return;
@@ -40,8 +47,6 @@ public class Main {
 			String opcion = sc.nextLine();
 			try {
 				opcionInt = Integer.parseInt(opcion);
-				// opcionInt = sc.nextInt();
-				// sc.nextLine();
 				switch (opcionInt) {
 				case 1:
 					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
@@ -65,7 +70,7 @@ public class Main {
 					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
 					System.out.printf("%s\n",
 							(inventario.faltantesParaCraftearDeCero(objSolicitado).getIngredientes().isEmpty())
-									? "No hace falta ningún recurso para craftear este objeto, todos están en el inventario."
+									? "Todos los ingredientes para craftear este objeto están en el inventario o se pueden craftear con él."
 									: ("FALTANTES PARA CRAFTEAR " + objSolicitado.getNombre().toUpperCase()
 											+ " desde cero:\n"
 											+ inventario.faltantesParaCraftearDeCero(objSolicitado)));
@@ -93,7 +98,7 @@ public class Main {
 					inventario.quePuedoCraftear();
 					break;
 				case 9:
-					manejador.generarJsonInventario("archivos/inventario-out.json", inventario);
+					manejador.generarJsonInventario(PATH_INVENTARIO_FINAL, inventario);
 					break;
 				case 10:
 					mostrarMenu();

@@ -1,4 +1,5 @@
 {
+    "mesas": [],
     "objetos": {
         "Metal": 500,
         "Circuitos": 10000,
@@ -11,8 +12,5 @@
         "Rack para Servidores": 1,
         "Memoria Ram 4GB": 2,
         "Servidor": 5
-    },
-    "mesas": [
-        "MesaPro"
-    ]
+    }
 }
