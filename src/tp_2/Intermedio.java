@@ -9,6 +9,18 @@ public class Intermedio extends Objeto {
 		super(nombre);
 		this.receta = receta;
 	}
+	
+	public Intermedio(String nombre) {
+		super(nombre);
+	}
+	
+	public boolean agregarReceta(Receta receta) {
+		if(this.receta == null) {
+			this.receta = receta;
+			return true;
+		}
+		return false;
+	}
 
 	public Receta obtenerReceta() {
 		return this.receta;
