@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 import prolog.ManejoProlog;
 
 class InventarioTest {
-	String pathRecetasTest = "archivos/testrecetas.json";
-	String pathInventarioTest = "archivos/testinventario.json";
-	String pathInventarioJsonOut = "inventarioJsonOut.json";
+	String pathRecetasTest = "archivos/inventario/testrecetas.json";
+	String pathInventarioTest = "archivos/inventario/testinventario.json";
+	String pathInventarioJsonOut = "archivos/inventario/inventarioJsonOut.json";
 	Inventario inventarioJsonTest;
 	RegistroObjetos registroObjetosTest;
 	ManejadorArchivos manejador;
@@ -53,7 +53,7 @@ class InventarioTest {
 		objetos.put(carbon, 20);
 		objetos.put(madera, 20);
 
-		Inventario inventarioCreado = new Inventario(objetos);
+		Inventario inventarioCreado = new Inventario(objetos, null);
 		Inventario inventarioVacio = new Inventario();
 		assertEquals(objetos, inventarioCreado.getObjetos());
 		assertEquals(objetosVacio, inventarioVacio.getObjetos());

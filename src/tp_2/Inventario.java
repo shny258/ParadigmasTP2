@@ -11,16 +11,26 @@ import prolog.ManejoProlog;
 public class Inventario {
 	private Map<Objeto, Integer> objetos;
 	private HistorialCrafteos historial;
-
-	public Inventario(Map<Objeto, Integer> objetos) {
-		this.objetos = objetos;
-		this.historial = new HistorialCrafteos();
-	}
+	private List<String> mesas;
 
 	public Inventario() {
 		this.objetos = new HashMap<>();
 		this.historial = new HistorialCrafteos();
+		this.mesas = new ArrayList<String>();
 	}
+	
+	public Inventario(Map<Objeto, Integer> objetos) {
+		this.objetos = objetos;
+		this.historial = new HistorialCrafteos();
+		this.mesas = new ArrayList<String>();
+	}
+	
+	public Inventario(Map<Objeto, Integer> objetos, List<String> mesas) {
+		this.objetos = new HashMap<>(objetos);
+		this.historial = new HistorialCrafteos();
+		this.mesas = new ArrayList<String>(mesas);
+	}
+
 
 	public void agregar(Objeto objeto, int cantidad) {
 		objetos.put(objeto, cantidad);
@@ -218,9 +228,18 @@ public class Inventario {
 
 	public String toJson() {
 		String cadenaRet = new String("{\n");
-		for (Objeto ingrediente : objetos.keySet()) {
-			cadenaRet += "\t" + "\"" + ingrediente.getNombre() + "\":" + objetos.get(ingrediente) + ",\n";
+		cadenaRet += "\t\"mesas\": [\n";
+		for (String mesa : this.mesas) {
+			cadenaRet += "\t\t" + "\""+ mesa +"\"" +",\n";
 		}
+		cadenaRet += "\t],\n";
+		
+		cadenaRet += "\t\"objetos\": {\n";
+		for (Objeto ingrediente : objetos.keySet()) {
+			cadenaRet += "\t\t" + "\"" + ingrediente.getNombre() + "\":" + objetos.get(ingrediente) + ",\n";
+		}
+		cadenaRet += "\t}\n";
+		
 		cadenaRet += "}";
 		return cadenaRet;
 	}
@@ -244,7 +263,20 @@ public class Inventario {
 
 	@Override
 	public String toString() {
-		return objetos.toString();
+		String stringRet = "";
+		
+		for (Objeto objeto : this.objetos.keySet()) {
+			stringRet += "-" + objeto.getNombre() + ": " + this.objetos.get(objeto) + " unidades\n" ;
+		}
+		
+		if(!this.mesas.isEmpty()) {
+			stringRet += "\nMesas:\n";
+			for (String mesa : this.mesas) {
+				stringRet += "-" + mesa + "\n";
+			}
+		}
+		
+		return stringRet;
 	}
 
 }

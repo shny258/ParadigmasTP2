@@ -29,7 +29,7 @@ public class RegistroObjetos {
 	}
 
 	public Objeto mostrarListaObjetosYSeleccionar(Scanner sc) {
-		System.out.println("Cual Objeto ?");
+		System.out.println("\nSeleccionar objeto:");
 		for (String objeto : registro.keySet()) {
 			System.out.println(objeto);
 		}
@@ -37,7 +37,7 @@ public class RegistroObjetos {
 		String opcionString = sc.nextLine();
 		Objeto objSolicitado;
 		while ((objSolicitado = registro.get(opcionString)) == null) {
-			System.out.println("El objeto con el nombre solicitado no existe");
+			System.out.println("El objeto \"" + opcionString + "\" no existe. Ingrese el nombre nuevamente:");
 			opcionString = sc.nextLine();
 		}
 		return objSolicitado;
