@@ -19,12 +19,7 @@ public class HistorialCrafteos {
 
 	@Override
 	public String toString() {
-		String stringret = "";
-		for (Integer turno: this.historial.keySet()) {
-			Objeto objeto = this.historial.get(turno);
-			stringret = stringret + "-Turno: "+ turno + "\n-Objeto: " + objeto.getNombre() + "\n" + objeto.obtenerReceta() + "\n";
-		}
-		return stringret;
+		return historial.toString();
 	}
 
 }

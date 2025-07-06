@@ -93,10 +93,10 @@ public class Receta {
 	}
 	@Override
 	public String toString() {
-		String stringRet = "-Tiempo de creacion: " + tiempoCreacion + "\n-Cantidad devuelta: " + cantidadDevuelta + "\n-Ingredientes:\n";
+		String stringRet = "Tiempo de creacion=" + tiempoCreacion + "\n\tIngredientes:\n";
 
 		for (Objeto ingrediente : ingredientes.keySet()) {
-			stringRet = stringRet + "\t" + ingrediente.getNombre() + ": " + ingredientes.get(ingrediente) + "\n";
+			stringRet = stringRet + "\t\t" + ingrediente.getNombre() + "=" + ingredientes.get(ingrediente) + "\n";
 		}
 		;
 		return stringRet;
