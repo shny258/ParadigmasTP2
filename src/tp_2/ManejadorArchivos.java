@@ -72,24 +72,7 @@ public class ManejadorArchivos {
 	}
 	
 	public void cargarRecetasDesdeJsonAleatorio(String path, RegistroObjetos registroObjetos) throws Exception{
-		try {
-		    validarExtensionJson(path); // primero la extensión
-		    
-		    String contenido = new String(Files.readAllBytes(Paths.get(path)));
-		    if (contenido.isBlank()) {
-		        throw new Exception("El archivo " + path + " está vacío.");
-		    }
-
-		    JSONObject json = new JSONObject(contenido); // recién ahora parseo JSON
-		    validarEstructura(json);                     // después validaciones propias
-		    JSONArray recetas = json.getJSONArray("recetas");
-		    validarRecetas(recetas);
-		    
-		}	catch (NoSuchFileException e) {
-			System.err.println("El archivo " + path + " no existe.");}
-		catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
+		
 		//El funcionamiento de este algoritmo se basa en el algoritmo de Kahn para el orden topológico
 		String contenido = new String(Files.readAllBytes(Paths.get(path)));
 		JSONObject json = new JSONObject(contenido);
@@ -214,6 +197,10 @@ public class ManejadorArchivos {
 	        throw new Exception("El archivo " + path + " no tiene extensión .json");
 	    }
 	}
+	public JSONObject cargarJson(String path) throws IOException, JSONException {
+        String contenido = new String(Files.readAllBytes(Paths.get(path)));
+        return new JSONObject(contenido);
+    }
 
     public void validarEstructura(JSONObject json) throws Exception {
         if (!json.has("recetas")) {

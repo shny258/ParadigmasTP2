@@ -12,12 +12,7 @@ public class Main {
 		String pathRecetas = "archivos/recetas.json";
 		String pathProlog = "archivos/crafting.pl";
 		String pathPrologReglas = "archivos/reglasProlog.txt";
-		try {
-			ManejoProlog.getInstance(pathProlog, pathPrologReglas);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		ManejoProlog.getInstance(pathProlog, pathPrologReglas);
 
 		try {
 			manejador.cargarRecetasDesdeJsonAleatorio(pathRecetasRandom, registroObjetos);

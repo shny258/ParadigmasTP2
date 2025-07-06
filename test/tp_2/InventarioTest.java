@@ -15,19 +15,12 @@ class InventarioTest {
 	String pathInventarioTest = "archivos/testinventario.json";
 	String pathInventarioJsonOut = "inventarioJsonOut.json";
 	Inventario inventarioJsonTest;
-	ManejoProlog pl;
 	RegistroObjetos registroObjetosTest;
 	ManejadorArchivos manejador;
-	
+	ManejoProlog pl = ManejoProlog.getInstance(pathRecetasTest, "archivos/reglasProlog.txt");
 
 	@BeforeEach
 	public void setUp() {
-		try {
-			pl = ManejoProlog.getInstance(pathRecetasTest, "archivos/reglasProlog.txt");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		registroObjetosTest = new RegistroObjetos();
 		manejador = new ManejadorArchivos();
 		try {

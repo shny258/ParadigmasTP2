@@ -1,5 +1,4 @@
 package prolog;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,36 +31,19 @@ public class ManejoProlog {
 		    });
 		prologElemento_basico = new StringBuilder();
 		prologIngrediente = new StringBuilder();
-		prologReceta = new StringBuilder("receta(Ingrediente,1,0) :- elemento_basico(Ingrediente). %SI ES BÁSICO DEVUELVE 1 Y TARDA 0");
+		prologReceta = new StringBuilder();
 		prologTodo = new StringBuilder();
 		prologReglas = new StringBuilder();
 		escribirReglas(pathReglas);
 		this.pathProlog = archPlFinal;
 	}
 	
-	public static ManejoProlog getInstance(String archPlFinal, String pathReglas) throws Exception {
-	    if (instancia == null) {
-	        // Validar extensión
-	        if (!pathReglas.endsWith(".txt")) {
-	            throw new Exception("El archivo de reglas debe tener extensión '.txt'.");
-	        }
-
-	        // Validar existencia
-	        File archivoReglas = new File(pathReglas);
-	        if (!archivoReglas.exists()) {
-	            throw new Exception("El archivo de reglas no existe: " + pathReglas);
-	        }
-
-	        // Validar que no esté vacío
-	        if (archivoReglas.length() == 0) {
-	            throw new Exception("El archivo de reglas está vacío: " + pathReglas);
-	        }
-
-	        instancia = new ManejoProlog(archPlFinal, pathReglas);
-	    }
-	    return instancia;
-	}
-
+	public static ManejoProlog  getInstance(String archPlFinal,String pathReglas) {
+		if (instancia == null) {
+            instancia = new ManejoProlog(archPlFinal, pathReglas);
+        }
+        return instancia;
+    }
 	
 	public static ManejoProlog  getInstance() {
         return (instancia == null)?null:instancia;
@@ -126,33 +108,5 @@ public class ManejoProlog {
 		while (query.hasMoreSolutions()) {
 			Map<String, Term> solution = query.nextSolution();
 			System.out.printf("%30s | %5s | %5s\n",solution.get("Objeto").name(),solution.get("Cantidad").toString(),solution.get("Tiempo").toString());		}
-	}
-	//Estos métodos son privados del paquete, es decir se pueden usar en testing pero no en main
-	String getPrologTodo() {
-	    return prologTodo.toString();
-	}
-
-	String getPrologElementoBasico() {
-	    return prologElemento_basico.toString();
-	}
-
-	String getPrologIngrediente() {
-	    return prologIngrediente.toString();
-	}
-
-	String getPrologReceta() {
-	    return prologReceta.toString();
-	}
-
-	String getPrologTengo() {
-	    return prologTengo.toString();
-	}
-
-	String getPrologReglas() {
-	    return prologReglas.toString();
-	}
-
-	String getPathProlog() {
-	    return pathProlog;
 	}
 }
