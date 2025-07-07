@@ -11,6 +11,7 @@ import org.jpl7.Query;
 import org.jpl7.Term;
 import org.jpl7.Variable;
 
+import main.Main;
 import tp_2.*;
 
 public class ManejoProlog {
@@ -24,27 +25,27 @@ public class ManejoProlog {
 	private StringBuilder prologReglas;
 	private String pathProlog;
 
-	private ManejoProlog(String archPlFinal, String pathReglas) {
+	private ManejoProlog() {
 		JPL.setDefaultInitArgs(new String[] { "--home=C:/Program Files/swipl", "--quiet" });
 		prologElemento_basico = new StringBuilder();
 		prologIngrediente = new StringBuilder();
 		prologReceta = new StringBuilder();
 		prologTodo = new StringBuilder();
 		prologReglas = new StringBuilder();
-		escribirReglas(pathReglas);
-		this.pathProlog = archPlFinal;
+		escribirReglas(Main.PATH_REGLAS_PROLOG);
+		this.pathProlog = Main.PATH_ARCHIVO_PROLOG;
 	}
 
-	public static ManejoProlog getInstance(String archPlFinal, String pathReglas) {
+	public static ManejoProlog getInstance() {
 		if (instancia == null) {
-			instancia = new ManejoProlog(archPlFinal, pathReglas);
+			instancia = new ManejoProlog();
 		}
 		return instancia;
 	}
 
-	public static ManejoProlog getInstance() {
-		return instancia;
-	}
+//	public static ManejoProlog getInstance() {
+//		return instancia;
+//	}
 
 	public void tengo(Inventario inventario) {
 		prologTengo = new StringBuilder();

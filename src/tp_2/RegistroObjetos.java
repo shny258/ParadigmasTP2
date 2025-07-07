@@ -35,7 +35,8 @@ public class RegistroObjetos {
 		for (String objeto : this.registro.keySet()) {
 			System.out.println(this.registro.get(objeto));
 		}
-
+		System.out.println("══════════════════════════════════════════════════════════");
+		System.out.print("Nombre del objeto: ");
 		String opcionString = sc.nextLine().toLowerCase();
 		Objeto objSolicitado;
 		while ((objSolicitado = this.registro.get(opcionString)) == null) {

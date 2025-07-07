@@ -11,9 +11,10 @@ public class Main {
 
 	private static final String PATH_A_RECETAS = "archivos/recetas/"; // PATH DONDE ESTA EL ARCHIVO DE RECETAS
 	private static final String PATH_A_INVENTARIO = "archivos/inventario/"; // PATH DONDE ESTA EL ARCHIVO DE INVENTARIO
+	public static final String PATH_A_MESAS = "archivos/recetas/mesas/"; //PATH DONDE ESTARAN LAS RECETAS QUE HABILITA CADA MESA
 
-	private static final String PATH_REGLAS_PROLOG = "archivos/reglasProlog.txt";
-	private static final String PATH_ARCHIVO_PROLOG = "archivos/crafting.pl";
+	public static final String PATH_REGLAS_PROLOG = "archivos/reglasProlog.pl";
+	public static final String PATH_ARCHIVO_PROLOG = "archivos/crafting.pl";
 
 	private static final String PATH_INVENTARIO_FINAL = "archivos/inventario/inventario-out.json";
 
@@ -22,7 +23,7 @@ public class Main {
 		ManejadorArchivos manejador = new ManejadorArchivos();
 		String pathRecetas = PATH_A_RECETAS + NOMBRE_ARCHIVO_RECETAS + ".json";
 		String pathInventario = PATH_A_INVENTARIO + NOMBRE_ARCHIVO_INVENTARIO + ".json";
-		ManejoProlog.getInstance(PATH_ARCHIVO_PROLOG, PATH_REGLAS_PROLOG);
+		ManejoProlog.getInstance();
 
 		try {
 			manejador.cargarRecetasDesdeJson(pathRecetas, registroObjetos);
@@ -43,7 +44,7 @@ public class Main {
 		while (opcionInt != 12) {
 			mostrarMenu();
 
-			System.out.print("Ingrese Opcion: ");
+			System.out.print("Ingrese una opcion: ");
 
 			String opcion = sc.nextLine();
 			try {
@@ -85,7 +86,8 @@ public class Main {
 					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
 					System.out.printf("%s\n",
 							(inventario.craftear(objSolicitado))
-									? ("CRAFTEAMOS " + objSolicitado.getNombre() + ". INVENTARIO ACTUALIZADO:\n\n"
+									? ("\nx" + objSolicitado.obtenerReceta().getCantidadDevuelta() + " de "
+											+ objSolicitado.getNombre() + " crafteado/a. Inventario actualizado:\n\n"
 											+ inventario + "\n")
 									: "No dispones de los items requeridos para realizar el crafteo");
 					break;
@@ -99,7 +101,10 @@ public class Main {
 					inventario.quePuedoCraftear();
 					break;
 				case 9:
-					System.out.println("Inventario:\n" + inventario);
+					System.out.println("═════════════════════════════════════════════════════════╗");
+					System.out.println("                      INVENTARIO                         ║");
+					System.out.println("═════════════════════════════════════════════════════════╝");
+					System.out.println(inventario);
 					break;
 				case 10:
 					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
@@ -143,7 +148,7 @@ public class Main {
 						} else {
 							System.out.println(
 									"No se pueden sacar " + cantModificarInt + " de " + objSolicitado.getNombre()
-											+ "porque no se cuenta con esa cantidad en el inventario.");
+											+ " porque no se cuenta con esa cantidad en el inventario.");
 						}
 					} else {
 						if (inventario.sacar(objSolicitado)) {

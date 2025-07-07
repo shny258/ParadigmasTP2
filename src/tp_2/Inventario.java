@@ -20,7 +20,7 @@ public class Inventario {
 	}
 
 	public Inventario(Map<Objeto, Integer> objetos) {
-		this.objetos = objetos;
+		this.objetos = new HashMap<>(objetos);
 		this.historial = new HistorialCrafteos();
 		this.mesas = new ArrayList<String>();
 	}
@@ -153,10 +153,6 @@ public class Inventario {
 	}
 
 	private boolean puedoCraftear(Objeto objeto, int cant) {
-		if (!objeto.esCrafteable()) {
-			return this.objetos.getOrDefault(objeto, 0) >= cant;
-		}
-
 		Receta recetaObjeto = objeto.obtenerReceta();
 		Map<Objeto, Integer> ingredientes = recetaObjeto.getIngredientes();
 		int cantDevuelta = recetaObjeto.getCantidadDevuelta();
@@ -197,6 +193,9 @@ public class Inventario {
 
 	public int cuantosPuedoCraftear(Objeto objeto) {
 		int cant = 0;
+		if (!objeto.esCrafteable()) {
+			return cant;
+		}
 		Inventario copiaInventario = new Inventario(this.getObjetos());
 
 		while (copiaInventario.puedoCraftear(objeto, cant + 1)) {
@@ -252,7 +251,7 @@ public class Inventario {
 
 	@Override
 	public String toString() {
-		String stringRet = "";
+		String stringRet = "Objetos:\n";
 
 		for (Objeto objeto : this.objetos.keySet()) {
 			stringRet += "-" + objeto.getNombre() + ": " + this.objetos.get(objeto) + " unidades\n";
