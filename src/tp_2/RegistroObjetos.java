@@ -12,11 +12,11 @@ public class RegistroObjetos {
 	}
 
 	public Objeto obtenerObjeto(String nombre) {
-		return this.registro.get(nombre);
+		return this.registro.get(nombre.toLowerCase());
 	}
 
 	public void agregarObjeto(Objeto objeto) {
-		this.registro.put(objeto.getNombre(), objeto);
+		this.registro.put(objeto.getNombre().toLowerCase(), objeto);
 	}
 
 	public Map<String, Objeto> getRegistro() {
@@ -29,16 +29,18 @@ public class RegistroObjetos {
 	}
 
 	public Objeto mostrarListaObjetosYSeleccionar(Scanner sc) {
-		System.out.println("\nSeleccionar objeto:");
-		for (String objeto : registro.keySet()) {
-			System.out.println(objeto);
+		System.out.println("═════════════════════════════════════════════════════════╗");
+		System.out.println("                  ¿PARA QUÉ OBJETO?:                     ║");
+		System.out.println("═════════════════════════════════════════════════════════╝");
+		for (String objeto : this.registro.keySet()) {
+			System.out.println(this.registro.get(objeto));
 		}
 
-		String opcionString = sc.nextLine();
+		String opcionString = sc.nextLine().toLowerCase();
 		Objeto objSolicitado;
-		while ((objSolicitado = registro.get(opcionString)) == null) {
+		while ((objSolicitado = this.registro.get(opcionString)) == null) {
 			System.out.println("El objeto \"" + opcionString + "\" no existe. Ingrese el nombre nuevamente:");
-			opcionString = sc.nextLine();
+			opcionString = sc.nextLine().toLowerCase();
 		}
 		return objSolicitado;
 	}

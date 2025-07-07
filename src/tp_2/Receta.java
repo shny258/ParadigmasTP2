@@ -91,6 +91,7 @@ public class Receta {
 		return cantidadDevuelta == other.cantidadDevuelta && Objects.equals(ingredientes, other.ingredientes)
 				&& Double.doubleToLongBits(tiempoCreacion) == Double.doubleToLongBits(other.tiempoCreacion);
 	}
+	
 	@Override
 	public String toString() {
 		String stringRet = "-Tiempo de creacion: " + tiempoCreacion + "\n-Cantidad devuelta: " + cantidadDevuelta + "\n-Ingredientes:\n";

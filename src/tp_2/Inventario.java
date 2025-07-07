@@ -18,47 +18,36 @@ public class Inventario {
 		this.historial = new HistorialCrafteos();
 		this.mesas = new ArrayList<String>();
 	}
-	
+
 	public Inventario(Map<Objeto, Integer> objetos) {
 		this.objetos = objetos;
 		this.historial = new HistorialCrafteos();
 		this.mesas = new ArrayList<String>();
 	}
-	
+
 	public Inventario(Map<Objeto, Integer> objetos, List<String> mesas) {
 		this.objetos = new HashMap<>(objetos);
 		this.historial = new HistorialCrafteos();
 		this.mesas = new ArrayList<String>(mesas);
 	}
 
-
 	public void agregar(Objeto objeto, int cantidad) {
-		objetos.put(objeto, cantidad);
-	}
-
-	public void agregarSumar(Objeto objeto, int cantidad) {
-		if (objetos.containsKey(objeto)) {
-			int cantActual = objetos.get(objeto);
-			objetos.put(objeto, cantActual + cantidad);
-		} else {
-			objetos.put(objeto, cantidad);
-		}
+		int cantActual = this.objetos.getOrDefault(objeto, 0);
+		this.objetos.put(objeto, cantActual + cantidad);
 	}
 
 	public boolean sacar(Objeto objeto) {
-		if(!objetos.containsKey(objeto)) return false;
-		objetos.remove(objeto);
-		return true;
+		return this.objetos.remove(objeto) != null;
 	}
-	
-	public boolean sacarRestar(Objeto objeto, int cantidad) {
-		if(!objetos.containsKey(objeto)) return false;
-		int cantActual  = objetos.get(objeto);
-		if(cantActual  < cantidad) return false;
-		if(cantActual  == cantidad)
-			objetos.remove(objeto);
+
+	public boolean sacar(Objeto objeto, int cantidad) {
+		int cantActual = this.objetos.getOrDefault(objeto, 0);
+		if (cantActual < cantidad)
+			return false;
+		if (cantActual == cantidad)
+			this.objetos.remove(objeto);
 		else
-			objetos.put(objeto, cantActual  - cantidad);
+			this.objetos.put(objeto, cantActual - cantidad);
 		return true;
 	}
 
@@ -230,23 +219,23 @@ public class Inventario {
 		String cadenaRet = new String("{\n");
 		cadenaRet += "\t\"mesas\": [\n";
 		for (String mesa : this.mesas) {
-			cadenaRet += "\t\t" + "\""+ mesa +"\"" +",\n";
+			cadenaRet += "\t\t" + "\"" + mesa + "\"" + ",\n";
 		}
 		cadenaRet += "\t],\n";
-		
+
 		cadenaRet += "\t\"objetos\": {\n";
 		for (Objeto ingrediente : objetos.keySet()) {
 			cadenaRet += "\t\t" + "\"" + ingrediente.getNombre() + "\":" + objetos.get(ingrediente) + ",\n";
 		}
 		cadenaRet += "\t}\n";
-		
+
 		cadenaRet += "}";
 		return cadenaRet;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(objetos);
+		return Objects.hash(mesas, objetos);
 	}
 
 	@Override
@@ -258,24 +247,24 @@ public class Inventario {
 		if (getClass() != obj.getClass())
 			return false;
 		Inventario other = (Inventario) obj;
-		return Objects.equals(objetos, other.objetos);
+		return Objects.equals(mesas, other.mesas) && Objects.equals(objetos, other.objetos);
 	}
 
 	@Override
 	public String toString() {
 		String stringRet = "";
-		
+
 		for (Objeto objeto : this.objetos.keySet()) {
-			stringRet += "-" + objeto.getNombre() + ": " + this.objetos.get(objeto) + " unidades\n" ;
+			stringRet += "-" + objeto.getNombre() + ": " + this.objetos.get(objeto) + " unidades\n";
 		}
-		
-		if(!this.mesas.isEmpty()) {
+
+		if (!this.mesas.isEmpty()) {
 			stringRet += "\nMesas:\n";
 			for (String mesa : this.mesas) {
 				stringRet += "-" + mesa + "\n";
 			}
 		}
-		
+
 		return stringRet;
 	}
 
