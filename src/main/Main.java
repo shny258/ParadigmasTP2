@@ -93,18 +93,29 @@ public class Main {
 
 					break;
 				case 4:
-					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
-					System.out.printf("%s\n",
-							(inventario.faltantesParaCraftearDeCero(objSolicitado).getIngredientes().isEmpty())
-									? "Todos los ingredientes para craftear este objeto están en el inventario o se pueden craftear con él."
-									: ("FALTANTES PARA CRAFTEAR " + objSolicitado.getNombre().toUpperCase()
-											+ " desde cero:\n"
-											+ inventario.faltantesParaCraftearDeCero(objSolicitado)));
+					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);					
+					if (objSolicitado.esCrafteable()) {
+						System.out.printf("%s\n",
+								(inventario.faltantesParaCraftearDeCero(objSolicitado).getIngredientes().isEmpty())
+										? "Todos los ingredientes para craftear este objeto están en el inventario o se pueden craftear con él."
+										: ("FALTANTES PARA CRAFTEAR " + objSolicitado.getNombre().toUpperCase()
+												+ " desde cero:\n"
+												+ inventario.faltantesParaCraftearDeCero(objSolicitado)));
+					} else {
+						System.out.println(
+								objSolicitado.getNombre() + " es un ingrediente básico, no se puede craftear.");
+					}
 					break;
 				case 5:
 					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
-					System.out.println("Se pueden craftear " + inventario.cuantosPuedoCraftear(objSolicitado) + " de "
-							+ objSolicitado.getNombre());
+					
+					if (objSolicitado.esCrafteable()) {
+						System.out.println("Se pueden craftear " + inventario.cuantosPuedoCraftear(objSolicitado) + " de "
+								+ objSolicitado.getNombre());
+					} else {
+						System.out.println(
+								objSolicitado.getNombre() + " es un ingrediente básico, no se puede craftear.");
+					}
 					break;
 				case 6:
 					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
@@ -137,8 +148,14 @@ public class Main {
 					break;
 				case 10:
 					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
-					System.out.println("Arbol de Crafteo de " + objSolicitado.getNombre() + ":\n");
-					objSolicitado.mostrarArbolCrafteos();
+
+					if (objSolicitado.esCrafteable()) {
+						System.out.println("Arbol de Crafteo de " + objSolicitado.getNombre() + ":\n");
+						objSolicitado.mostrarArbolCrafteos();
+					} else {
+						System.out.println(
+								objSolicitado.getNombre() + " es un ingrediente básico, no se puede craftear.");
+					}
 					break;
 				case 11:
 					int opcionModificarInt = 0;

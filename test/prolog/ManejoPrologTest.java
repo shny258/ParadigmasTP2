@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import main.Main;
-import tp_2.Inventario;
 import tp_2.ManejadorArchivos;
 import tp_2.RegistroObjetos;
 
@@ -56,7 +55,7 @@ class ManejoPrologTest {
 			return;
 		}
 		try {
-			Inventario inventarioJsonTest = manejador.cargarInventarioDesdeJson(pathInventarioTest, registroObjetosTest);
+			manejador.cargarInventarioDesdeJson(pathInventarioTest, registroObjetosTest);
 		} catch (Exception e) {
 			System.err.println("ERROR AL CARGAR EL INVENTARIO TEST");
 			return;

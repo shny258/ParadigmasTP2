@@ -74,7 +74,7 @@ tengo("rack para servidores", 1).
 tengo("cristal liquido", 500).
 tengo("memoria ram 4gb", 2).
 tengo("metal", 500).
-tengo("chip", 10000).
+tengo("chip", 10).
 tengo("servidor", 5).
 tengo("sistema operativo", 5).
 tengo("capacitor", 500).
@@ -87,7 +87,7 @@ receta("sistema operativo",1,50.0).
 receta("cpu",1,15.0).
 receta("memoria ram 4gb",1,8.0).
 receta("placa de video",1,10.0).
-receta("camara",1,5.0).
+receta("camara",1,1.0).
 receta("parlante",2,15.0).
 receta("fuente de alimentación",1,5.0).
 receta("computadora gabinete simple",1,30.0).
