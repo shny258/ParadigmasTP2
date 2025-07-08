@@ -14,28 +14,32 @@ public class Inventario {
 //	private HistorialCrafteos historial;
 	private int turnoCreacion;
 	private List<Crafteo> historial;
-	
+
+//	public HistorialCrafteos getHistorial() {
+//	return this.historial;
+//  }
+
 	public Inventario() {
 		this.objetos = new HashMap<>();
 		this.historial = new ArrayList<Crafteo>();
 		this.turnoCreacion = 1;
 		this.mesas = new ArrayList<String>();
 	}
-	
+
 	public Inventario(Map<Objeto, Integer> objetos) {
 		this.objetos = new HashMap<>(objetos);
 		this.historial = new ArrayList<Crafteo>();
 		this.turnoCreacion = 1;
 		this.mesas = new ArrayList<String>();
 	}
-	
+
 	public Inventario(Map<Objeto, Integer> objetos, List<String> mesas) {
 		this.objetos = new HashMap<>(objetos);
 		this.historial = new ArrayList<Crafteo>();
 		this.turnoCreacion = 1;
 		this.mesas = new ArrayList<String>(mesas);
 	}
-	
+
 	public String mostrarHistorial() {
 		String stringret = "";
 		for (Crafteo crafteo : this.historial) {
@@ -46,7 +50,6 @@ public class Inventario {
 		}
 		return stringret;
 	}
-
 
 	public void agregar(Objeto objeto, int cantidad) {
 		int cantActual = this.objetos.getOrDefault(objeto, 0);
@@ -224,10 +227,6 @@ public class Inventario {
 
 		return cant;
 	}
-
-//	public HistorialCrafteos getHistorial() {
-//		return this.historial;
-//	}
 
 	public void quePuedoCraftear() throws Exception {
 		ManejoProlog.getInstance().quePuedoCraftear(this);
