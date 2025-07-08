@@ -67,16 +67,16 @@ ingrediente("computadora gamer","computadora gabinete",1).
 ingrediente("computadora gamer","rgb",100).
 ingrediente("rgb","circuitos",10).
 ingrediente("rgb","cable",10).
-tengo("circuitos", 9990).
-tengo("cable", 490).
+tengo("circuitos", 10000).
+tengo("cable", 500).
+tengo("plastico", 500).
 tengo("rack para servidores", 1).
 tengo("cristal liquido", 500).
 tengo("memoria ram 4gb", 2).
 tengo("metal", 500).
-tengo("chip", 10).
+tengo("chip", 10000).
 tengo("servidor", 5).
 tengo("sistema operativo", 5).
-tengo("rgb", 30).
 tengo("capacitor", 500).
 receta("tecla",10,10.0).
 receta("computadora gabinete",1,40.0).
