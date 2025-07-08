@@ -13,7 +13,8 @@ public class Main {
 	public static final String PATH_A_RECETAS = "archivos/recetas/"; // PATH DONDE ESTA EL ARCHIVO DE RECETAS
 
 	public static final String PATH_A_INVENTARIO = "archivos/inventario/"; // PATH DONDE ESTA EL ARCHIVO DE INVENTARIO
-	public static final String PATH_A_MESAS = "archivos/recetas/mesas/"; //PATH DONDE ESTARAN LAS RECETAS QUE HABILITA CADA MESA
+	public static final String PATH_A_MESAS = "archivos/recetas/mesas/"; // PATH DONDE ESTARAN LAS RECETAS QUE HABILITA
+																			// CADA MESA
 
 	public static final String PATH_REGLAS_PROLOG = "archivos/reglasProlog.pl";
 	public static final String PATH_ARCHIVO_PROLOG = "archivos/crafting.pl";
@@ -54,21 +55,38 @@ public class Main {
 				switch (opcionInt) {
 				case 1:
 					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
-					System.out.println("RECETA " + objSolicitado.getNombre().toUpperCase() + ":\n"
-							+ objSolicitado.obtenerReceta());
+					if (objSolicitado.esCrafteable()) {
+						System.out.println("RECETA " + objSolicitado.getNombre().toUpperCase() + ":\n"
+								+ objSolicitado.obtenerReceta());
+					} else {
+						System.out.println(
+								objSolicitado.getNombre() + " es un ingrediente básico, no se puede craftear.");
+					}
 					break;
 				case 2:
 					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
-					System.out.println("RECETA " + objSolicitado.getNombre().toUpperCase()
-							+ " COMPLETA DESCOMPUESTA EN SUBINGREDIENTES:\n" + objSolicitado.obtenerRecetaCompleta());
+					if (objSolicitado.esCrafteable()) {
+						System.out.println("RECETA " + objSolicitado.getNombre().toUpperCase()
+								+ " COMPLETA DESCOMPUESTA EN SUBINGREDIENTES:\n"
+								+ objSolicitado.obtenerRecetaCompleta());
+					} else {
+						System.out.println(
+								objSolicitado.getNombre() + " es un ingrediente básico, no se puede craftear.");
+					}
 					break;
 				case 3:
 					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
-					System.out.printf("%s\n",
-							(inventario.faltantesParaCraftear(objSolicitado).getIngredientes().isEmpty())
-									? "No hace falta ningún recurso para craftear este objeto, todos están en el inventario."
-									: ("FALTANTES PARA CRAFTEAR " + objSolicitado.getNombre().toUpperCase() + ":\n"
-											+ inventario.faltantesParaCraftear(objSolicitado)));
+					if (objSolicitado.esCrafteable()) {
+						System.out.printf("%s\n",
+								(inventario.faltantesParaCraftear(objSolicitado).getIngredientes().isEmpty())
+										? "No hace falta ningún recurso para craftear este objeto, todos están en el inventario."
+										: ("FALTANTES PARA CRAFTEAR " + objSolicitado.getNombre().toUpperCase() + ":\n"
+												+ inventario.faltantesParaCraftear(objSolicitado)));
+					} else {
+						System.out.println(
+								objSolicitado.getNombre() + " es un ingrediente básico, no se puede craftear.");
+					}
+
 					break;
 				case 4:
 					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
@@ -86,12 +104,17 @@ public class Main {
 					break;
 				case 6:
 					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
-					System.out.printf("%s\n",
-							(inventario.craftear(objSolicitado))
-									? ("\nx" + objSolicitado.obtenerReceta().getCantidadDevuelta() + " de "
-											+ objSolicitado.getNombre() + " crafteado/a. Inventario actualizado:\n\n"
-											+ inventario + "\n")
-									: "No dispones de los items requeridos para realizar el crafteo");
+					if (objSolicitado.esCrafteable()) {
+						System.out.printf("%s\n",
+								(inventario.craftear(objSolicitado))
+										? ("\nx" + objSolicitado.obtenerReceta().getCantidadDevuelta() + " de "
+												+ objSolicitado.getNombre()
+												+ " crafteado/a. Inventario actualizado:\n\n" + inventario + "\n")
+										: "No dispones de los items requeridos para realizar el crafteo");
+					} else {
+						System.out.println(
+								objSolicitado.getNombre() + " es un ingrediente básico, no se puede craftear.");
+					}
 					break;
 				case 7:
 					System.out.println("═════════════════════════════════════════════════════════╗");
