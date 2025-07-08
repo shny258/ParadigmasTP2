@@ -33,7 +33,7 @@ class IntermedioTest {
 			}
 		}
 	@Test
-	void recetaIntermedio_DevuelveSuReceta() {
+	void obtenerRecetaIntermedio_devuelveSuReceta() {
 		Objeto marco = registroObjetosTest.obtenerObjeto("Marco");
 		Objeto tablon = registroObjetosTest.obtenerObjeto("Tablon");
 		Objeto tornillo = registroObjetosTest.obtenerObjeto("Tornillo");
@@ -46,7 +46,7 @@ class IntermedioTest {
 	}
 	
 	@Test
-	void recetaIntermedio_ObtenerRecetaCompleta() {
+	void obtenerRecetaCompletaIntermedio_devuelveRecetaDescompuestaEnBasicos() {
 		Objeto mesa = registroObjetosTest.obtenerObjeto("Mesa");
 		Objeto madera = registroObjetosTest.obtenerObjeto("Madera");
 		
@@ -57,17 +57,17 @@ class IntermedioTest {
 	}
 	
 	@Test
-	void objetoBasico_EsObjetoIntermedio() {
+	void objetoIntermedio_EsObjetoIntermedio() {
 		Objeto intermedio = registroObjetosTest.obtenerObjeto("Palo");
 		
 		assertFalse(intermedio instanceof IngredienteBasico);
 		assertTrue(intermedio instanceof Intermedio);
 	}
 	@Test
-	void objetoBasico_EsCrafteable()
+	void objetoIntermedio_EsCrafteable()
 	{
-		Objeto basico = registroObjetosTest.obtenerObjeto("Palo");
-		assertTrue(basico.esCrafteable());
+		Objeto intermedio = registroObjetosTest.obtenerObjeto("Palo");
+		assertTrue(intermedio.esCrafteable());
 	}
 
 }

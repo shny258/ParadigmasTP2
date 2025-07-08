@@ -23,7 +23,7 @@ public class IngredienteBasico extends Objeto {
 	}
 
 	@Override
-	protected boolean esCrafteable() {
+	public boolean esCrafteable() {
 		return false;
 	}
 	

@@ -31,7 +31,7 @@ public class Intermedio extends Objeto {
 	}
 
 	@Override
-	protected boolean esCrafteable() {
+	public boolean esCrafteable() {
 		return true;
 	}
 	

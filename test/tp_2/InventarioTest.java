@@ -13,8 +13,8 @@ import prolog.ManejoProlog;
 
 class InventarioTest {
 
-	String pathRecetasTest= Main.PATH_A_RECETAS + ManejadorArchivosTest.NOMBRE_ARCHIVO_RECETAS_TEST + ".json";
-	String pathInventarioTest = Main.PATH_A_INVENTARIO + ManejadorArchivosTest.NOMBRE_ARCHIVO_INVENTARIO_TEST  + ".json";	
+	String pathRecetasTest = Main.PATH_A_RECETAS + ManejadorArchivosTest.NOMBRE_ARCHIVO_RECETAS_TEST + ".json";
+	String pathInventarioTest = Main.PATH_A_INVENTARIO + ManejadorArchivosTest.NOMBRE_ARCHIVO_INVENTARIO_TEST + ".json";
 	Inventario inventarioJsonTest;
 	RegistroObjetos registroObjetosTest;
 	ManejadorArchivos manejador;
@@ -66,7 +66,7 @@ class InventarioTest {
 	}
 
 	@Test
-	void agregarObjetoTest() {
+	void agregarNuevoObjetoLoAgrega() {
 		Objeto madera = registroObjetosTest.obtenerObjeto("Madera");
 		Inventario inv = new Inventario();
 		Map<Objeto, Integer> objetos = new HashMap<>();
@@ -76,7 +76,7 @@ class InventarioTest {
 	}
 
 	@Test
-	void agregarSumarObjetoTest() {
+	void sumarUnidadesDeObjetoLasSuma() {
 		Objeto madera = registroObjetosTest.obtenerObjeto("Madera");
 		Inventario inv = new Inventario();
 		Map<Objeto, Integer> objetos = new HashMap<>();
@@ -87,7 +87,7 @@ class InventarioTest {
 	}
 
 	@Test
-	void sacarObjetoTest() {
+	void eliminarObjetoDeInventarioLoElimina() {
 		Objeto madera = registroObjetosTest.obtenerObjeto("Madera");
 		Inventario inv = new Inventario();
 		Map<Objeto, Integer> objetos = new HashMap<>();
@@ -97,7 +97,7 @@ class InventarioTest {
 	}
 
 	@Test
-	void sacarObjetoTest_False() {
+	void eliminarObjetoQueNoTengoDeInventarioDevuelveFalso() {
 		Objeto madera = registroObjetosTest.obtenerObjeto("Madera");
 		Objeto palo = registroObjetosTest.obtenerObjeto("Palo");
 		Inventario inv = new Inventario();
@@ -106,7 +106,7 @@ class InventarioTest {
 	}
 
 	@Test
-	void sacarRestarObjetoTest() {
+	void restarUnidadesDeObjetoEnInventarioLasResta() {
 		Objeto madera = registroObjetosTest.obtenerObjeto("Madera");
 		Inventario inv = new Inventario();
 		Map<Objeto, Integer> objetos = new HashMap<>();
@@ -118,7 +118,7 @@ class InventarioTest {
 	}
 
 	@Test
-	void sacarRestarObjetoTest_False() {
+	void restarMasUnidadesQueLasQueTengoDevuelveFalso() {
 		Objeto madera = registroObjetosTest.obtenerObjeto("Madera");
 		Objeto palo = registroObjetosTest.obtenerObjeto("Palo");
 		Inventario inv = new Inventario();

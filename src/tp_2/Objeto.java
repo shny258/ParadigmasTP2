@@ -18,7 +18,7 @@ public abstract class Objeto {
 
 	protected abstract void mostrarArbolCrafteos(int unidades, int nivel);
 
-	protected abstract boolean esCrafteable();
+	public abstract boolean esCrafteable();
 
 	protected abstract Receta obtenerRecetaCompleta(Map<Objeto, Integer> sobrantes);
 
