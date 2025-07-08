@@ -5,18 +5,20 @@ import prolog.ManejoProlog;
 import tp_2.*;
 
 public class Main {
-	private static final String NOMBRE_ARCHIVO_RECETAS = "recetas"; // MODIFICAR PARA USAR OTRO ARCHIVO DE RECETAS
-	private static final String NOMBRE_ARCHIVO_INVENTARIO = "inventario_con_mesas"; // MODIFICAR PARA USAR OTRO ARCHIVO
+	public static final String NOMBRE_ARCHIVO_RECETAS = "recetas"; // MODIFICAR PARA USAR OTRO ARCHIVO DE RECETAS
+	public static final String NOMBRE_ARCHIVO_RECETAS_TEST = "testrecetas"; // PATH DONDE ESTA EL ARCHIVO DE RECETAS
+	public static final String NOMBRE_ARCHIVO_INVENTARIO = "inventario_con_mesas"; // MODIFICAR PARA USAR OTRO ARCHIVO
 																					// DE INVENTARIO
 
-	private static final String PATH_A_RECETAS = "archivos/recetas/"; // PATH DONDE ESTA EL ARCHIVO DE RECETAS
-	private static final String PATH_A_INVENTARIO = "archivos/inventario/"; // PATH DONDE ESTA EL ARCHIVO DE INVENTARIO
+	public static final String PATH_A_RECETAS = "archivos/recetas/"; // PATH DONDE ESTA EL ARCHIVO DE RECETAS
+
+	public static final String PATH_A_INVENTARIO = "archivos/inventario/"; // PATH DONDE ESTA EL ARCHIVO DE INVENTARIO
 	public static final String PATH_A_MESAS = "archivos/recetas/mesas/"; //PATH DONDE ESTARAN LAS RECETAS QUE HABILITA CADA MESA
 
 	public static final String PATH_REGLAS_PROLOG = "archivos/reglasProlog.pl";
 	public static final String PATH_ARCHIVO_PROLOG = "archivos/crafting.pl";
 
-	private static final String PATH_INVENTARIO_FINAL = "archivos/inventario/inventario-out.json";
+	public static final String PATH_INVENTARIO_FINAL = "archivos/inventario/inventario-out.json";
 
 	public static void main(String[] args) {
 		RegistroObjetos registroObjetos = new RegistroObjetos();

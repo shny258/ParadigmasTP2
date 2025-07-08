@@ -4,14 +4,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import main.Main;
 import prolog.ManejoProlog;
 
 
 class IntermedioTest {
-	String pathRecetasTest= "archivos/testrecetas.json";
-	String pathInventarioTest = "archivos/testinventario.json";
-	String pathInventarioJsonOut = "inventarioJsonOut.json";
-	ManejoProlog pl = ManejoProlog.getInstance(pathRecetasTest, "archivos/reglasProlog.txt");
+	String pathRecetasTest= Main.PATH_A_RECETAS + ManejadorArchivosTest.NOMBRE_ARCHIVO_RECETAS_TEST + ".json";
+	String pathInventarioTest = Main.PATH_A_INVENTARIO + ManejadorArchivosTest.NOMBRE_ARCHIVO_INVENTARIO_TEST  + ".json";	
+	ManejoProlog pl = ManejoProlog.getInstance();
 	RegistroObjetos registroObjetosTest;
 	ManejadorArchivos manejador;
 	@BeforeEach

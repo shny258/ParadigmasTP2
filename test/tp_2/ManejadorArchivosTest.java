@@ -5,13 +5,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import main.Main;
 import prolog.ManejoProlog;
 
 class ManejadorArchivosTest {
-	String pathRecetasTest= "archivos/testrecetas.json";
-	String pathInventarioTest = "archivos/testinventario.json";
-	String pathInventarioJsonOut = "inventarioJsonOut.json";
-	ManejoProlog pl = ManejoProlog.getInstance(pathRecetasTest, "archivos/reglasProlog.txt");
+	
+	public static final String NOMBRE_ARCHIVO_RECETAS_TEST = "testrecetas"; 
+	public static final String NOMBRE_ARCHIVO_INVENTARIO_TEST = "testinventario"; 
+	String pathRecetasTest= Main.PATH_A_RECETAS + NOMBRE_ARCHIVO_RECETAS_TEST + ".json";
+	String pathInventarioTest = Main.PATH_A_INVENTARIO + NOMBRE_ARCHIVO_INVENTARIO_TEST + ".json";
+	ManejoProlog pl = ManejoProlog.getInstance();
 	RegistroObjetos registroObjetosTest;
 	ManejadorArchivos manejador;
 	@BeforeEach

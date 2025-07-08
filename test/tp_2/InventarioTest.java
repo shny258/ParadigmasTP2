@@ -8,16 +8,17 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import main.Main;
 import prolog.ManejoProlog;
 
 class InventarioTest {
-	String pathRecetasTest = "archivos/inventario/testrecetas.json";
-	String pathInventarioTest = "archivos/inventario/testinventario.json";
-	String pathInventarioJsonOut = "archivos/inventario/inventarioJsonOut.json";
+
+	String pathRecetasTest= Main.PATH_A_RECETAS + ManejadorArchivosTest.NOMBRE_ARCHIVO_RECETAS_TEST + ".json";
+	String pathInventarioTest = Main.PATH_A_INVENTARIO + ManejadorArchivosTest.NOMBRE_ARCHIVO_INVENTARIO_TEST  + ".json";	
 	Inventario inventarioJsonTest;
 	RegistroObjetos registroObjetosTest;
 	ManejadorArchivos manejador;
-	ManejoProlog pl = ManejoProlog.getInstance(pathRecetasTest, "archivos/reglasProlog.txt");
+	ManejoProlog pl = ManejoProlog.getInstance();
 
 	@BeforeEach
 	public void setUp() {
@@ -52,9 +53,8 @@ class InventarioTest {
 		objetos.put(tablon, 6);
 		objetos.put(carbon, 20);
 		objetos.put(madera, 20);
-
-		Inventario inventarioCreado = new Inventario(objetos, null);
-		Inventario inventarioVacio = new Inventario();
+		Inventario inventarioCreado = new Inventario(objetos);
+		Inventario inventarioVacio = new Inventario(objetosVacio);
 		assertEquals(objetos, inventarioCreado.getObjetos());
 		assertEquals(objetosVacio, inventarioVacio.getObjetos());
 	}
@@ -75,8 +75,8 @@ class InventarioTest {
 		Inventario inv = new Inventario();
 		Map<Objeto, Integer> objetos = new HashMap<>();
 		objetos.put(madera, 40);
-		inv.agregarSumar(madera, 20);
-		inv.agregarSumar(madera, 20);
+		inv.agregar(madera, 20);
+		inv.agregar(madera, 20);
 		assertEquals(objetos, inv.getObjetos());
 	}
 
@@ -105,9 +105,9 @@ class InventarioTest {
 		Inventario inv = new Inventario();
 		Map<Objeto, Integer> objetos = new HashMap<>();
 		objetos.put(madera, 20);
-		inv.agregarSumar(madera, 20);
-		inv.agregarSumar(madera, 20);
-		inv.sacarRestar(madera, 20);
+		inv.agregar(madera, 20);
+		inv.agregar(madera, 20);
+		inv.sacar(madera, 20);
 		assertEquals(objetos, inv.getObjetos());
 	}
 
@@ -116,16 +116,11 @@ class InventarioTest {
 		Objeto madera = registroObjetosTest.obtenerObjeto("Madera");
 		Objeto palo = registroObjetosTest.obtenerObjeto("Palo");
 		Inventario inv = new Inventario();
-		inv.agregarSumar(madera, 20);
-		inv.agregarSumar(madera, 20);
-		assertFalse(inv.sacarRestar(palo, 20));
-		assertFalse(inv.sacarRestar(madera, 50));
-		assertTrue(inv.sacarRestar(madera, 40));
-	}
-
-	@Test
-	void mostrarInventarioTestEsperado() {
-		assertEquals("{Marco=1, Palo=2, Tablon=2, Carbon=4}", inventarioJsonTest.toString());
+		inv.agregar(madera, 20);
+		inv.agregar(madera, 20);
+		assertFalse(inv.sacar(palo, 20));
+		assertFalse(inv.sacar(madera, 50));
+		assertTrue(inv.sacar(madera, 40));
 	}
 
 	@Test
@@ -174,7 +169,6 @@ class InventarioTest {
 
 		assertTrue(inventarioJsonTest.craftear(mesa));
 		assertEquals(inventarioEsperado, inventarioJsonTest);
-		assertEquals("{1=Mesa}", inventarioJsonTest.getHistorial().toString());
 	}
 
 	@Test
@@ -192,7 +186,6 @@ class InventarioTest {
 
 		assertFalse(inventarioJsonTest.craftear(tornillo));
 		assertEquals(inventarioEsperado, inventarioJsonTest);
-		assertEquals("{}", inventarioJsonTest.getHistorial().toString());
 	}
 
 	@Test

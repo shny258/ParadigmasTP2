@@ -63,6 +63,10 @@ ingrediente("maquina virtual","rack de 10 servidores",1).
 ingrediente("rack de 10 servidores","servidor",10).
 ingrediente("rack de 10 servidores","cable",20).
 ingrediente("rack de 10 servidores","rack para servidores",1).
+ingrediente("computadora gamer","computadora de escritorio",1).
+ingrediente("computadora gamer","rgb",100).
+ingrediente("rgb","circuitos",10).
+ingrediente("rgb","cable",10).
 tengo("circuitos", 10000).
 tengo("cable", 500).
 tengo("plastico", 500).
@@ -70,7 +74,7 @@ tengo("rack para servidores", 1).
 tengo("cristal liquido", 500).
 tengo("memoria ram 4gb", 2).
 tengo("metal", 500).
-tengo("chip", 10).
+tengo("chip", 10000).
 tengo("servidor", 5).
 tengo("sistema operativo", 5).
 tengo("capacitor", 500).
@@ -93,6 +97,8 @@ receta("servidor",1,60.0).
 receta("computadora de escritorio",1,30.0).
 receta("maquina virtual",50,120.0).
 receta("rack de 10 servidores",1,20.0).
+receta("computadora gamer",1,50.0).
+receta("rgb",30,5.0).
 % Calcula el mínimo cociente (lo que limita el número de crafteos)
 receta(Ingrediente,1,0) :- elemento_basico(Ingrediente). %SI ES BÁSICO DEVUELVE 1 Y TARDA 0
 minimo_crafteos([D/N], Cant) :- Cant is floor(D / N).

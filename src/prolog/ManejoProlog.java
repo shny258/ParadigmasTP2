@@ -1,5 +1,6 @@
 package prolog;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -34,6 +35,40 @@ public class ManejoProlog {
 		prologReglas = new StringBuilder();
 		escribirReglas(Main.PATH_REGLAS_PROLOG);
 		this.pathProlog = Main.PATH_ARCHIVO_PROLOG;
+	}
+	ManejoProlog(String pathAReglas, String pathAArchivo) {
+		JPL.setDefaultInitArgs(new String[] { "--home=C:/Program Files/swipl", "--quiet" });
+		try {
+			verificarReglas(pathAReglas);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.getMessage();
+		}
+		prologElemento_basico = new StringBuilder();
+		prologIngrediente = new StringBuilder();
+		prologReceta = new StringBuilder();
+		prologTodo = new StringBuilder();
+		prologReglas = new StringBuilder();
+		escribirReglas(Main.PATH_REGLAS_PROLOG);
+		this.pathProlog = Main.PATH_ARCHIVO_PROLOG;
+	}
+	
+	private void verificarReglas(String pathReglas) throws Exception 
+	{
+		if (!pathReglas.endsWith(".pl")) {
+            throw new Exception("El archivo de reglas debe tener extensión '.pl'.");
+        }
+
+        // Validar existencia
+        File archivoReglas = new File(pathReglas);
+        if (!archivoReglas.exists()) {
+            throw new Exception("El archivo de reglas no existe: " + pathReglas);
+        }
+
+        // Validar que no esté vacío
+        if (archivoReglas.length() == 0) {
+            throw new Exception("El archivo de reglas está vacío: " + pathReglas);
+        }
 	}
 
 	public static ManejoProlog getInstance() {
