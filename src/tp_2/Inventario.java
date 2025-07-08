@@ -45,11 +45,7 @@ public class Inventario {
 			stringret += "══════════════════════════════════════════════════════════\n";
 
 		}
-//		for (Objeto objeto : this.historial) {
-//			stringret = stringret + "-Turno: " +  + "\n-Objeto: " + objeto.getNombre() + "\n"
-//					+ objeto.obtenerReceta() + "\n";
-//			stringret += "══════════════════════════════════════════════════════════\n";
-//		}
+
 		return stringret;
 	}
 
