@@ -12,8 +12,7 @@ public class Inventario {
 	private Map<Objeto, Integer> objetos;
 	private List<String> mesas;
 //	private HistorialCrafteos historial;
-	private int turnoCreacion;
-	private List<Crafteo> historial;
+	private List<Objeto> historial;
 
 //	public HistorialCrafteos getHistorial() {
 //	return this.historial;
@@ -21,33 +20,36 @@ public class Inventario {
 
 	public Inventario() {
 		this.objetos = new HashMap<>();
-		this.historial = new ArrayList<Crafteo>();
-		this.turnoCreacion = 1;
+		this.historial = new ArrayList<Objeto>();
 		this.mesas = new ArrayList<String>();
 	}
 
 	public Inventario(Map<Objeto, Integer> objetos) {
 		this.objetos = new HashMap<>(objetos);
-		this.historial = new ArrayList<Crafteo>();
-		this.turnoCreacion = 1;
+		this.historial = new ArrayList<Objeto>();
 		this.mesas = new ArrayList<String>();
 	}
 
 	public Inventario(Map<Objeto, Integer> objetos, List<String> mesas) {
 		this.objetos = new HashMap<>(objetos);
-		this.historial = new ArrayList<Crafteo>();
-		this.turnoCreacion = 1;
+		this.historial = new ArrayList<Objeto>();
 		this.mesas = new ArrayList<String>(mesas);
 	}
 
 	public String mostrarHistorial() {
 		String stringret = "";
-		for (Crafteo crafteo : this.historial) {
-			Objeto objeto = crafteo.getObjeto();
-			stringret = stringret + "-Turno: " + crafteo.getTurno() + "\n-Objeto: " + objeto.getNombre() + "\n"
+		for (int i = 0; i < this.historial.size(); i++) {
+			Objeto objeto = this.historial.get(i);
+			stringret = stringret + "-Turno: " + (i + 1) + "\n-Objeto: " + objeto.getNombre() + "\n"
 					+ objeto.obtenerReceta() + "\n";
 			stringret += "══════════════════════════════════════════════════════════\n";
+
 		}
+//		for (Objeto objeto : this.historial) {
+//			stringret = stringret + "-Turno: " +  + "\n-Objeto: " + objeto.getNombre() + "\n"
+//					+ objeto.obtenerReceta() + "\n";
+//			stringret += "══════════════════════════════════════════════════════════\n";
+//		}
 		return stringret;
 	}
 
@@ -169,8 +171,7 @@ public class Inventario {
 		}
 		this.objetos.put(objeto, this.objetos.getOrDefault(objeto, 0) + objeto.obtenerReceta().getCantidadDevuelta());
 //		this.historial.agregarCrafteo(objeto);
-		this.historial.add(new Crafteo(this.turnoCreacion, objeto));
-		this.turnoCreacion++;
+		this.historial.add(objeto);
 		return true;
 	}
 
