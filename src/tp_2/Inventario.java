@@ -211,11 +211,7 @@ public class Inventario {
 	}
 
 	public void quePuedoCraftear() throws Exception {
-		try {
-			ManejoProlog.getInstance().quePuedoCraftear(this);
-		} catch (Exception e) {
-			throw e;
-		}
+		ManejoProlog.getInstance().quePuedoCraftear(this);
 	}
 
 	public String toJson() {

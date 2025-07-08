@@ -26,12 +26,12 @@ public class IngredienteBasico extends Objeto {
 	public boolean esCrafteable() {
 		return false;
 	}
-	
+
 	@Override
 	public void mostrarArbolCrafteos() {
 		System.out.println("x1 " + getNombre() + " - " + "Ingrediente Básico");
 	}
-	
+
 	@Override
 	protected void mostrarArbolCrafteos(int unidades, int nivel) {
 		for (int i = 0; i < nivel; i++)

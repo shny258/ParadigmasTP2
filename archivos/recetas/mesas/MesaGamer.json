@@ -4,7 +4,7 @@
             "nombre": "Computadora Gamer",
             "cantidad_creada": 1,
             "ingredientes": {
-                "Computadora de Escritorio": 1,
+                "Computadora Gabinete": 1,
                 "RGB": 100
             },
             "tiempo": 50

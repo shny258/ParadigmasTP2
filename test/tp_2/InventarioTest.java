@@ -19,7 +19,6 @@ class InventarioTest {
 	RegistroObjetos registroObjetosTest;
 	ManejadorArchivos manejador;
 
-
 	@BeforeEach
 	public void setUp() {
 		try {
@@ -248,5 +247,18 @@ class InventarioTest {
 		inv.agregar(tornillo, 1);
 		inv.agregar(palo, 1);
 		assertEquals(3, inv.cuantosPuedoCraftear(mesa));
+	}
+
+	@Test
+	void cuantosPuedeCraftearTest_CraftearDosMesasConIntermediosVariosYbasicos() {
+		Objeto madera = registroObjetosTest.obtenerObjeto("Madera");
+		Objeto palo = registroObjetosTest.obtenerObjeto("Palo");
+		Objeto tablon = registroObjetosTest.obtenerObjeto("Tablon");
+		Objeto mesa = registroObjetosTest.obtenerObjeto("Mesa");
+		Inventario inv = new Inventario();
+		inv.agregar(madera, 48);
+		inv.agregar(tablon, 1);
+		inv.agregar(palo, 1);
+		assertEquals(2, inv.cuantosPuedoCraftear(mesa));
 	}
 }

@@ -9,7 +9,6 @@ import main.Main;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-//import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -41,13 +40,13 @@ public class ManejadorArchivos {
 			JSONObject recetaJson = recetas.getJSONObject(i);
 			String nombreIntermedio = recetaJson.getString("nombre");
 			int cantidadDevuelta = recetaJson.getInt("cantidad_creada");
-			if(cantidadDevuelta<=0)
+			if (cantidadDevuelta <= 0)
 				throw new IllegalArgumentException();
 			JSONObject ingredientesJson = recetaJson.getJSONObject("ingredientes");
 			Map<Objeto, Integer> ingredientes = new HashMap<>();
 			for (String nombreIngrediente : ingredientesJson.keySet()) {
 				int cantidadIngrediente = ingredientesJson.getInt(nombreIngrediente);
-				if(cantidadIngrediente<=0)
+				if (cantidadIngrediente <= 0)
 					throw new IllegalArgumentException();
 				Objeto ingrediente = registroObjetos.obtenerObjeto(nombreIngrediente);
 				if (ingrediente == null) {
@@ -57,7 +56,7 @@ public class ManejadorArchivos {
 				ingredientes.put(ingrediente, cantidadIngrediente);
 			}
 			double tiempoCrafteo = recetaJson.getDouble("tiempo");
-			if(tiempoCrafteo<=0)
+			if (tiempoCrafteo <= 0)
 				throw new IllegalArgumentException();
 			Receta receta = new Receta(tiempoCrafteo, cantidadDevuelta, ingredientes);
 			Intermedio intermedio = (Intermedio) registroObjetos.obtenerObjeto(nombreIntermedio);
@@ -101,7 +100,7 @@ public class ManejadorArchivos {
 		Map<Objeto, Integer> objetosInventario = new HashMap<>();
 		for (String nombreObjeto : inventarioJson.keySet()) {
 			int cantidadObjeto = inventarioJson.getInt(nombreObjeto);
-			if(cantidadObjeto<=0)
+			if (cantidadObjeto <= 0)
 				throw new IllegalArgumentException();
 			Objeto objeto = registroObjetos.obtenerObjeto(nombreObjeto);
 			if (objeto == null) {

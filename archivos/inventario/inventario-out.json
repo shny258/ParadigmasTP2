@@ -1,16 +1,19 @@
 {
-    "mesas": [],
+    "mesas": [
+        "MesaPro",
+        "MesaGamer"
+    ],
     "objetos": {
-        "Cable": 486,
-        "Plastico": 475,
+        "Cable": 500,
+        "Plastico": 500,
         "Rack para Servidores": 1,
-        "Computadora Gabinete Simple": 26,
-        "Circuitos": 9990,
+        "Circuitos": 10000,
+        "Memoria Ram 4GB": 2,
         "Cristal Liquido": 500,
-        "Metal": 492,
+        "Metal": 500,
         "Servidor": 5,
-        "Chip": 5,
-        "Sistema Operativo": 4,
-        "Capacitor": 470
+        "Chip": 10,
+        "Sistema Operativo": 5,
+        "Capacitor": 500
     }
 }

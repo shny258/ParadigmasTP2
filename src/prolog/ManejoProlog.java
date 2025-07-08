@@ -29,7 +29,7 @@ public class ManejoProlog {
 	private ManejoProlog() {
 
 		JPL.setDefaultInitArgs(new String[] { "--home=C:/Program Files/swipl", "--quiet" });
-		
+
 		prologElemento_basico = new StringBuilder();
 		prologIngrediente = new StringBuilder();
 		prologReceta = new StringBuilder();
@@ -37,38 +37,31 @@ public class ManejoProlog {
 		prologReglas = new StringBuilder();
 		escribirReglas(Main.PATH_REGLAS_PROLOG);
 		this.pathProlog = Main.PATH_ARCHIVO_PROLOG;
-	}	
-	
-	static void verificarReglas(String pathReglas) throws Exception 
-	{
-		if (!pathReglas.endsWith(".pl")) {
-            throw new Exception("El archivo de reglas debe tener extensión '.pl'.");
-        }
-
-        // Validar existencia
-        File archivoReglas = new File(pathReglas);
-        if (!archivoReglas.exists()) {
-            throw new Exception("El archivo de reglas no existe: " + pathReglas);
-        }
-
-        // Validar que no esté vacío
-        if (archivoReglas.length() == 0) {
-            throw new Exception("El archivo de reglas está vacío: " + pathReglas);
-        }
 	}
 
 	public static ManejoProlog getInstance() throws Exception {
-		try {
-			verificarReglas(Main.PATH_REGLAS_PROLOG);
-			if (instancia == null) {
-				
-				instancia = new ManejoProlog();
-			}
-			return instancia;
-		} catch (Exception e) {
-			throw e;
+		verificarReglas(Main.PATH_REGLAS_PROLOG);
+		if (instancia == null) {
+			instancia = new ManejoProlog();
+		}
+		return instancia;
+	}
+
+	static void verificarReglas(String pathReglas) throws Exception {
+		if (!pathReglas.endsWith(".pl")) {
+			throw new Exception("El archivo de reglas debe tener extensión '.pl'.");
 		}
 
+		// Validar existencia
+		File archivoReglas = new File(pathReglas);
+		if (!archivoReglas.exists()) {
+			throw new Exception("El archivo de reglas no existe: " + pathReglas);
+		}
+
+		// Validar que no esté vacío
+		if (archivoReglas.length() == 0) {
+			throw new Exception("El archivo de reglas está vacío: " + pathReglas);
+		}
 	}
 
 	public void tengo(Inventario inventario) {
@@ -143,6 +136,6 @@ public class ManejoProlog {
 	}
 
 	String getPrologElementoBasico() {
-	    return prologElemento_basico.toString();
+		return prologElemento_basico.toString();
 	}
 }

@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Receta {
-
 	private double tiempoCreacion;
 	private int cantidadDevuelta;
 	private Map<Objeto, Integer> ingredientes;
@@ -78,7 +77,7 @@ public class Receta {
 	public int hashCode() {
 		return Objects.hash(cantidadDevuelta, ingredientes, tiempoCreacion);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -91,10 +90,11 @@ public class Receta {
 		return cantidadDevuelta == other.cantidadDevuelta && Objects.equals(ingredientes, other.ingredientes)
 				&& Double.doubleToLongBits(tiempoCreacion) == Double.doubleToLongBits(other.tiempoCreacion);
 	}
-	
+
 	@Override
 	public String toString() {
-		String stringRet = "-Tiempo de creacion: " + tiempoCreacion + "\n-Cantidad devuelta: " + cantidadDevuelta + "\n-Ingredientes:\n";
+		String stringRet = "-Tiempo de creacion: " + tiempoCreacion + "\n-Cantidad devuelta: " + cantidadDevuelta
+				+ "\n-Ingredientes:\n";
 
 		for (Objeto ingrediente : ingredientes.keySet()) {
 			stringRet = stringRet + "\t" + ingrediente.getNombre() + ": " + ingredientes.get(ingrediente) + "\n";

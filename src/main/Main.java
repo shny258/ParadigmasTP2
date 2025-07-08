@@ -25,6 +25,7 @@ public class Main {
 		ManejadorArchivos manejador = new ManejadorArchivos();
 		String pathRecetas = PATH_A_RECETAS + NOMBRE_ARCHIVO_RECETAS + ".json";
 		String pathInventario = PATH_A_INVENTARIO + NOMBRE_ARCHIVO_INVENTARIO + ".json";
+
 		try {
 			ManejoProlog.getInstance();
 		} catch (Exception e) {
@@ -93,7 +94,7 @@ public class Main {
 
 					break;
 				case 4:
-					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);					
+					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
 					if (objSolicitado.esCrafteable()) {
 						System.out.printf("%s\n",
 								(inventario.faltantesParaCraftearDeCero(objSolicitado).getIngredientes().isEmpty())
@@ -108,10 +109,10 @@ public class Main {
 					break;
 				case 5:
 					objSolicitado = registroObjetos.mostrarListaObjetosYSeleccionar(sc);
-					
+
 					if (objSolicitado.esCrafteable()) {
-						System.out.println("Se pueden craftear " + inventario.cuantosPuedoCraftear(objSolicitado) + " de "
-								+ objSolicitado.getNombre());
+						System.out.println("Se pueden craftear " + inventario.cuantosPuedoCraftear(objSolicitado)
+								+ " de " + objSolicitado.getNombre());
 					} else {
 						System.out.println(
 								objSolicitado.getNombre() + " es un ingrediente básico, no se puede craftear.");

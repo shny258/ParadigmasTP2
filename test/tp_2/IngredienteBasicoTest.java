@@ -33,7 +33,7 @@ class IngredienteBasicoTest {
 		Receta recetaMadera = new Receta(0, 1, recetaM);
 		assertEquals(basico.obtenerReceta(), recetaMadera);
 	}
-	
+
 	@Test
 	void obtenerRecetaCompletaBasico_devuelveUnoTiempoCero() {
 		Objeto basico = registroObjetosTest.obtenerObjeto("Madera");

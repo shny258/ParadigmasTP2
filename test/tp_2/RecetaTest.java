@@ -13,17 +13,18 @@ import prolog.ManejoProlog;
 
 class RecetaTest {
 
-	String pathRecetasTest= Main.PATH_A_RECETAS + ManejadorArchivosTest.NOMBRE_ARCHIVO_RECETAS_TEST + ".json";
-	String pathInventarioTest = Main.PATH_A_INVENTARIO + ManejadorArchivosTest.NOMBRE_ARCHIVO_INVENTARIO_TEST  + ".json";	
-	
+	String pathRecetasTest = Main.PATH_A_RECETAS + ManejadorArchivosTest.NOMBRE_ARCHIVO_RECETAS_TEST + ".json";
+	String pathInventarioTest = Main.PATH_A_INVENTARIO + ManejadorArchivosTest.NOMBRE_ARCHIVO_INVENTARIO_TEST + ".json";
+
 	String pathInventarioJsonOut = "inventarioJsonOut.json";
 
 	RegistroObjetos registroObjetosTest;
 	ManejadorArchivos manejador;
+
 	@BeforeEach
 	public void setUp() {
 		registroObjetosTest = new RegistroObjetos();
-		manejador = new ManejadorArchivos();		
+		manejador = new ManejadorArchivos();
 		try {
 			ManejoProlog.getInstance();
 		} catch (Exception e) {
@@ -35,11 +36,11 @@ class RecetaTest {
 		} catch (Exception e) {
 			System.err.println("ERROR AL CARGAR LAS RECETAS TEST");
 			return;
-			}
 		}
+	}
+
 	@Test
-	public void recetaConSobrantes_devuelveSobrantes()
-	{
+	public void recetaConSobrantes_devuelveSobrantes() {
 		Objeto mesa = registroObjetosTest.obtenerObjeto("Mesa");
 		Objeto palo = registroObjetosTest.obtenerObjeto("Palo");
 		Objeto tornillo = registroObjetosTest.obtenerObjeto("Tornillo");
@@ -48,20 +49,17 @@ class RecetaTest {
 		Map<Objeto, Integer> sobrantesEsperados = new HashMap<Objeto, Integer>();
 		sobrantesEsperados.put(palo, 1);
 		sobrantesEsperados.put(tornillo, 2);
-		assertEquals(sobrantesEsperados, sobrantes);	
+		assertEquals(sobrantesEsperados, sobrantes);
 	}
-	
+
 	@Test
-	public void recetaSinSobrantes_NoDevuelveSobrantes()
-	{
+	public void recetaSinSobrantes_NoDevuelveSobrantes() {
 
 		Objeto palo = registroObjetosTest.obtenerObjeto("Palo");
 		Map<Objeto, Integer> sobrantes = new HashMap<Objeto, Integer>();
 		palo.obtenerRecetaCompleta(sobrantes);
 		Map<Objeto, Integer> sobrantesEsperados = new HashMap<Objeto, Integer>();
-		assertEquals(sobrantesEsperados, sobrantes);	
+		assertEquals(sobrantesEsperados, sobrantes);
 	}
-	
-	
 
 }

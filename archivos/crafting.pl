@@ -63,13 +63,12 @@ ingrediente("maquina virtual","rack de 10 servidores",1).
 ingrediente("rack de 10 servidores","servidor",10).
 ingrediente("rack de 10 servidores","cable",20).
 ingrediente("rack de 10 servidores","rack para servidores",1).
-ingrediente("computadora gamer","computadora de escritorio",1).
+ingrediente("computadora gamer","computadora gabinete",1).
 ingrediente("computadora gamer","rgb",100).
 ingrediente("rgb","circuitos",10).
 ingrediente("rgb","cable",10).
-tengo("circuitos", 10000).
-tengo("cable", 500).
-tengo("plastico", 500).
+tengo("circuitos", 9990).
+tengo("cable", 490).
 tengo("rack para servidores", 1).
 tengo("cristal liquido", 500).
 tengo("memoria ram 4gb", 2).
@@ -77,6 +76,7 @@ tengo("metal", 500).
 tengo("chip", 10).
 tengo("servidor", 5).
 tengo("sistema operativo", 5).
+tengo("rgb", 30).
 tengo("capacitor", 500).
 receta("tecla",10,10.0).
 receta("computadora gabinete",1,40.0).
@@ -87,7 +87,7 @@ receta("sistema operativo",1,50.0).
 receta("cpu",1,15.0).
 receta("memoria ram 4gb",1,8.0).
 receta("placa de video",1,10.0).
-receta("camara",1,1.0).
+receta("camara",1,5.0).
 receta("parlante",2,15.0).
 receta("fuente de alimentación",1,5.0).
 receta("computadora gabinete simple",1,30.0).
