@@ -136,7 +136,7 @@ public class Main {
 					System.out.println("═════════════════════════════════════════════════════════╗");
 					System.out.println("                HISTORIAL DE CRAFTEOS                    ║");
 					System.out.println("═════════════════════════════════════════════════════════╝");
-					System.out.println(inventario.getHistorial());
+					System.out.println(inventario.mostrarHistorial());
 					break;
 				case 8:
 					inventario.quePuedoCraftear();
