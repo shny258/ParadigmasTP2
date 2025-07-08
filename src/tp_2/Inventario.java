@@ -210,8 +210,12 @@ public class Inventario {
 		return this.historial;
 	}
 
-	public void quePuedoCraftear() {
-		ManejoProlog.getInstance().quePuedoCraftear(this);
+	public void quePuedoCraftear() throws Exception {
+		try {
+			ManejoProlog.getInstance().quePuedoCraftear(this);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	public String toJson() {

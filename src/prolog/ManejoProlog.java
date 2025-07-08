@@ -27,7 +27,9 @@ public class ManejoProlog {
 	private String pathProlog;
 
 	private ManejoProlog() {
+
 		JPL.setDefaultInitArgs(new String[] { "--home=C:/Program Files/swipl", "--quiet" });
+		
 		prologElemento_basico = new StringBuilder();
 		prologIngrediente = new StringBuilder();
 		prologReceta = new StringBuilder();
@@ -35,25 +37,9 @@ public class ManejoProlog {
 		prologReglas = new StringBuilder();
 		escribirReglas(Main.PATH_REGLAS_PROLOG);
 		this.pathProlog = Main.PATH_ARCHIVO_PROLOG;
-	}
-	ManejoProlog(String pathAReglas, String pathAArchivo) {
-		JPL.setDefaultInitArgs(new String[] { "--home=C:/Program Files/swipl", "--quiet" });
-		try {
-			verificarReglas(pathAReglas);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.getMessage();
-		}
-		prologElemento_basico = new StringBuilder();
-		prologIngrediente = new StringBuilder();
-		prologReceta = new StringBuilder();
-		prologTodo = new StringBuilder();
-		prologReglas = new StringBuilder();
-		escribirReglas(Main.PATH_REGLAS_PROLOG);
-		this.pathProlog = Main.PATH_ARCHIVO_PROLOG;
-	}
+	}	
 	
-	private void verificarReglas(String pathReglas) throws Exception 
+	static void verificarReglas(String pathReglas) throws Exception 
 	{
 		if (!pathReglas.endsWith(".pl")) {
             throw new Exception("El archivo de reglas debe tener extensión '.pl'.");
@@ -71,16 +57,19 @@ public class ManejoProlog {
         }
 	}
 
-	public static ManejoProlog getInstance() {
-		if (instancia == null) {
-			instancia = new ManejoProlog();
+	public static ManejoProlog getInstance() throws Exception {
+		try {
+			verificarReglas(Main.PATH_REGLAS_PROLOG);
+			if (instancia == null) {
+				
+				instancia = new ManejoProlog();
+			}
+			return instancia;
+		} catch (Exception e) {
+			throw e;
 		}
-		return instancia;
-	}
 
-//	public static ManejoProlog getInstance() {
-//		return instancia;
-//	}
+	}
 
 	public void tengo(Inventario inventario) {
 		prologTengo = new StringBuilder();
@@ -151,5 +140,9 @@ public class ManejoProlog {
 					solution.get("Cantidad").toString(), solution.get("Tiempo").toString());
 		}
 		System.out.printf("%s╩%s╩%s╝%n", "═".repeat(31), "═".repeat(12), "═".repeat(12));
+	}
+
+	String getPrologElementoBasico() {
+	    return prologElemento_basico.toString();
 	}
 }

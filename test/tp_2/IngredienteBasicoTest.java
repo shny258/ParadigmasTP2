@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import main.Main;
-import prolog.ManejoProlog;
 
 
 class IngredienteBasicoTest {

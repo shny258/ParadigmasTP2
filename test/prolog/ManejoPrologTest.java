@@ -1,62 +1,50 @@
 package prolog;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
+
 
 import org.junit.jupiter.api.Test;
 
+import main.Main;
 import tp_2.Inventario;
 import tp_2.ManejadorArchivos;
-import tp_2.Objeto;
 import tp_2.RegistroObjetos;
 
+
 class ManejoPrologTest {
-	String pathRecetasTest = "archivos/testrecetas.json";
-	
+	public static final String NOMBRE_ARCHIVO_RECETAS_TEST = "testrecetas"; 
+	public static final String NOMBRE_ARCHIVO_INVENTARIO_TEST = "testinventario"; 
+	String pathRecetasTest = "archivos/";
+
 	@Test
 	void DiferenteExtension_NoEntra() {
 		Exception ex = assertThrows(Exception.class, () -> {
-		    ManejoProlog("archivos/archivo.pl", "archivos/reglasProlog.csv");
+		    ManejoProlog.verificarReglas(pathRecetasTest + "reglasProlog.txt");
 		});
-		assertTrue(ex.getMessage().contains(".txt"));
+		assertTrue(ex.getMessage().contains(".pl"));
 	}
 	@Test
 	void Inexistente_NoEntra() {
 		Exception ex = assertThrows(Exception.class, () -> {
-		    ManejoProlog.getInstance("archivos/archivo.pl", "archivos/reglasPrologQueNoExisten.pl");
+			ManejoProlog.verificarReglas(pathRecetasTest + "reglasPrologQueNoExisten.pl");
 		});
 		assertTrue(ex.getMessage().contains("no existe"));
 	}
 	@Test
 	void Vacio_NoEntra() {
 		Exception ex = assertThrows(Exception.class, () -> {
-		    ManejoProlog.getInstance("archivos/archivo.pl", "archivos/reglasPrologVacias.pl");
+			ManejoProlog.verificarReglas(pathRecetasTest + "reglasPrologVacias.pl");
 		});
+		//System.err.println(ex.getMessage());
 		assertTrue(ex.getMessage().contains("está vacío"));
 	}
-	
-	@Test
-	void Valido_Entra() {
-		try {
-			ManejoProlog pl = ManejoProlog.getInstance("archivos/archivo.pl", "archivos/reglasProlog.pl");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
-	}
+
 	
 	@Test
 	void StringBuilders_GuardanHechos() {
-		ManejoProlog pl = null;
-		try {
-			pl = ManejoProlog.getInstance("archivos/archivo.pl", "archivos/reglasProlog.txt");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		pl.elemento_basico("prueba");
-		String pathRecetasTest = "archivos/testrecetas.json";
-		String pathInventarioTest = "archivos/testinventario.json";
-		Inventario inventarioJsonTest;
+		String pathRecetasTest= Main.PATH_A_RECETAS + NOMBRE_ARCHIVO_RECETAS_TEST + ".json";
+		String pathInventarioTest = Main.PATH_A_INVENTARIO + NOMBRE_ARCHIVO_INVENTARIO_TEST  + ".json";	
 		RegistroObjetos registroObjetosTest;
 		ManejadorArchivos manejador;
 		registroObjetosTest = new RegistroObjetos();
@@ -68,12 +56,22 @@ class ManejoPrologTest {
 			return;
 		}
 		try {
-			inventarioJsonTest = manejador.cargarInventarioDesdeJson(pathInventarioTest, registroObjetosTest);
+			Inventario inventarioJsonTest = manejador.cargarInventarioDesdeJson(pathInventarioTest, registroObjetosTest);
 		} catch (Exception e) {
 			System.err.println("ERROR AL CARGAR EL INVENTARIO TEST");
 			return;
 		}
-		assertEquals("elemento_basico(\"prueba\").\n",pl.getPrologElementoBasico());
+		ManejoProlog pl;
+		try {
+			pl = ManejoProlog.getInstance();
+			pl.elemento_basico("prueba");
+			assertEquals("elemento_basico(\"prueba\").\n",(pl.getPrologElementoBasico().split("\n")[2]+"\n"));
+		} catch (Exception e) {
+			fail();
+		}
+		
+		
+
 	}
 	
 

@@ -4,16 +4,15 @@
         "MesaGamer"
     ],
     "objetos": {
-        "Cable": 480,
+        "Cable": 500,
         "Plastico": 500,
         "Rack para Servidores": 1,
-        "Circuitos": 9980,
+        "Circuitos": 10000,
         "Memoria Ram 4GB": 2,
         "Cristal Liquido": 500,
         "Metal": 500,
         "Servidor": 5,
-        "Chip": 10,
-        "RGB": 60,
+        "Chip": 10000,
         "Sistema Operativo": 5,
         "Capacitor": 500
     }

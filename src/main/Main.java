@@ -6,7 +6,6 @@ import tp_2.*;
 
 public class Main {
 	public static final String NOMBRE_ARCHIVO_RECETAS = "recetas"; // MODIFICAR PARA USAR OTRO ARCHIVO DE RECETAS
-	public static final String NOMBRE_ARCHIVO_RECETAS_TEST = "testrecetas"; // PATH DONDE ESTA EL ARCHIVO DE RECETAS
 	public static final String NOMBRE_ARCHIVO_INVENTARIO = "inventario_con_mesas"; // MODIFICAR PARA USAR OTRO ARCHIVO
 																					// DE INVENTARIO
 
@@ -25,7 +24,12 @@ public class Main {
 		ManejadorArchivos manejador = new ManejadorArchivos();
 		String pathRecetas = PATH_A_RECETAS + NOMBRE_ARCHIVO_RECETAS + ".json";
 		String pathInventario = PATH_A_INVENTARIO + NOMBRE_ARCHIVO_INVENTARIO + ".json";
-		ManejoProlog.getInstance();
+		try {
+			ManejoProlog.getInstance();
+		} catch (Exception e) {
+			System.err.println("ERROR AL CARGAR EL ARCHIVO DE PROLOG");
+			return;
+		}
 
 		try {
 			manejador.cargarRecetasDesdeJson(pathRecetas, registroObjetos);
@@ -175,11 +179,13 @@ public class Main {
 				}
 			} catch (NumberFormatException e) {
 				System.out.println("Entrada inválida. Por favor, ingrese un número.");
+			} catch (Exception e1) {
+				e1.printStackTrace();
 			}
 		}
 		sc.close();
 		System.out.println("Chau Chau");
-
+		return;
 	}
 
 	public static void mostrarMenu() {

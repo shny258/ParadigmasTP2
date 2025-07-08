@@ -12,11 +12,17 @@ import prolog.ManejoProlog;
 class IntermedioTest {
 	String pathRecetasTest= Main.PATH_A_RECETAS + ManejadorArchivosTest.NOMBRE_ARCHIVO_RECETAS_TEST + ".json";
 	String pathInventarioTest = Main.PATH_A_INVENTARIO + ManejadorArchivosTest.NOMBRE_ARCHIVO_INVENTARIO_TEST  + ".json";	
-	ManejoProlog pl = ManejoProlog.getInstance();
+
 	RegistroObjetos registroObjetosTest;
 	ManejadorArchivos manejador;
 	@BeforeEach
 	public void setUp() {
+		try {
+			ManejoProlog.getInstance();
+		} catch (Exception e) {
+			System.err.println("ERROR AL CARGAR EL ARCHIVO DE PROLOG");
+			return;
+		}
 		registroObjetosTest = new RegistroObjetos();
 		manejador = new ManejadorArchivos();		
 		try {

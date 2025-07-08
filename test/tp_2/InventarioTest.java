@@ -18,10 +18,16 @@ class InventarioTest {
 	Inventario inventarioJsonTest;
 	RegistroObjetos registroObjetosTest;
 	ManejadorArchivos manejador;
-	ManejoProlog pl = ManejoProlog.getInstance();
+
 
 	@BeforeEach
 	public void setUp() {
+		try {
+			ManejoProlog.getInstance();
+		} catch (Exception e) {
+			System.err.println("ERROR AL CARGAR EL ARCHIVO DE PROLOG");
+			return;
+		}
 		registroObjetosTest = new RegistroObjetos();
 		manejador = new ManejadorArchivos();
 		try {

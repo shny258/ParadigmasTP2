@@ -17,13 +17,19 @@ class RecetaTest {
 	String pathInventarioTest = Main.PATH_A_INVENTARIO + ManejadorArchivosTest.NOMBRE_ARCHIVO_INVENTARIO_TEST  + ".json";	
 	
 	String pathInventarioJsonOut = "inventarioJsonOut.json";
-	ManejoProlog pl = ManejoProlog.getInstance();
+
 	RegistroObjetos registroObjetosTest;
 	ManejadorArchivos manejador;
 	@BeforeEach
 	public void setUp() {
 		registroObjetosTest = new RegistroObjetos();
 		manejador = new ManejadorArchivos();		
+		try {
+			ManejoProlog.getInstance();
+		} catch (Exception e) {
+			System.err.println("ERROR AL CARGAR EL ARCHIVO DE PROLOG");
+			return;
+		}
 		try {
 			manejador.cargarRecetasDesdeJson(pathRecetasTest, registroObjetosTest);
 		} catch (Exception e) {
